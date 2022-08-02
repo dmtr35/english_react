@@ -1,0 +1,179 @@
+.start{
+    display: flex;
+    min-height:100vh;
+}
+
+.collection-list {
+    width: 30%;
+    background: #FF6347;
+    text-align: center;
+    padding-left: 5px;
+}
+
+
+
+.words-list {
+    background: #FF6347;
+    width: 70%;
+    text-align: center;
+    padding-right: 20px;
+}
+.ScrollToTopp {
+    height: 120px;
+    width: 50px;
+    position: fixed;
+    bottom: 15px; 
+    right: -13px;
+    z-index: 9999;
+    color: blue;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    
+}
+
+.parentMenu {
+    position: relative;
+}
+.cardCollBasic {
+    display: flex;
+    height: 70px;
+    width: 100%;
+    /* position: relative; */
+    background-color: #4682B4;
+}
+.textFormColl {
+    color: white;
+    /* font-weight: bold; */
+    font-size: 22px;
+    margin: auto;
+}
+.form-check {
+    cursor: default;
+}
+
+.form-check-input {
+    height: 30px;
+    width: 30px;
+    border: 2px solid black;
+    margin: 20px 0;
+    padding: 0;
+}
+
+
+.menu {
+    /* padding: 10px 0; */
+    position: absolute;
+    top: 14px;
+    left: -45px;
+}
+.menu3IconColl {
+    /* padding: 10px 0; */
+    position: absolute;
+    /* top: 14px;
+    left: -45px; */
+}
+.imageMemu {
+    font-size: 36px;
+    color: black;
+}
+.imageMemuColor {
+    font-size: 36px;
+    color: black;
+}
+.menu3IconParent {
+    position: relative;
+}
+.menu3Icon {
+    position: absolute;
+    /* top: -1px; */
+    left: -107px;
+}
+.menu1IconParent {
+    position: relative;
+}
+.menu1Icon {
+    position: absolute;
+    /* top: -1px; */
+    left: -35px;
+}
+.wordEng {
+    text-align: center;
+    font-size: 25px;
+}
+.wordRus {
+    text-align: center;
+    font-size: 25px;
+}
+/* ============================================== */
+/* Collection */
+.menu4IconCollParent {
+    position: absolute;
+    display: flex;
+    left: -174px;
+    top: 14px;
+    height: 40px;
+    background-color: #4682B4;
+}
+.iconMenuColl {
+    font-size: 43px;
+    color: black;
+}
+
+/* =================================================== */
+/* switch */
+.switch {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0 0 0 0;
+}
+.form-switch {
+    padding: 0 0 0 0;
+}
+#disabled-custom-switch {
+    width: 60px;
+    height: 25px;
+    margin: 3px;
+}
+/* =================================================== */
+
+/* dropdown */
+.btn-primary {
+    min-width: 50%;
+    height: 45px;
+}
+/* ======================================================== */
+
+.Search {
+    margin: 0 20px;
+}
+/* ============================================================== */
+
+.div_file {
+    display: flex;
+
+}
+.image_info {
+    width: 54px;
+    height: 54px;
+    margin: 16px 0 0 16px;
+    border: 1px solid black;
+    cursor: pointer;
+}
+.image_info:active {
+    width: 540px;
+    height: 540px;
+    margin: 16px 0 0 16px;
+    border: 1px solid black;
+    position: absolute;
+    bottom: -50px;
+    right: 100px;
+}
+
+.Instructions {
+    width: 170px;
+    margin: 28px 10px 0 10px;
+    text-align: center;
+}
+
+
