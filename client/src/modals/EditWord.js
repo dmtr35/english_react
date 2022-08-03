@@ -72,8 +72,8 @@ const EditWord = observer(({ currentCollId, wordId, show, onHide, engW, rusW }) 
                         placeholder="Введите перевод"
                     />
                     <hr />
-                    <InputGroup className="mb-3">
-                        <DropdownButton
+                    <InputGroup className="mb-3 dropdown_move">
+                        <DropdownButton 
                             title={titleDropdown}
                         >
                             {fullCollections.collections
@@ -81,6 +81,7 @@ const EditWord = observer(({ currentCollId, wordId, show, onHide, engW, rusW }) 
                                 .map((data) =>
                                     <Dropdown.Item
                                         key={data._id}
+                                        className="dropdown_move"
                                         href="#"
                                         onClick={() => titleAndWordId(data._id, data.name)}
                                     >

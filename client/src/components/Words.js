@@ -40,7 +40,7 @@ const Words = () => {
                         onChange={e => setSearch(e.target.value)}
                     />
                     {/* <Button variant="secondary" className="m-1">Search</Button> */}
-                    <div>
+                    <div className="switch_block">
                         <div className="switch">
                             Mix
                         </div>

@@ -66,14 +66,15 @@ const AddWords = observer(({ idColl, show, onHide }) => {
                 <Form>
                 <div className='div_file'>
                         <Form.Control
-                            className='mt-3'
+                            className='upload_file'
                             type="file"
                             onChange={selectFile}
                         />
                         <div className='Instructions'>Инструкции</div>
                         <Image className='image_info' src={info} />
                     </div>
-                    <hr />
+                    <p className='text_or'>Или</p>
+
                     <Button
                         variant={"outline-dark"}
                         onClick={addWord}

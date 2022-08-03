@@ -12,26 +12,26 @@ import { Context } from '..'
 
 const Auth = observer(() => {
     const { user } = useContext(Context)
-    
+
     const navigate = useNavigate()
     const location = useLocation()
     const isLogin = location.pathname === LOGIN_ROUTE
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     console.log(user);
-    
+
 
     const click = async () => {
         try {
             let data
             if (isLogin) {
                 data = await login(email, password)
-                
+
                 if (data) {
                     console.log(typeof data.id);
-                        user.setIsAuth(true)
-                        document.location.href = LEARN_WORDS
-                    }
+                    user.setIsAuth(true)
+                    document.location.href = LEARN_WORDS
+                }
             } else {
                 data = await registration(email, password)
                 if (data === "Пользователь был успешно зарегистрирован") {
@@ -66,25 +66,27 @@ const Auth = observer(() => {
                         onInput={e => setPassword(e.target.value)}
                         type="password"
                     />
-                    <Row className='d-flex justify-content-between mt-3 pl-3 pr-3'>
-                        {isLogin ?
-                            <>
-                                нет аккаунта? <NavLink to={REGISTRATION_ROUTE}>Зарегистрируйтесь</NavLink>
-                            </>
-                            :
-                            <>
-                                Есть аккаунт? <NavLink to={LOGIN_ROUTE}>Войдите</NavLink>
-                            </>
-                        }
-
-                        <Button
-                            variant={"outline-success"}
-                            onClick={() => click(email, password)}
-                        >
-                            {isLogin ? "Войти" : "Регистрация"}
-                        </Button>
-                    </Row>
                 </Form>
+                <Row className='d-flex justify-content-between mt-3 pl-3 pr-3'>
+                    {isLogin ?
+                        <div className ='account_exists'>
+                            Нет аккаунта? <NavLink to={REGISTRATION_ROUTE}>Зарегистрируйтесь</NavLink>
+                        </div>
+                        :
+                        <div className ='account_exists'>
+                            Есть аккаунт? <NavLink to={LOGIN_ROUTE}>Войдите</NavLink>
+                        </div>
+                    }
+                </Row>
+
+                <Button
+                    variant={"outline-success"}
+                    onClick={() => click(email, password)}
+                >
+                    {isLogin ? "Войти" : "Регистрация"}
+                </Button>
+
+
             </Card>
         </Container>
     )
