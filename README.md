@@ -16,3 +16,7 @@ cd client:
 npm install
 
 npm run start
+
+
+тестовый словарь в корне проекта
+

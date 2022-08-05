@@ -9,10 +9,10 @@ import { handleChange, isCheckTrue } from "../utils/dopFunction"
 import CreateCollection from "../modals/CreateCollection"
 import EditCollection from "../modals/EditCollection"
 import AddWords from "../modals/AddWords"
-import { AiTwotoneDelete } from 'react-icons/ai';
-import { FiEdit } from 'react-icons/fi';
-import { BiMessageSquareAdd } from 'react-icons/bi';
-import { TiThMenu } from 'react-icons/ti';
+import { AiOutlineDelete } from 'react-icons/ai';
+import { AiOutlineEdit } from 'react-icons/ai';
+import { AiOutlinePlusSquare } from 'react-icons/ai';
+import { AiOutlineMenu } from 'react-icons/ai';
 
 
 const Collections = observer(() => {
@@ -71,17 +71,15 @@ const Collections = observer(() => {
                     onClick={() => { setAddCollectionsVisible(true) }}
                     variant="primary"
                     size="lg"
-                >
-                    Добавить колекцию
-                </Button>
+                    className='button_add_collection'
+                >Добавить колекцию</Button>
                 <CreateCollection show={addCollectionsVisible} onHide={() => setAddCollectionsVisible(false)} />
             </div>
             {fullCollections.collections.map(collection =>
                 <div
                     key={collection._id}
-                    className="m-1">
-                    <Card
-                    >
+                    className="m-1 collection_block">
+                    <Card className="cardCollBasic_block">
                         <div className="cardCollBasic">
                             <div className="form-check">
                                 <input
@@ -103,31 +101,31 @@ const Collections = observer(() => {
                                         className="menu"
                                         style={{ cursor: 'pointer' }}
                                     >
-                                        <TiThMenu
+                                        <AiOutlineMenu
                                             className="iconMenuColl"
                                             onClick={() => addMenuColl(collection._id)}
                                         />
                                     </div>
                                 </div>
                                 :
-                                <div className="parentMenu">
+                                <div className="parentMenu" >
                                     <div
                                         className="menu4IconCollParent"
                                         style={{ cursor: 'pointer' }}
                                     >
-                                        <BiMessageSquareAdd
+                                        <AiOutlinePlusSquare
                                             className="iconMenuColl"
                                             onClick={() => setAddWordsVisible(true)}
                                         />
-                                        <FiEdit
+                                        <AiOutlineEdit
                                             className="iconMenuColl"
                                             onClick={() => setEditCollectionsVisible(true)}
                                         />
-                                        <AiTwotoneDelete
+                                        <AiOutlineDelete
                                             className="iconMenuColl"
                                             onClick={() => deleteColl(collection._id)}
                                         />
-                                        <TiThMenu
+                                        <AiOutlineMenu
                                             className="iconMenuColl"
                                             onClick={() => addMenuColl(collection._id)}
                                         />

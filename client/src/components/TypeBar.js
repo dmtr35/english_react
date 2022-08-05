@@ -21,8 +21,8 @@ const TypeBar = observer( () => {
     }
 
     return (
-        <Navbar bg="primary" expand="lg">
-            <Container fluid>
+        <Navbar bg="primary" expand="lg" >
+            <Container fluid >
                 <Navbar.Brand style={{color: 'white'}}>Collections</Navbar.Brand>
                 <Navbar.Collapse id="navbarScroll">
                     <Nav
@@ -36,6 +36,7 @@ const TypeBar = observer( () => {
                 <Button
                     onClick={() => logOut()}
                     variant="secondary" 
+                    style={{background: '#0946A1', border: 'none'}}
                     className="m-1">Log out</Button>
             </Container>
         </Navbar>

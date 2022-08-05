@@ -3,9 +3,9 @@ import Card from "react-bootstrap/Card"
 import "../styles/module.css"
 import { observer } from "mobx-react-lite"
 import { Context } from ".."
-import { AiTwotoneDelete } from 'react-icons/ai';
-import { FiEdit } from 'react-icons/fi';
-import { TiThMenu } from 'react-icons/ti';
+import { AiOutlineDelete } from 'react-icons/ai';
+import { AiOutlineEdit } from 'react-icons/ai';
+import { AiOutlineMenu } from 'react-icons/ai';
 import { deleteWord } from '../http/collectionApi';
 import EditWord from '../modals/EditWord';
 
@@ -50,8 +50,8 @@ const WordsList = observer(({ search }) => {
                 .map((word) =>
                     <div
                         key={word.wordId}
-                        className="m-2" >
-                        <Card
+                        className=" m-2" >
+                        <Card className=" wordblock"
                             style={{ cursor: 'pointer' }}
                         >
                             <div
@@ -73,7 +73,7 @@ const WordsList = observer(({ search }) => {
                                                     className="menu1Icon"
                                                     style={{ cursor: 'pointer' }}
                                                 >
-                                                    <TiThMenu
+                                                    <AiOutlineMenu
                                                         className="imageMemu"
                                                         onClick={() => { turnMenu(word.wordId) }}
                                                     />
@@ -85,16 +85,16 @@ const WordsList = observer(({ search }) => {
                                                     className="menu3Icon d-flex"
                                                     style={{ cursor: 'pointer' }}
                                                 >
-                                                    <FiEdit
+                                                    <AiOutlineEdit
                                                         className="imageMemu"
                                                         onClick={() => setEditWordVisible(true)}
                                                     />
                                                     <EditWord currentCollId={word.collectionId} wordId={word.wordId} show={editWordVisible} onHide={() => setEditWordVisible(false)} engW={word.eng} rusW={word.rus} />
-                                                    <AiTwotoneDelete
+                                                    <AiOutlineDelete
                                                         className="imageMemu"
                                                         onClick={() => delWord(word.collectionId, word.wordId)}
                                                     />
-                                                    <TiThMenu
+                                                    <AiOutlineMenu
                                                         className="imageMemu"
                                                         onClick={() => { turnMenu(word.wordId) }}
                                                     />
@@ -105,7 +105,7 @@ const WordsList = observer(({ search }) => {
                                     :
                                     <>
                                         <div
-                                            style={{ background: "#4682B4", color: '#fff' }}
+                                            style={{ background: "#0D6EFD", color: '#fff' }}
                                             className={'wordEng w-100'}
                                             onClick={() => turnWord(word.wordId)}
                                         >
@@ -118,7 +118,7 @@ const WordsList = observer(({ search }) => {
                                                     className="menu1Icon"
                                                     style={{ cursor: 'pointer' }}
                                                 >
-                                                    <TiThMenu
+                                                    <AiOutlineMenu
                                                         className="imageMemuColor"
                                                         onClick={() => { turnMenu(word.wordId) }}
                                                     />
@@ -130,16 +130,16 @@ const WordsList = observer(({ search }) => {
                                                     className="menu3Icon d-flex"
                                                     style={{ cursor: 'pointer' }}
                                                 >
-                                                    <FiEdit
+                                                    <AiOutlineEdit
                                                         className="imageMemuColor"
                                                         onClick={() => setEditWordVisible(true)}
                                                     />
                                                     <EditWord currentCollId={word.collectionId} wordId={word.wordId} show={editWordVisible} onHide={() => setEditWordVisible(false)} engW={word.eng} rusW={word.rus} />
-                                                    <AiTwotoneDelete
+                                                    <AiOutlineDelete
                                                         className="imageMemuColor"
                                                         onClick={() => delWord(word.collectionId, word.wordId)}
                                                     />
-                                                    <TiThMenu
+                                                    <AiOutlineMenu
                                                         className="imageMemuColor"
                                                         onClick={() => { turnMenu(word.wordId) }}
                                                     />
