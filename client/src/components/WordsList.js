@@ -13,8 +13,6 @@ const WordsList = observer(({ search }) => {
     const { fullCollections } = useContext(Context)
     const [active, setActive] = useState([])
     const [editWordVisible, setEditWordVisible] = useState(false)
-    console.log(search);
-
 
 
     const turnWord = (id) => {

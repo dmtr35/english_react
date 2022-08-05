@@ -42,7 +42,6 @@ const Collections = observer(() => {
                     ))
         if (localStorage.getItem('switch') === 'true') random.sort(() => Math.random() - 0.5)
         fullCollections.setRandomListWods(random)
-        console.log(random);
     }
 
     const deleteColl = (id) => {

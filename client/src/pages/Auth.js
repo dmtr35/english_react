@@ -18,7 +18,6 @@ const Auth = observer(() => {
     const isLogin = location.pathname === LOGIN_ROUTE
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    console.log(user);
 
 
     const click = async () => {
@@ -28,7 +27,6 @@ const Auth = observer(() => {
                 data = await login(email, password)
 
                 if (data) {
-                    console.log(typeof data.id);
                     user.setIsAuth(true)
                     document.location.href = LEARN_WORDS
                 }

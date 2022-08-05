@@ -13,7 +13,6 @@ const AddWords = observer(({ idColl, show, onHide }) => {
     const { fullCollections } = useContext(Context)
     const [arrWord, setArrWord] = useState([])
     const [file, setFile] = useState(null)
-    console.log(file);
     
 
 

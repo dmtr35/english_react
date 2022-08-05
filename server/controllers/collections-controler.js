@@ -139,9 +139,6 @@ class CollectionsController {
         try {
             const collectionId = req.params.id
             const { wordId } = req.body
-            console.log(collectionId);
-            console.log(wordId);
-
             await Collections.updateOne({ "_id": collectionId }, { "$pull": { "words": { "_id": wordId } } })
             return res.json("word delete")
         } catch (e) {
@@ -195,4 +192,3 @@ class CollectionsController {
 
 
 export default new CollectionsController()
-
