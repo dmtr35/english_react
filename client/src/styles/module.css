@@ -90,6 +90,7 @@
     top: 14px;
     left: -45px;
 } */
+ */
 
 .menu3IconColl {
     padding: 10px 0;
@@ -109,6 +110,7 @@
 }
 
 .menu3IconParent {
+
 
     position: relative;
 }
@@ -149,6 +151,8 @@
 .wordEng {
     border: 1px solid rgb(214, 214, 214);
     border-radius: 4px;
+    border: 1px solid rgb(214, 214, 214);
+    border-radius: 4px;
     text-align: center;
     font-size: 20px;
     line-height: 20px;
@@ -166,7 +170,7 @@
 /* ============================================== */
 /* Collection */
 .menu4IconCollParent {
-    /* position: absolute; */
+    /* /* position: absolute; */ */
     display: flex;
     left: -174px;
     top: 14px;
@@ -197,12 +201,14 @@
 .form-switch {
     padding: 0 0 0 0;
 
+
 }
 
 #disabled-custom-switch {
     width: 50px;
     height: 25px;
     margin: 3px;
+
 
 }
 
@@ -245,6 +251,7 @@
     margin: 12px 0 16px 0;
 
 }
+
 
 .image_info {
     width: 54px;

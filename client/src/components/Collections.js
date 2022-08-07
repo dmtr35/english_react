@@ -49,7 +49,6 @@ const Collections = observer(() => {
                     ))
         if (localStorage.getItem('switch') === 'true') random.sort(() => Math.random() - 0.5)
         fullCollections.setRandomListWods(random)
-        console.log(random);
     }
 
     const deleteColl = (id) => {
@@ -90,85 +89,80 @@ const Collections = observer(() => {
                     Коллекции ⯆
                 </Button>
             </div>
-            <div ref={inputEl}>
-                {fullCollections.collections.map(collection =>
-                    <div
-                        key={collection._id}
-                        className="m-1 collection_block"
-
+            {fullCollections.collections.map(collection =>
+                <div
+                    key={collection._id}
+                    className="m-1">
+                    <Card
                     >
-                        <Card className="cardCollBasic_block" >
-                            <div className="cardCollBasic" >
-                                <div className="form_check">
-                                    <input
-                                        className="form-check-input"
-                                        style={{ cursor: 'pointer' }}
-                                        type="checkbox"
-                                        value="checked"
-                                        onClick={() => setChecked(!checked)}
-                                        defaultChecked={isCheckTrue(collection._id)}
-                                        onChange={() => handleChange(collection._id)}
-                                    />
-                                </div>
-                                <div className="textFormColl">
-                                    {collection.name}
-                                </div>
-                                {!fullCollections.menuColl.includes(collection._id) ?
-                                    <div className="parentMenu">
-                                        <div
-                                            className="menu"
-                                            style={{ cursor: 'pointer' }}
-                                        >
-                                            <AiOutlineMenu
-                                                className="iconMenuColl"
-                                                onClick={() => addMenuColl(collection._id)}
-                                            />
-                                        </div>
-                                    </div>
-                                    :
-                                    <div className="parentMenu" >
-                                        <div
-                                            className="menu4IconCollParent"
-                                            style={{ cursor: 'pointer' }}
-                                        >
-                                            <AiOutlinePlusSquare
-                                                className="iconMenuColl"
-                                                onClick={() => setAddWordsVisible(true)}
-                                            />
-                                            <AiOutlineEdit
-                                                className="iconMenuColl"
-                                                onClick={() => setEditCollectionsVisible(true)}
-                                            />
-                                            <AiOutlineDelete
-                                                className="iconMenuColl"
-                                                onClick={() => deleteColl(collection._id)}
-                                            />
-                                            <AiOutlineMenu
-                                                className="iconMenuColl"
-                                                onClick={() => addMenuColl(collection._id)}
-                                            />
-                                            <EditCollection
-                                                idColl={collection._id}
-                                                show={editCollectionsVisible}
-                                                onHide={() => setEditCollectionsVisible(false)}
-                                                collName={collection.name}
-                                            />
-                                            <AddWords
-                                                idColl={collection._id}
-                                                show={addWordsVisible}
-                                                onHide={() => setAddWordsVisible(false)}
-                                            />
-                                        </div>
-                                    </div>
-                                }
+                        <div className="cardCollBasic">
+                            <div className="form-check">
+                                <input
+                                    className="form-check-input"
+                                    style={{ cursor: 'pointer' }}
+                                    type="checkbox"
+                                    value="checked"
+                                    onClick={() => setChecked(!checked)}
+                                    defaultChecked={isCheckTrue(collection._id)}
+                                    onChange={() => handleChange(collection._id)}
+                                />
                             </div>
-                        </Card>
-                    </div>
-                )}
-            </div>
-
-            
-
+                            <div className="textFormColl">
+                                {collection.name}
+                            </div>
+                            {!fullCollections.menuColl.includes(collection._id) ?
+                                <div className="parentMenu">
+                                    <div
+                                        className="menu"
+                                        style={{ cursor: 'pointer' }}
+                                    >
+                                        <TiThMenu
+                                            className="iconMenuColl"
+                                            onClick={() => addMenuColl(collection._id)}
+                                        />
+                                    </div>
+                                </div>
+                                :
+                                <div className="parentMenu">
+                                    <div
+                                        className="menu4IconCollParent"
+                                        style={{ cursor: 'pointer' }}
+                                    >
+                                        <BiMessageSquareAdd
+                                            className="iconMenuColl"
+                                            onClick={() => setAddWordsVisible(true)}
+                                        />
+                                        <FiEdit
+                                            className="iconMenuColl"
+                                            onClick={() => setEditCollectionsVisible(true)}
+                                        />
+                                        <AiTwotoneDelete
+                                            className="iconMenuColl"
+                                            onClick={() => deleteColl(collection._id)}
+                                        />
+                                        <TiThMenu
+                                            className="iconMenuColl"
+                                            onClick={() => addMenuColl(collection._id)}
+                                        />
+                                        <EditCollection
+                                            idColl={collection._id}
+                                            show={editCollectionsVisible}
+                                            onHide={() => setEditCollectionsVisible(false)}
+                                            collName={collection.name}
+                                        />
+                                        <AddWords
+                                            idColl={collection._id}
+                                            show={addWordsVisible}
+                                            onHide={() => setAddWordsVisible(false)}
+                                        />
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </Card>
+                </div>
+            )
+            }
             <div className="d-grid gap-2 mt-2 mb-2 m-3">
                 <Button className="button"
                     onClick={() => deleteManyColl()}

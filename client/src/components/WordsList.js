@@ -13,15 +13,7 @@ const WordsList = observer(({ search }) => {
     const { fullCollections } = useContext(Context)
     const [active, setActive] = useState([])
     const [editWordVisible, setEditWordVisible] = useState(false)
-    console.log(search);
 
-   
-
-    // const container = document.querySelector(".words_list");
-
-    // container.onclick = function(){
-    //     container.classList.toggle("words_list_none");
-    // }
 
     const turnWord = (id) => {
         if (active.includes(id)) {

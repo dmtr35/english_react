@@ -7,15 +7,6 @@ import jwt from "jsonwebtoken"
 
 
 
-// const generateJwt = (id, email) => {
-//     return jwt.sign(
-//         { id, email },
-//         process.env.JWT_ACCESS_SECRET,
-//         { expiresIn: '24h' }
-//     )
-// }
-
-
 class AuthController {
     async registration(req, res) {
 
@@ -25,25 +16,15 @@ class AuthController {
             if (!errors.isEmpty()) {
                 return res.status(400).json({ message: 'Ошибка при регистрации', errors })
             }
-
             const { email, password } = req.body
-
-            // console.log("email:", email);
-            // console.log("password:", password);
-
-
             const candidate = await User.findOne({ email })
             if (candidate) {
                 return res.status(400).json({ message: `Пользователь с email: ${email} уже существует` })
             }
-
             const hashPassword = bcrypt.hashSync(password, 7)
             const user = new User({ email, password: hashPassword })
             await user.save()
             return res.json({ message: 'Пользователь был успешно зарегистрирован' })
-            // return res.json(user)
-            // const token = tokenService.generateAccessToken(user._id, user.email)
-            // return res.json({ token })
         } catch (e) {
             console.log(e);
             res.status(400).json({ message: 'Registration error' })
@@ -62,8 +43,6 @@ class AuthController {
                 return res.status(400).json({ message: 'Введен не верный пароль' })
             }
             const token = tokenService.generateAccessToken(user._id, user.email)
-            // console.log(token);
-            
             return res.json(token)
         } catch (e) {
             console.log(e)
@@ -75,14 +54,8 @@ class AuthController {
         const token = tokenService.generateAccessToken(req.user.id, req.user.email)
         return res.json(token)
     }
-
-
-
-
 }
 
 
 export default new AuthController()
-
-
 

@@ -86,6 +86,8 @@ const CreateCollection = observer(({ show, onHide }) => {
                     />
                     {/* <hr /> */}
 
+                    {/* <hr /> */}
+
                     <div className='div_file'>
                         <Form.Control
                             className='upload_file'
