@@ -14,7 +14,7 @@ const AddWords = observer(({ idColl, show, onHide }) => {
     const [arrWord, setArrWord] = useState([])
     const [file, setFile] = useState(null)
     console.log(file);
-    
+
 
 
     const addWord = () => {
@@ -64,7 +64,7 @@ const AddWords = observer(({ idColl, show, onHide }) => {
             </Modal.Header>
             <Modal.Body>
                 <Form>
-                <div className='div_file'>
+                    <div className='div_file'>
                         <Form.Control
                             className='upload_file'
                             type="file"
@@ -85,6 +85,7 @@ const AddWords = observer(({ idColl, show, onHide }) => {
                         <Row className='mt-2' key={i.number}>
                             <Col md={4}>
                                 <Form.Control
+                                    className=' word'
                                     value={i.eng}
                                     onChange={(e) => changeWord('eng', e.target.value, i.number)}
                                     placeholder={'Введите слово'}
@@ -93,6 +94,7 @@ const AddWords = observer(({ idColl, show, onHide }) => {
                             <Col md={4}>
                                 <Form.Control
                                     value={i.rus}
+                                    className=' word'
                                     onChange={(e) => changeWord('rus', e.target.value, i.number)}
                                     placeholder={'Введите перевод'}
                                 />

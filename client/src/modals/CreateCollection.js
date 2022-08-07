@@ -92,8 +92,10 @@ const CreateCollection = observer(({ show, onHide }) => {
                             type="file"
                             onChange={selectFile}
                         />
-                        <div className='Instructions'>Инструкции</div>
-                        <Image className='image_info' src={info} />
+                        <div className='instructions_block'>
+                            <div className='Instructions'>Инструкции</div>
+                            <Image className='image_info' src={info} />
+                        </div>
                     </div>
                     <p className='text_or'>Или</p>
                     <Button
@@ -107,6 +109,7 @@ const CreateCollection = observer(({ show, onHide }) => {
                             <Col md={4}>
                                 <Form.Control
                                     value={i.eng}
+                                    className='word'
                                     onChange={(e) => changeWord('eng', e.target.value, i.number)}
                                     placeholder={'Введите слово'}
                                 />
@@ -114,6 +117,7 @@ const CreateCollection = observer(({ show, onHide }) => {
                             <Col md={4}>
                                 <Form.Control
                                     value={i.rus}
+                                    className='word'
                                     onChange={(e) => changeWord('rus', e.target.value, i.number)}
                                     placeholder={'Введите перевод'}
                                 />
