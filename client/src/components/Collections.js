@@ -116,7 +116,7 @@ const Collections = observer(() => {
                                         className="menu"
                                         style={{ cursor: 'pointer' }}
                                     >
-                                        <TiThMenu
+                                        <AiOutlineMenu
                                             className="iconMenuColl"
                                             onClick={() => addMenuColl(collection._id)}
                                         />
@@ -128,19 +128,19 @@ const Collections = observer(() => {
                                         className="menu4IconCollParent"
                                         style={{ cursor: 'pointer' }}
                                     >
-                                        <BiMessageSquareAdd
+                                        <AiOutlinePlusSquare
                                             className="iconMenuColl"
                                             onClick={() => setAddWordsVisible(true)}
                                         />
-                                        <FiEdit
+                                        <AiOutlineEdit
                                             className="iconMenuColl"
                                             onClick={() => setEditCollectionsVisible(true)}
                                         />
-                                        <AiTwotoneDelete
+                                        <AiOutlineDelete
                                             className="iconMenuColl"
                                             onClick={() => deleteColl(collection._id)}
                                         />
-                                        <TiThMenu
+                                        <AiOutlineMenu
                                             className="iconMenuColl"
                                             onClick={() => addMenuColl(collection._id)}
                                         />
