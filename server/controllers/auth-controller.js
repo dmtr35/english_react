@@ -36,7 +36,7 @@ class AuthController {
             const { email, password } = req.body
             const user = await User.findOne({ email })
             if (!user) {
-                res.status(400).json({ message: `Пользоватеть с email ${email} не найден` })
+                return res.status(400).json({ message: `Пользоватеть с email ${email} не найден` })
             }
             const validPassword = bcrypt.compareSync(password, user.password)
             if (!validPassword) {

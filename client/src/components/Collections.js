@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext, useEffect, useState, useRef } from "react"
 import { getCollections, deleteCollection, deleteManyCollection } from "../http/collectionApi"
 import Card from "react-bootstrap/Card"
 import Button from "react-bootstrap/Button"
@@ -22,6 +22,13 @@ const Collections = observer(() => {
     const [editCollectionsVisible, setEditCollectionsVisible] = useState(false)
     const [addWordsVisible, setAddWordsVisible] = useState(false)
     const userId = localStorage.getItem('userId')
+
+    const inputEl = useRef(null);
+
+    const onButtonClick = () => {
+        inputEl.current.classList.toggle('words_list_none');
+    };
+
 
     useEffect(() => {
         getCollections(`${localStorage.getItem('userId')}`)
@@ -66,19 +73,28 @@ const Collections = observer(() => {
     return (
         <div className="collection-list">
             <div className="d-grid gap-2 mt-2 mb-2 m-3">
-                <Button
+                <Button className="button"
                     onClick={() => { setAddCollectionsVisible(true) }}
                     variant="primary"
                     size="lg"
-                    className='button_add_collection'
-                >Добавить колекцию</Button>
+                >Добавить колекцию </Button>
                 <CreateCollection show={addCollectionsVisible} onHide={() => setAddCollectionsVisible(false)} />
+            </div>
+            <div className="d-grid gap-2 mt-2 mb-2 m-3">
+                <Button className="button"
+                    variant="primary"
+                    size="lg"
+                    onClick={onButtonClick}
+                >
+                    Коллекции ⯆
+                </Button>
             </div>
             {fullCollections.collections.map(collection =>
                 <div
                     key={collection._id}
-                    className="m-1 collection_block">
-                    <Card className="cardCollBasic_block">
+                    className="m-1">
+                    <Card
+                    >
                         <div className="cardCollBasic">
                             <div className="form-check">
                                 <input
@@ -107,7 +123,7 @@ const Collections = observer(() => {
                                     </div>
                                 </div>
                                 :
-                                <div className="parentMenu" >
+                                <div className="parentMenu">
                                     <div
                                         className="menu4IconCollParent"
                                         style={{ cursor: 'pointer' }}
@@ -148,7 +164,7 @@ const Collections = observer(() => {
             )
             }
             <div className="d-grid gap-2 mt-2 mb-2 m-3">
-                <Button
+                <Button className="button"
                     onClick={() => deleteManyColl()}
                     variant="primary"
                     size="lg"

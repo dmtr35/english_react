@@ -27,6 +27,7 @@ const Auth = observer(() => {
                 data = await login(email, password)
 
                 if (data) {
+                    console.log(typeof data.id);
                     user.setIsAuth(true)
                     document.location.href = LEARN_WORDS
                 }
