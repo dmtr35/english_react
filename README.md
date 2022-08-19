@@ -1,3 +1,6 @@
+https://english-react-client.herokuapp.com/login
+
+
 для регистрации используйте валидный email и пароль//
 
 создать файл .env по примеру .env.example//
