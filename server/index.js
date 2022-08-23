@@ -27,8 +27,8 @@ app.use('/auth', authRouter)
 app.use('/collections', collectionsRouter)
 
 app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', `*`);
-    next();
+    res.setHeader('Access-Control-Allow-Origin', `*`)
+    next()
 })
 
 
@@ -48,7 +48,7 @@ const start = async () => {
         })
         app.listen(PORT, () => console.log(`Server working, PORT: ${PORT}`))
     } catch (e) {
-        console.log(e);
+        console.log(e)
     }
 }
 

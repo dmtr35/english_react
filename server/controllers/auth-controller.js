@@ -26,7 +26,7 @@ class AuthController {
             await user.save()
             return res.json({ message: 'Пользователь был успешно зарегистрирован' })
         } catch (e) {
-            console.log(e);
+            console.log(e)
             res.status(400).json({ message: 'Registration error' })
         }
     }

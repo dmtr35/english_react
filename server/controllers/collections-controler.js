@@ -30,7 +30,7 @@ class CollectionsController {
             const words = JSON.parse(filterArrWord)
             const file = req.files.file
             await file.mv(path.resolve(__dirname, 'static', 'dictionary.txt'))
-            const readFile = util.promisify(fs.readFile);
+            const readFile = util.promisify(fs.readFile)
             const result = await readFile(path.resolve(__dirname, './static/dictionary.txt'), 'utf-8')
             result.split(/\r?\n/).forEach(line => {
                 if (line.length === 0) {
@@ -44,7 +44,7 @@ class CollectionsController {
             const collections = await Collections.create({ userId, name, words })
             fs.rm(path.resolve(__dirname, './static/dictionary.txt'), (err) => {
                 if (err) {
-                    throw err;
+                    throw err
                 }
             })
             return res.json(collections)
@@ -74,7 +74,7 @@ class CollectionsController {
             const arrWord = JSON.parse(filterArrWord)
             const file = req.files.file
             await file.mv(path.resolve(__dirname, 'static', 'dictionary.txt'))
-            const readFile = util.promisify(fs.readFile);
+            const readFile = util.promisify(fs.readFile)
             const result = await readFile(path.resolve(__dirname, './static/dictionary.txt'), 'utf-8')
             result.split(/\r?\n/).forEach(line => {
                 if (line.length === 0) {
@@ -88,7 +88,7 @@ class CollectionsController {
             await Collections.updateOne({ "_id": collectionId }, { "$push": { "words": { "$each": arrWord } } })
             fs.rm(path.resolve(__dirname, './static/dictionary.txt'), (err) => {
                 if (err) {
-                    throw err;
+                    throw err
                 }
             })
             return res.json("excellent")
