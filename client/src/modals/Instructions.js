@@ -8,11 +8,6 @@ import info from '../assets/info.png'
 
 
 const Instructions = observer(({ show, onHide }) => {
-    console.log(show);
-    
-
-    
-    
 
 
     return (
@@ -23,12 +18,10 @@ const Instructions = observer(({ show, onHide }) => {
             size="lg"
             centered
         >
-                    {/* <div className='modal-content'> */}
-                        <Image
-                            className='image_info_modal'
-                            src={info}
-                        />
-                    {/* </div> */}
+            <Image
+                className='image_info_modal'
+                src={info}
+            />
         </Modal>
     )
 })
