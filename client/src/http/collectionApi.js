@@ -2,8 +2,10 @@ import { $authHost, $host } from "./index"
 
 
 export const createCollection = async (id, formData) => {
-    const { data } = await $host.post(`collections/createCollections/${id}`, formData)
-    return data
+    const response = await $host.post(`collections/createCollections/${id}`, formData)
+    console.log(response);
+    
+    return response
 }
 
 export const getCollections = async (id) => {
