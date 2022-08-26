@@ -2,7 +2,7 @@ import 'dotenv/config'
 import mongoose from 'mongoose'
 import { v4 as uuidv4 } from 'uuid'
 import Collections from '../models/Collections.js'
-import Words from '../models/Collections.js'
+import Words from '../models/Words.js'
 import path from 'path'
 import fs from 'fs'
 import util from 'util'
@@ -19,7 +19,7 @@ class WordsController {
             const { filterArrWord } = req.body
             const arrWord = JSON.parse(filterArrWord)
 
-            await Collections.updateOne({ "_id": collectionId }, { "$push": { "words": { "$each": arrWord } } })
+            await Words.updateOne({ "collId": collectionId }, { "$push": { "words": { "$each": arrWord } } })
             return res.json("excellent")
         } catch (e) {
             console.log(e)
@@ -40,11 +40,11 @@ class WordsController {
                     return
                 } else {
                     const word = `${line}`.split(';')
-                    const objWord = Object.assign({eng: word[0], rus: word[1]})
+                    const objWord = Object.assign({ eng: word[0], rus: word[1] })
                     arrWord.push(objWord)
                 }
             })
-            await Collections.updateOne({ "_id": collectionId }, { "$push": { "words": { "$each": arrWord } } })
+            await Words.updateOne({ "collId": collectionId }, { "$push": { "words": { "$each": arrWord } } })
             fs.rm(path.resolve(__dirname, './static/dictionary.txt'), (err) => {
                 if (err) {
                     throw err
@@ -58,27 +58,31 @@ class WordsController {
     }
 
 
-    // async getWords(req, res) {
-    //     try {
-    //         const { userId } = req.params
-    //         const collections = await Collections.find({ userId })
-    //         return res.json(collections)
-    //     } catch (e) {
-    //         console.log(e)
-    //         res.status(500).json({ message: 'Create error3' })
-    //     }
-    // }
+    async getWords(req, res) {
+        try {
+            const { collId } = req.body
+            // console.log('collId:', typeof collId);
+
+            const words = await Words.find({ collId: { $in: collId } })
+            // const words = await Words.find({ collId })
+            // console.log(words);
+
+            return res.json(words)
+        } catch (e) {
+            console.log(e)
+            res.status(500).json({ message: 'Get words error' + e })
+        }
+    }
 
 
     async updateWords(req, res) {
         try {
             const { wordId } = req.params
             const arrWord = req.body
-
-            const response = await Collections.findOneAndUpdate({ "words._id": wordId }, { "$set": { "words.$": arrWord } }, { new: true })
-            return res.json(response)
+            const response = await Words.findOneAndUpdate({ "words._id": wordId }, { "$set": { "words.$": arrWord } }, { new: true })
+            return res.json("Word renamed")
         } catch (e) {
-            res.status(500).json({ message: 'Create error5' })
+            res.status(500).json({ message: 'Word renamed, error:' + e })
         }
     }
 
@@ -87,11 +91,11 @@ class WordsController {
         try {
             const collectionId = req.params.id
             const { wordId } = req.body
-            await Collections.updateOne({ "_id": collectionId }, { "$pull": { "words": { "_id": wordId } } })
+            await Words.updateOne({ "collId": collectionId }, { "$pull": { "words": { "_id": wordId } } })
             return res.json("word delete")
         } catch (e) {
             console.log(e)
-            res.status(500).json({ message: 'Create error6' })
+            res.status(500).json({ message: 'Word not delete, error:' + e })
         }
     }
 
@@ -100,17 +104,23 @@ class WordsController {
         try {
             const transferWord = req.params.id
             const { currentCollId, arrWord, wordId } = req.body
+            console.log('transferWord:', transferWord);
+            console.log('currentCollId:', currentCollId);
+            console.log('arrWord:', arrWord);
+            console.log('wordId:', wordId);
+            
+
             const session = await mongoose.startSession()
             await session.withTransaction(async () => {
-                await Collections.updateOne({ "_id": currentCollId }, { "$pull": { "words": { "_id": wordId } } })
-                await Collections.updateOne({ "_id": transferWord }, { "$push": { "words": { "$each": arrWord } } })
+                await Words.updateOne({ "collId": currentCollId }, { "$pull": { "words": { "_id": wordId } } }, { session })
+                await Words.updateOne({ "collId": transferWord }, { "$push": { "words": { "$each": arrWord } } }, { session })
+                return await res.json("word moved")
             })
-            session.commitTransaction()
+            // session.commitTransaction()
             session.endSession()
-            return res.json("collection delete")
         } catch (e) {
             console.log(e)
-            res.status(500).json({ message: 'Create error7' })
+            res.status(500).json({ message: 'happened somewhere error:' + e })
         }
     }
 }
@@ -118,4 +128,4 @@ class WordsController {
 
 
 
-export default new CollectionsController()
+export default new WordsController()

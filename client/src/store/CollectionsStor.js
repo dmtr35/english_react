@@ -4,18 +4,23 @@ import { makeAutoObservable } from "mobx"
 export default class CollectionStore {
     constructor() {
         this._collections = []
+        this._words = []
         this._randomListWods = []
         this._isActive = false
         this._isLoadColleltions = false
         this._menuColl = []
         this._menuWord = []
         this._switching = true
+        this._checked = false
 
         makeAutoObservable(this)
     }
 
     setCollections(collections) {
         this._collections = collections
+    }
+    setWords(words) {
+        this._words = words
     }
     setRandomListWods(randomListWods) {
         this._randomListWods = randomListWods
@@ -35,6 +40,9 @@ export default class CollectionStore {
     setSwitching(switching) {
         this._switching = switching
     }
+    setChecked(checked) {
+        this._checked = checked
+    }
 
 
 
@@ -42,6 +50,9 @@ export default class CollectionStore {
 
     get collections() {
         return this._collections
+    }
+    get words() {
+        return this._words
     }
     get randomListWods() {
         return this._randomListWods
@@ -60,6 +71,9 @@ export default class CollectionStore {
     }
     get switching() {
         return this._switching
+    }
+    get checked() {
+        return this._checked
     }
 
 

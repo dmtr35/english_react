@@ -17,48 +17,20 @@ class CollectionsController {
         try {
             const { userId } = req.params
             const { name, filterArrWord } = req.body
-            console.log('userId:', userId);
-            console.log('name:', name);
-            // console.log('filterArrWord:', filterArrWord);
-
-
 
             const words = JSON.parse(filterArrWord)
-            // console.log('arrWords:', arrWords);
-            // const collections = await Collections.create({ userId, name })
-            // console.log("collId:", collections._id);
-            // const collectionId = collections._id
-
-            // const words = await Words.create({ collectionId, arrWords })
-
-
-            // const collections = await Collections.create({ userId, name })
-            // const collId = collections._id
-            // await Words.create({ collId, words })
             const session = await mongoose.startSession()
             await session.withTransaction(async () => {
-                const collections = await Collections.create({ userId, name })
-                await Words.create({ collId4: `${collections._id}`, words })
-                return await res.json(collections)
+                const collections = await Collections.create([{ userId, name }], { session })
+                await Words.create([{ collId: `${collections[0]._id}`, words }], { session })
+                return await res.json(collections[0])
             })
-            
-            
-            
-            // const session = await mongoose.startSession()
-            // await session.withTransaction(async () => {
-            //     const collections = await Collections.create({ userId, name })
-            //     const collId = collections._id
-            //     await Words.create({ collId, words })
-            // })
+
             // session.commitTransaction()
-            // session.endSession()
-            
-            
-            session.commitTransaction()
             session.endSession()
         } catch (e) {
             console.log(e)
-            res.status(500).json({ message: 'Create error11' })
+            res.status(500).json({ message: 'Create(without file) error' + e })
         }
     }
     async createFromFile(req, res) {
@@ -70,6 +42,7 @@ class CollectionsController {
             await file.mv(path.resolve(__dirname, 'static', 'dictionary.txt'))
             const readFile = util.promisify(fs.readFile)
             const result = await readFile(path.resolve(__dirname, './static/dictionary.txt'), 'utf-8')
+
             result.split(/\r?\n/).forEach(line => {
                 if (line.length === 0) {
                     return
@@ -79,16 +52,24 @@ class CollectionsController {
                     words.push(objWord)
                 }
             })
-            const collections = await Collections.create({ userId, name, words })
+
+            const session = await mongoose.startSession()
+            await session.withTransaction(async () => {
+                const collections = await Collections.create([{ userId, name }], { session })
+                await Words.create([{ collId: `${collections[0]._id}`, words }], { session })
+                return await res.json(collections[0])
+            })
+            // session.commitTransaction()
+            session.endSession()
+
             fs.rm(path.resolve(__dirname, './static/dictionary.txt'), (err) => {
                 if (err) {
                     throw err
                 }
             })
-            return res.json(collections)
         } catch (e) {
             console.log(e)
-            res.status(500).json({ message: 'Create error11' })
+            res.status(500).json({ message: 'Create(with file) error' + e })
         }
     }
 
@@ -99,7 +80,7 @@ class CollectionsController {
             return res.json(collections)
         } catch (e) {
             console.log(e)
-            res.status(500).json({ message: 'Create error3' })
+            res.status(500).json({ message: 'get collections error' + e })
         }
     }
 
@@ -111,30 +92,41 @@ class CollectionsController {
             return res.json("update")
         } catch (e) {
             console.log(e)
-            res.status(500).json({ message: 'Create error4' })
+            res.status(500).json({ message: 'Collection not rename,  error' + e })
         }
     }
 
     async deleteOneCollection(req, res) {
         try {
             const collectionId = req.params.id
-            await Collections.findByIdAndDelete(collectionId)
-            return res.json("collection delete")
+            const session = await mongoose.startSession()
+            await session.withTransaction(async () => {
+                await Collections.findByIdAndDelete(collectionId, { session })
+                await Words.deleteOne({ "collId": collectionId }, { session })
+                return await res.json("collection delete")
+            })
+            // session.commitTransaction()
+            session.endSession()
         } catch (e) {
             console.log(e)
-            res.status(500).json({ message: 'Create error7' })
+            res.status(500).json({ message: 'selected collection not delete, error' + e })
         }
     }
 
     async deleteManyCollection(req, res) {
         try {
             const { arrCollId } = req.body
-            await Collections.deleteMany({ _id: { $in: arrCollId } })
-
-            return res.json("selected collection delete")
+            const session = await mongoose.startSession()
+            await session.withTransaction(async () => {
+                await Collections.deleteMany({ _id: { $in: arrCollId } }, { session })
+                await Words.deleteMany({ collId: { $in: arrCollId } }, { session })
+                return await res.json("selected collections delete")
+            })
+            // session.commitTransaction()
+            session.endSession()
         } catch (e) {
             console.log(e)
-            res.status(500).json({ message: 'Create error7' })
+            res.status(500).json({ message: 'selected collections not delete, error' + e })
         }
     }
 

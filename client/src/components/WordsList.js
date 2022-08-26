@@ -1,18 +1,29 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import Card from "react-bootstrap/Card"
 import "../styles/module.css"
+import EditWord from '../modals/EditWord'
+import { handleChange, isCheckTrue } from "../utils/dopFunction"
 import { observer } from "mobx-react-lite"
 import { Context } from ".."
 import { AiOutlineDelete } from 'react-icons/ai'
 import { AiOutlineEdit } from 'react-icons/ai'
 import { AiOutlineMenu } from 'react-icons/ai'
 import { deleteWord } from '../http/collectionApi'
-import EditWord from '../modals/EditWord'
+import { getWords } from '../http/collectionApi'
 
 const WordsList = observer(({ search }) => {
     const { fullCollections } = useContext(Context)
     const [active, setActive] = useState([])
     const [editWordVisible, setEditWordVisible] = useState(false)
+    const userId = localStorage.getItem('userId')
+    const arrCollId = JSON.parse((localStorage.getItem(`arrCheck-${userId}`)))
+    
+    
+    useEffect(() => {
+        getWords(arrCollId)
+            .then(data => wordsList(data))
+    }, [fullCollections.checked, fullCollections.isLoadColleltions])
+
 
 
     const turnWord = (id) => {
@@ -37,9 +48,23 @@ const WordsList = observer(({ search }) => {
     const delWord = (collId, wordId) => {
         deleteWord(collId, wordId)
             .then(data => fullCollections.setIsLoadColleltions(true))
-            .then(data => fullCollections.setIsLoadColleltions(true))
     }
 
+    const wordsList = (data) => {
+        console.log('data:', data)        
+        let random = []
+        data.filter(collection => isCheckTrue(collection.collId))
+            .map((collection) =>
+                collection.words
+                    .map((word) =>
+                        random
+                            .push({ collectionId: collection.collId, wordId: word._id, eng: word.eng, rus: word.rus })
+                    ))
+        if (localStorage.getItem('switch') === 'true') random.sort(() => Math.random() - 0.5)
+        fullCollections.setRandomListWods(random)
+        console.log('random:', random)
+    }
+    
 
     return (
         <div>
