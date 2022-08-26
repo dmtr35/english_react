@@ -37,7 +37,7 @@ class CollectionsController {
                     return
                 } else {
                     const word = `${line}`.split(';')
-                    const objWord = Object.assign({eng: word[0], rus: word[1]})
+                    const objWord = Object.assign({ eng: word[0], rus: word[1] })
                     words.push(objWord)
                 }
             })
@@ -81,7 +81,7 @@ class CollectionsController {
                     return
                 } else {
                     const word = `${line}`.split(';')
-                    const objWord = Object.assign({eng: word[0], rus: word[1]})
+                    const objWord = Object.assign({ eng: word[0], rus: word[1] })
                     arrWord.push(objWord)
                 }
             })
@@ -175,15 +175,28 @@ class CollectionsController {
             const { currentCollId, arrWord, wordId } = req.body
             const session = await mongoose.startSession()
             await session.withTransaction(async () => {
-                await Collections.updateOne({ "_id": currentCollId }, { "$pull": { "words": { "_id": wordId } } })
-                await Collections.updateOne({ "_id": transferWord }, { "$push": { "words": { "$each": arrWord } } })
+                await Collections.updateOne(
+                    { "_id": transferWord },
+                    { "$push": { "words": { "$each": arrWord } } },
+                    { session }
+                )
+                await Collections.updateOne(
+                    { "_id": currentCollId },
+                    { "$pull": { "words": { "_id": wordId } } },
+                    { session }
+                )
+
+                // if (resultCreate2.matchedCount === 0) {
+                //     await session.abortTransaction()
+                // }
             })
             session.commitTransaction()
             session.endSession()
-            return res.json("collection delete")
+            return await res.json("collection delete")
         } catch (e) {
             console.log(e)
-            res.status(500).json({ message: 'Create error7' })
+            await session.abortTransaction()
+            res.status(500).json({ message: 'The transaction was aborted' + e })
         }
     }
 }
