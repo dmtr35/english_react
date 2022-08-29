@@ -27,7 +27,6 @@ const WordsList = observer(({ search }) => {
 
     const turnWord = (id) => {
         if (fullCollections.activeTurnWord.includes(id)) {
-            console.log('gg')
             if (fullCollections.menuWord) {
                 fullCollections.setMenuWord('')
                 fullCollections.setArrWordsToDelete([])
@@ -38,13 +37,10 @@ const WordsList = observer(({ search }) => {
                 fullCollections.setArrWordsToDelete([])
             }
         } else {
-            console.log('gg2')
             if (fullCollections.menuWord) {
-                console.log('gg_xx')
                 fullCollections.setMenuWord('')
                 fullCollections.setArrWordsToDelete([])
             } else {
-                console.log('gg_yy')
                 fullCollections.setMenuWord('')
                 fullCollections.setMenuColl('')
                 fullCollections.setActiveTurnWord([...fullCollections.activeTurnWord, id])
@@ -54,11 +50,9 @@ const WordsList = observer(({ search }) => {
     }
     const turnMenu = (id) => {
         if (fullCollections.menuWord.includes(id)) {
-            console.log('gg3')
             fullCollections.setMenuWord('')
             fullCollections.setArrWordsToDelete([])
         } else {
-            console.log('gg4')
             fullCollections.setMenuColl('')
             fullCollections.setMenuWord([id])
             fullCollections.setArrWordsToDelete([])
