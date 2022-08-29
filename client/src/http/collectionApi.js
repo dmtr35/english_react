@@ -3,8 +3,6 @@ import { $authHost, $host } from "./index"
 
 export const createCollection = async (id, formData) => {
     const response = await $host.post(`collections/createCollections/${id}`, formData)
-    console.log(response);
-
     return response
 }
 
@@ -13,10 +11,7 @@ export const getCollections = async (id) => {
     return data
 }
 export const getWords = async (collId) => {
-    console.log(collId)
     const { data } = await $host.post(`words/getWords/`, {collId})
-    console.log(data);
-    
     return data
 }
 

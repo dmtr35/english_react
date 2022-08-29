@@ -68,9 +68,12 @@ const Collections = observer(() => {
     const addMenuColl = (id) => {
         if (fullCollections.menuColl.includes(id)) {
             fullCollections.setMenuColl('')
+            fullCollections.setMenuWord('')
+            fullCollections.setArrWordsToDelete([])
         } else {
             fullCollections.setMenuWord('')
             fullCollections.setMenuColl([id])
+            fullCollections.setArrWordsToDelete([])
         }
     }
 
