@@ -3,7 +3,7 @@ import { Context } from "../.."
 import { observer } from "mobx-react-lite"
 
 
-const Timer = observer(({wordId}) => {
+const TimerWordDelete = observer(({ wordId }) => {
     const [counter, setCounter] = useState(3)
     const { fullCollections } = useContext(Context)
 
@@ -17,14 +17,14 @@ const Timer = observer(({wordId}) => {
             {fullCollections.activeTurnWord.includes(wordId)
                 ?
                 <div
-                    className="timer"
+                    className="timerWordDelete"
                     style={{ color: '#fff' }}
                 >
                     {counter}
                 </div>
                 :
                 <div
-                    className="timer"
+                    className="timerWordDelete"
                     style={{ color: '000' }}
                 >
                     {counter}
@@ -36,4 +36,4 @@ const Timer = observer(({wordId}) => {
 
 
 
-export default Timer
+export default TimerWordDelete

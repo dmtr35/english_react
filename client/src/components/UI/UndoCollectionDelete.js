@@ -2,11 +2,11 @@ import React, { useContext, useState, useEffect } from "react"
 import { FcUndo } from 'react-icons/fc'
 import { Context } from "../.."
 import { observer } from "mobx-react-lite"
-import TimerWordDelete from './TimerWordDelete'
+import TimerCollectionDelete from './TimerCollectionDelete'
 
 
 
-const UndoWordDelete = observer(({ wordId, timeout }) => {
+const UndoCollectionDelete = observer(({ wordId, timeout }) => {
 
     const { fullCollections } = useContext(Context)
 
@@ -23,7 +23,7 @@ const UndoWordDelete = observer(({ wordId, timeout }) => {
 
     return (
         <>
-            <TimerWordDelete
+            <TimerCollectionDelete
                 wordId={wordId}
             />
             <FcUndo
@@ -36,4 +36,4 @@ const UndoWordDelete = observer(({ wordId, timeout }) => {
 
 
 
-export default UndoWordDelete
+export default UndoCollectionDelete

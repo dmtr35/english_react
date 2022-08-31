@@ -13,6 +13,8 @@ import { AiOutlineDelete } from 'react-icons/ai'
 import { AiOutlineEdit } from 'react-icons/ai'
 import { AiOutlinePlusSquare } from 'react-icons/ai'
 import { AiOutlineMenu } from 'react-icons/ai'
+import TimeoutCollectionDelete from './TimeoutCollectionDelete'
+
 
 
 const Collections = observer(() => {
@@ -55,10 +57,10 @@ const Collections = observer(() => {
         fullCollections.setCollections(data)
     }
 
-    const deleteColl = (id) => {
-        deleteCollection(id)
-            .then(data => fullCollections.setIsLoadColleltions(true))
-    }
+    // const deleteColl = (id) => {
+    //     deleteCollection(id)
+    //         .then(data => fullCollections.setIsLoadColleltions(true))
+    // }
     const deleteManyColl = () => {
         deleteManyCollection(JSON.parse(localStorage.getItem(`arrCheck-${userId}`)))
             .then(data => fullCollections.setIsLoadColleltions(true))
@@ -150,6 +152,10 @@ const Collections = observer(() => {
                                                 className="iconMenuColl"
                                                 onClick={() => deleteColl(collection._id)}
                                             />
+                                            {/* <TimeoutCollectionDelete
+                                                className="iconMenuColl"
+                                                collId={collection._id}
+                                            /> */}
                                             <AiOutlineMenu
                                                 className="iconMenuColl"
                                                 onClick={() => addMenuColl(collection._id)}

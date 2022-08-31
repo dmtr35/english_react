@@ -10,7 +10,6 @@ import { deleteWord } from '../http/collectionApi'
 const TimeoutWordDelete = observer(({ wordId, collId }) => {
     const { fullCollections } = useContext(Context)
     const [timeoutWordDelete, setTimeoutWordDelete] = useState('')
-    console.log(!!fullCollections.menuWord);
     
 
 
@@ -21,10 +20,8 @@ const TimeoutWordDelete = observer(({ wordId, collId }) => {
         const timeoutId = setTimeout(() => {
             deleteWord(collId, wordId)
             .then(data => fullCollections.setIsLoadColleltions(true))
-            console.log(!!fullCollections.menuWord);
             
             if(fullCollections.menuWord.includes(wordId)) {
-                console.log('on');
                 fullCollections.setMenuWord('')
             }
 

@@ -104,10 +104,10 @@ class WordsController {
         try {
             const transferWord = req.params.id
             const { currentCollId, arrWord, wordId } = req.body
-            console.log('transferWord:', transferWord);
-            console.log('currentCollId:', currentCollId);
-            console.log('arrWord:', arrWord);
-            console.log('wordId:', wordId);
+            // console.log('transferWord:', transferWord);
+            // console.log('currentCollId:', currentCollId);
+            // console.log('arrWord:', arrWord);
+            // console.log('wordId:', wordId);
             
 
             const session = await mongoose.startSession()
