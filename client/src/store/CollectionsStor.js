@@ -9,7 +9,7 @@ export default class CollectionStore {
         this._isActive = false
         this._isLoadColleltions = false
         this._menuColl = []
-        this._menuWord = []
+        this._menuWord = ''
         this._activeTurnWord = []
         this._switching = true
         this._checked = false

@@ -16,7 +16,7 @@ const UndoCollectionDelete = observer(({ wordId, timeout }) => {
         if (fullCollections.arrWordsToDelete.includes(wordId)) {
             fullCollections.setArrWordsToDelete(fullCollections.arrWordsToDelete.filter(i => i !== wordId))
         }
-        fullCollections.setMenuWord('')
+        // fullCollections.setMenuWord('')
         clearTimeout(timeout)
     }
 
