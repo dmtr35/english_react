@@ -4,6 +4,7 @@ import mongoose from "mongoose"
 // import fileUpload from "express-fileupload"
 import authRouter from "./router/auth-router.js"
 import collectionsRouter from "./router/collections-router.js"
+import wordsRouter from "./router/words-router.js"
 import cors from 'cors'
 import fileUpload from 'express-fileupload'
 import path from 'path'
@@ -25,6 +26,7 @@ app.use(fileUpload({}))
 
 app.use('/auth', authRouter)
 app.use('/collections', collectionsRouter)
+app.use('/words', wordsRouter)
 
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', `*`)

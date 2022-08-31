@@ -13,19 +13,20 @@ import { AiOutlineDelete } from 'react-icons/ai'
 import { AiOutlineEdit } from 'react-icons/ai'
 import { AiOutlinePlusSquare } from 'react-icons/ai'
 import { AiOutlineMenu } from 'react-icons/ai'
+import TimeoutCollectionDelete from './TimeoutCollectionDelete'
+
 
 
 const Collections = observer(() => {
     const { fullCollections } = useContext(Context)
-    const [checked, setChecked] = useState(false)
     const [addCollectionsVisible, setAddCollectionsVisible] = useState(false)
     const [editCollectionsVisible, setEditCollectionsVisible] = useState(false)
     const [addWordsVisible, setAddWordsVisible] = useState(false)
     const userId = localStorage.getItem('userId')
-    const arrCheck = localStorage.getItem('arrCheck-62c81bf66ecd737e4a7c3eff')
+    const arrCheck = localStorage.getItem(`arrCheck-${userId}`)
     const [show, setShow] = useState(false)
     const [disabledDeleteChecked, setDisabledDeleteChecked] = useState(false)
-    
+
 
     const hideCollections = useRef('none')
 
@@ -48,25 +49,12 @@ const Collections = observer(() => {
 
     useEffect(() => {
         getCollections(`${localStorage.getItem('userId')}`)
-            .then(data => randomList(data))
+            .then(data => collections(data))
             .then(data => fullCollections.setIsLoadColleltions(false))
-    }, [checked, fullCollections.isLoadColleltions])
+    }, [fullCollections.checked, fullCollections.isLoadColleltions])
 
-    const randomList = (data) => {
-        // console.log('data:', data)        
+    const collections = (data) => {
         fullCollections.setCollections(data)
-        let random = []
-        data.filter(collection => isCheckTrue(collection._id))
-            .map((collection) =>
-                collection.words
-                    .map((word) =>
-                        random
-                            .push({ collectionId: collection._id, wordId: word._id, eng: word.eng, rus: word.rus })
-                    ))
-        if (localStorage.getItem('switch') === 'true') random.sort(() => Math.random() - 0.5)
-        fullCollections.setRandomListWods(random)
-        // console.log('random:', random)
-
     }
 
     const deleteColl = (id) => {
@@ -75,16 +63,19 @@ const Collections = observer(() => {
     }
     const deleteManyColl = () => {
         deleteManyCollection(JSON.parse(localStorage.getItem(`arrCheck-${userId}`)))
-        fullCollections.setIsLoadColleltions(true)
-        localStorage.removeItem(`arrCheck-${userId}`)
+            .then(data => fullCollections.setIsLoadColleltions(true))
+            .then(data => localStorage.removeItem(`arrCheck-${userId}`))
     }
 
     const addMenuColl = (id) => {
         if (fullCollections.menuColl.includes(id)) {
             fullCollections.setMenuColl('')
+            fullCollections.setMenuWord('')
+            fullCollections.setArrWordsToDelete([])
         } else {
             fullCollections.setMenuWord('')
             fullCollections.setMenuColl([id])
+            fullCollections.setArrWordsToDelete([])
         }
     }
 
@@ -123,7 +114,7 @@ const Collections = observer(() => {
                                         style={{ cursor: 'pointer' }}
                                         type="checkbox"
                                         value="checked"
-                                        onClick={() => setChecked(!checked)}
+                                        onClick={() => fullCollections.setChecked(!fullCollections.checked)}
                                         defaultChecked={isCheckTrue(collection._id)}
                                         onChange={() => handleChange(collection._id)}
                                     />
@@ -161,6 +152,10 @@ const Collections = observer(() => {
                                                 className="iconMenuColl"
                                                 onClick={() => deleteColl(collection._id)}
                                             />
+                                            {/* <TimeoutCollectionDelete
+                                                className="iconMenuColl"
+                                                collId={collection._id}
+                                            /> */}
                                             <AiOutlineMenu
                                                 className="iconMenuColl"
                                                 onClick={() => addMenuColl(collection._id)}
