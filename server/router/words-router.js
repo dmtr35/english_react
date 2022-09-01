@@ -10,8 +10,7 @@ wordsRouter.post('/addWordsFromFile/:id', wordsController.addWordsFromFile)
 
 
 
-// wordsRouter.post('/getWords/', authMiddleware, wordsController.getWords)
-wordsRouter.post('/getWords/', wordsController.getWords)
+wordsRouter.post('/getWords/', authMiddleware, wordsController.getWords)
 
 
 

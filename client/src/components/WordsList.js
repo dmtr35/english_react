@@ -7,7 +7,9 @@ import { observer } from "mobx-react-lite"
 import { Context } from ".."
 import { AiOutlineEdit } from 'react-icons/ai'
 import { AiOutlineMenu } from 'react-icons/ai'
+import { AiOutlineDelete } from 'react-icons/ai'
 import { getWords } from '../http/collectionApi'
+import { deleteWord } from '../http/collectionApi'
 import TimeoutWordDelete from './TimeoutWordDelete'
 
 const WordsList = observer(({ search }) => {
@@ -15,6 +17,7 @@ const WordsList = observer(({ search }) => {
     const [editWordVisible, setEditWordVisible] = useState(false)
     const userId = localStorage.getItem('userId')
     const arrCollId = JSON.parse((localStorage.getItem(`arrCheck-${userId}`)))
+    const checkDelayWordDelete = JSON.parse(localStorage.getItem('delayWordDelete'))
 
 
 
@@ -73,6 +76,18 @@ const WordsList = observer(({ search }) => {
         // console.log('random:', random)
     }
 
+    const delWord = (wordId, collId) => {
+        if (!fullCollections.arrWordsToDelete.includes(wordId)) {
+            fullCollections.setArrWordsToDelete([...fullCollections.arrWordsToDelete, wordId])
+        }
+        deleteWord(collId, wordId)
+            .then(data => fullCollections.setIsLoadColleltions(true))
+
+        if (fullCollections.menuWord.includes(wordId)) {
+            fullCollections.setMenuWord('')
+        }
+    }
+
 
     return (
         <div>
@@ -124,10 +139,32 @@ const WordsList = observer(({ search }) => {
                                                             onClick={() => setEditWordVisible(true)}
                                                         />
                                                         <EditWord currentCollId={word.collectionId} wordId={word.wordId} show={editWordVisible} onHide={() => setEditWordVisible(false)} engW={word.eng} rusW={word.rus} />
-                                                        <TimeoutWordDelete
-                                                            wordId={word.wordId}
-                                                            collId={word.collectionId}
-                                                        />
+                                                        {!checkDelayWordDelete
+                                                            ?
+                                                            <>
+                                                                {fullCollections.activeTurnWord.includes(word.wordId)
+                                                                    ?
+                                                                    <AiOutlineDelete
+                                                                        className="imageMemu"
+                                                                        style={{ color: '#fff' }}
+                                                                        onClick={() => delWord(word.wordId, word.collectionId)}
+                                                                    />
+                                                                    :
+                                                                    <AiOutlineDelete
+                                                                        className="imageMemu"
+                                                                        style={{ color: '#000' }}
+                                                                        onClick={() => delWord(word.wordId, word.collectionId)}
+                                                                    />
+                                                                }
+                                                            </>
+                                                            :
+                                                            <>
+                                                                <TimeoutWordDelete
+                                                                    wordId={word.wordId}
+                                                                    collId={word.collectionId}
+                                                                />
+                                                            </>
+                                                        }
                                                         <AiOutlineMenu
                                                             className="imageMemu"
                                                             onClick={() => { turnMenu(word.wordId) }}
@@ -169,13 +206,35 @@ const WordsList = observer(({ search }) => {
                                                             onClick={() => setEditWordVisible(true)}
                                                         />
                                                         <EditWord currentCollId={word.collectionId} wordId={word.wordId} show={editWordVisible} onHide={() => setEditWordVisible(false)} engW={word.eng} rusW={word.rus} />
-                                                        <TimeoutWordDelete
-                                                            wordId={word.wordId}
-                                                            collId={word.collectionId}
-                                                        />
+                                                        {!checkDelayWordDelete
+                                                            ?
+                                                            <>
+                                                                {fullCollections.activeTurnWord.includes(word.wordId)
+                                                                    ?
+                                                                    <AiOutlineDelete
+                                                                        className="imageMemu"
+                                                                        style={{ color: '#fff' }}
+                                                                        onClick={() => delWord(word.wordId, word.collectionId)}
+                                                                    />
+                                                                    :
+                                                                    <AiOutlineDelete
+                                                                        className="imageMemu"
+                                                                        style={{ color: '#000' }}
+                                                                        onClick={() => delWord(word.wordId, word.collectionId)}
+                                                                    />
+                                                                }
+                                                            </>
+                                                            :
+                                                            <>
+                                                                <TimeoutWordDelete
+                                                                    wordId={word.wordId}
+                                                                    collId={word.collectionId}
+                                                                />
+                                                            </>
+                                                        }
                                                         <AiOutlineMenu
                                                             className="imageMemuColor"
-                                                            onClick={() => { turnMenu(word.wordId ) }}
+                                                            onClick={() => { turnMenu(word.wordId) }}
                                                         />
                                                     </div>
                                                 </div>
@@ -217,10 +276,32 @@ const WordsList = observer(({ search }) => {
                                                             onClick={() => setEditWordVisible(true)}
                                                         />
                                                         <EditWord currentCollId={word.collectionId} wordId={word.wordId} show={editWordVisible} onHide={() => setEditWordVisible(false)} engW={word.eng} rusW={word.rus} />
-                                                        <TimeoutWordDelete
-                                                            wordId={word.wordId}
-                                                            collId={word.collectionId}
-                                                        />
+                                                        {!checkDelayWordDelete
+                                                            ?
+                                                            <>
+                                                                {fullCollections.activeTurnWord.includes(word.wordId)
+                                                                    ?
+                                                                    <AiOutlineDelete
+                                                                        className="imageMemu"
+                                                                        style={{ color: '#fff' }}
+                                                                        onClick={() => delWord(word.wordId, word.collectionId)}
+                                                                    />
+                                                                    :
+                                                                    <AiOutlineDelete
+                                                                        className="imageMemu"
+                                                                        style={{ color: '#000' }}
+                                                                        onClick={() => delWord(word.wordId, word.collectionId)}
+                                                                    />
+                                                                }
+                                                            </>
+                                                            :
+                                                            <>
+                                                                <TimeoutWordDelete
+                                                                    wordId={word.wordId}
+                                                                    collId={word.collectionId}
+                                                                />
+                                                            </>
+                                                        }
                                                         <AiOutlineMenu
                                                             className="imageMemu"
                                                             onClick={() => { turnMenu(word.wordId) }}
@@ -258,10 +339,32 @@ const WordsList = observer(({ search }) => {
                                                             onClick={() => setEditWordVisible(true)}
                                                         />
                                                         <EditWord currentCollId={word.collectionId} wordId={word.wordId} show={editWordVisible} onHide={() => setEditWordVisible(false)} engW={word.eng} rusW={word.rus} />
-                                                        <TimeoutWordDelete
-                                                            wordId={word.wordId}
-                                                            collId={word.collectionId}
-                                                        />
+                                                        {!checkDelayWordDelete
+                                                            ?
+                                                            <>
+                                                                {fullCollections.activeTurnWord.includes(word.wordId)
+                                                                    ?
+                                                                    <AiOutlineDelete
+                                                                        className="imageMemu"
+                                                                        style={{ color: '#fff' }}
+                                                                        onClick={() => delWord(word.wordId, word.collectionId)}
+                                                                    />
+                                                                    :
+                                                                    <AiOutlineDelete
+                                                                        className="imageMemu"
+                                                                        style={{ color: '#000' }}
+                                                                        onClick={() => delWord(word.wordId, word.collectionId)}
+                                                                    />
+                                                                }
+                                                            </>
+                                                            :
+                                                            <>
+                                                                <TimeoutWordDelete
+                                                                    wordId={word.wordId}
+                                                                    collId={word.collectionId}
+                                                                />
+                                                            </>
+                                                        }
                                                         <AiOutlineMenu
                                                             className="imageMemuColor"
                                                             onClick={() => { turnMenu(word.wordId) }}

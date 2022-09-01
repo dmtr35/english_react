@@ -8,6 +8,7 @@ export default class CollectionStore {
         this._randomListWods = []
         this._isActive = false
         this._isLoadColleltions = false
+        this._isLoadColleltions = false
         this._menuColl = []
         this._menuWord = ''
         this._activeTurnWord = []

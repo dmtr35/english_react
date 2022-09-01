@@ -16,7 +16,7 @@ export const getCollections = async (id) => {
     return data
 }
 export const getWords = async (collId) => {
-    const { data } = await $host.post(`words/getWords/`, {collId})
+    const { data } = await $authHost.post(`words/getWords/`, {collId})
     return data
 }
 

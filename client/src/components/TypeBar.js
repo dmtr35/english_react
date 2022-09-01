@@ -6,8 +6,9 @@ import Button from "react-bootstrap/Button"
 import { observer } from "mobx-react-lite"
 import { Context } from ".."
 import { useNavigate } from "react-router-dom"
-import { LOGIN_ROUTE } from "../utils/consts"
+import { LOGIN_ROUTE, SETTINGS, LEARN_WORDS } from "../utils/consts"
 import { FaBook } from 'react-icons/fa'
+import { AiFillSetting } from 'react-icons/ai'
 
 
 
@@ -27,7 +28,12 @@ const TypeBar = observer(() => {
             <Container fluid >
                 <div className="logo">
                     <FaBook size={28} className='icon_book_logo' />
-                    <Navbar.Brand style={{ color: 'white' }}>English easy</Navbar.Brand>
+                    <Navbar.Brand
+                        style={{ color: 'white', cursor: 'pointer' }}
+                        onClick={() => navigate(LEARN_WORDS)}
+                    >
+                        English easy
+                    </Navbar.Brand>
                 </div>
 
                 <Navbar.Collapse id="navbarScroll">
@@ -39,11 +45,19 @@ const TypeBar = observer(() => {
                     </Nav>
 
                 </Navbar.Collapse>
-                <Button
-                    onClick={() => logOut()}
-                    variant="secondary"
-                    style={{ background: '#0946A1', border: 'none' }}
-                    className="m-1">Log out</Button>
+                <>
+                    <AiFillSetting
+                        className='settings_logo'
+                        onClick={() => navigate(SETTINGS)}
+                    />
+                    <Button
+                        onClick={() => logOut()}
+                        variant="secondary"
+                        style={{ background: '#0946A1', border: 'none' }}
+                        className="m-1">
+                        Log out
+                    </Button>
+                </>
             </Container>
         </Navbar>
     )
