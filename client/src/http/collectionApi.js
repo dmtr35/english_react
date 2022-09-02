@@ -16,8 +16,8 @@ export const getCollections = async (id) => {
     return data
 }
 export const getWords = async (collId) => {
-    const { data } = await $authHost.post(`words/getWords/`, {collId})
-    return data
+    const response = await $authHost.post(`words/getWords/`, { collId })
+    return response.data
 }
 
 export const addWords = async (id, formData) => {
@@ -36,9 +36,10 @@ export const deleteCollection = async (id) => {
     const { data } = await $host.delete(`collections/deleteOneCollection/${id}`)
     return data
 }
-export const deleteWord = async (id, wordId) => {
-    const { data } = await $host.post(`words/deleteOneWord/${id}`, { wordId })
-    return data
+export const deleteWord = async (wordId, id) => {
+    const response = await $host.post(`words/deleteOneWord/${id}`, { wordId })
+    console.log(response)
+    return response.data.wordId
 }
 export const deleteManyCollection = async (arrCollId) => {
     const { data } = await $host.post(`collections/deleteManyCollection/`, { arrCollId })

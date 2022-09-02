@@ -10,7 +10,7 @@ import { deleteWord } from '../http/collectionApi'
 const TimeoutWordDelete = observer(({ wordId, collId }) => {
     const { fullCollections } = useContext(Context)
     const [timeoutWordDelete, setTimeoutWordDelete] = useState('')
-    
+
 
 
     const delWord = (wordId, collId) => {
@@ -19,9 +19,9 @@ const TimeoutWordDelete = observer(({ wordId, collId }) => {
         }
         const timeoutId = setTimeout(() => {
             deleteWord(collId, wordId)
-            .then(data => fullCollections.setIsLoadColleltions(true))
-            
-            if(fullCollections.menuWord.includes(wordId)) {
+                .then(dataId => fullCollections.setRandomListWords(fullCollections.randomListWords.filter(i => i.wordId !== (wordId))))
+
+            if (fullCollections.menuWord.includes(wordId)) {
                 fullCollections.setMenuWord('')
             }
 

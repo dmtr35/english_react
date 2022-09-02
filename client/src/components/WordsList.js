@@ -20,12 +20,10 @@ const WordsList = observer(({ search }) => {
     const checkDelayWordDelete = JSON.parse(localStorage.getItem('delayWordDelete'))
 
 
-
     useEffect(() => {
         getWords(arrCollId)
             .then(data => wordsList(data))
     }, [fullCollections.checked, fullCollections.isLoadColleltions])
-
 
 
     const turnWord = (id) => {
@@ -63,6 +61,7 @@ const WordsList = observer(({ search }) => {
     }
 
     const wordsList = (data) => {
+        // console.log('data1:', data);
         let random = []
         data.filter(collection => isCheckTrue(collection.collId))
             .map((collection) =>
@@ -72,7 +71,7 @@ const WordsList = observer(({ search }) => {
                             .push({ collectionId: collection.collId, wordId: word._id, eng: word.eng, rus: word.rus })
                     ))
         if (localStorage.getItem('switch') === 'true') random.sort(() => Math.random() - 0.5)
-        fullCollections.setRandomListWods(random)
+        fullCollections.setRandomListWords(random)
         // console.log('random:', random)
     }
 
@@ -80,18 +79,16 @@ const WordsList = observer(({ search }) => {
         if (!fullCollections.arrWordsToDelete.includes(wordId)) {
             fullCollections.setArrWordsToDelete([...fullCollections.arrWordsToDelete, wordId])
         }
-        deleteWord(collId, wordId)
-            .then(data => fullCollections.setIsLoadColleltions(true))
-
+        deleteWord(wordId, collId)
+            .then(dataId => fullCollections.setRandomListWords(fullCollections.randomListWords.filter(i => i.wordId !== (wordId))))
         if (fullCollections.menuWord.includes(wordId)) {
             fullCollections.setMenuWord('')
         }
     }
 
-
     return (
         <div>
-            {fullCollections.randomListWods
+            {fullCollections.randomListWords
                 .filter(word => word.eng.includes(search) || word.rus.includes(search))
                 .map((word) =>
                     <div

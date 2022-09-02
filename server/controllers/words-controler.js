@@ -91,8 +91,12 @@ class WordsController {
         try {
             const collectionId = req.params.id
             const { wordId } = req.body
+            console.log('collectionId::', collectionId)
+            console.log('wordId::', wordId)
+            
             await Words.updateOne({ "collId": collectionId }, { "$pull": { "words": { "_id": wordId } } })
-            return res.json("word delete")
+            // return res.status(200).json({ response })
+            return res.status(200).json({ wordId })
         } catch (e) {
             console.log(e)
             res.status(500).json({ message: 'Word not delete, error:' + e })

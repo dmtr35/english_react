@@ -5,7 +5,7 @@ export default class CollectionStore {
     constructor() {
         this._collections = []
         this._words = []
-        this._randomListWods = []
+        this._randomListWords = []
         this._isActive = false
         this._isLoadColleltions = false
         this._isLoadColleltions = false
@@ -15,7 +15,7 @@ export default class CollectionStore {
         this._switching = true
         this._checked = false
         this._arrWordsToDelete = []
-        
+
         makeAutoObservable(this)
     }
 
@@ -25,8 +25,8 @@ export default class CollectionStore {
     setWords(words) {
         this._words = words
     }
-    setRandomListWods(randomListWods) {
-        this._randomListWods = randomListWods
+    setRandomListWords(randomListWords) {
+        this._randomListWords = randomListWords
     }
     setIsActive(isActive) {
         this._isActive = isActive
@@ -51,7 +51,7 @@ export default class CollectionStore {
     }
     setArrWordsToDelete(arrWordsToDelete) {
         this._arrWordsToDelete
-         = arrWordsToDelete
+            = arrWordsToDelete
     }
 
 
@@ -64,8 +64,8 @@ export default class CollectionStore {
     get words() {
         return this._words
     }
-    get randomListWods() {
-        return this._randomListWods
+    get randomListWords() {
+        return this._randomListWords
     }
     get isActive() {
         return this._isActive

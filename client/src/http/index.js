@@ -13,12 +13,43 @@ const $authHost = axios.create({
 
 
 
-const authIntercaptor = config => {
+const authInterceptor = config => {
     config.headers.authorization = `${localStorage.getItem('token')}`
     return config
 }
 
-$authHost.interceptors.request.use(authIntercaptor)
+$authHost.interceptors.request.use(authInterceptor)
+
+
+
+// $host.interceptors.response.use((response) => {
+//     if(response.status === 200) {
+//         console.log(response.data.wordId)
+//         const dataId = response.data.wordId
+//         // fullCollections.setRandomListWords(fullCollections.randomListWords.filter(i => i !== dataId))
+//     }
+//     return response
+// })
+
+
+// axios.interceptors.response.use(function (response) {
+//     return console.log(response)
+// }, function (error) {
+//     return console.log(Promise.reject(error))
+// })
+
+// axios.interceptors.response.use(
+//     response => {
+//         return response
+//     }, async (error) => {
+//         const originalRequest = error.config
+//         if(error.response.status === 200 && originalRequest.url === 'http://localhost:5000/words/deleteOneWord/') {
+//             console.log(originalRequest)
+//         }
+//     }
+// )
+
+
 
 
 export {
