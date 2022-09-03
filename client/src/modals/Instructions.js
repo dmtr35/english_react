@@ -1,8 +1,6 @@
-import React, { useContext, useState, useEffect } from 'react'
-import Button from "react-bootstrap/Button"
+import React from 'react'
 import Modal from "react-bootstrap/Modal"
 import { observer } from 'mobx-react-lite'
-import { Form, Row, Col } from 'react-bootstrap'
 import Image from 'react-bootstrap/Image'
 import info from '../assets/info.png'
 

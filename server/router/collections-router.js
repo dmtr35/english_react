@@ -10,6 +10,7 @@ collectionsRouter.post('/createCollections/:userId', collectionsController.creat
 
 
 collectionsRouter.get('/getCollections/:userId', authMiddleware, collectionsController.getCollections)
+// collectionsRouter.get('/getCollections/:userId', collectionsController.getCollections)
 
 
 

@@ -61,12 +61,12 @@ class WordsController {
     async getWords(req, res) {
         try {
             const { collId } = req.body
-            // console.log('collId:', typeof collId);
+            console.log('collId:', collId);
 
             const words = await Words.find({ collId: { $in: collId } })
             // const words = await Words.find({ collId })
             // console.log(words);
-
+            // .skip(1).limit(1)
             return res.json(words)
         } catch (e) {
             console.log(e)

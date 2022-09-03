@@ -61,7 +61,7 @@ const WordsList = observer(({ search }) => {
     }
 
     const wordsList = (data) => {
-        // console.log('data1:', data);
+        console.log('data1:', data);
         let random = []
         data.filter(collection => isCheckTrue(collection.collId))
             .map((collection) =>
@@ -72,7 +72,7 @@ const WordsList = observer(({ search }) => {
                     ))
         if (localStorage.getItem('switch') === 'true') random.sort(() => Math.random() - 0.5)
         fullCollections.setRandomListWords(random)
-        // console.log('random:', random)
+        console.log('random:', random)
     }
 
     const delWord = (wordId, collId) => {
