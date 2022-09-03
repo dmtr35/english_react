@@ -80,7 +80,7 @@ const WordsList = observer(({ search }) => {
             fullCollections.setArrWordsToDelete([...fullCollections.arrWordsToDelete, wordId])
         }
         deleteWord(wordId, collId)
-            .then(dataId => fullCollections.setRandomListWords(fullCollections.randomListWords.filter(i => i.wordId !== (wordId))))
+        fullCollections.setRandomListWords(fullCollections.randomListWords.filter(i => i.wordId !== (wordId)))
         if (fullCollections.menuWord.includes(wordId)) {
             fullCollections.setMenuWord('')
         }

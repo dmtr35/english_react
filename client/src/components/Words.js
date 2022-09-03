@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import Button from "react-bootstrap/Button"
 import WordsList from "./WordsList"
 import "../styles/module.css"
 import { Form, FormControl } from "react-bootstrap"
@@ -10,11 +9,11 @@ import { BsFileArrowUpFill } from 'react-icons/bs'
 const Words = () => {
     const [scrollToTopp, setScrollToTopp] = useState(false)
     const [search, setSearch] = useState('')
-    
+
 
     useEffect(() => {
         window.addEventListener("scroll", () => {
-            if(window.scrollY > 1000) {
+            if (window.scrollY > 1000) {
                 setScrollToTopp(true)
             } else {
                 setScrollToTopp(false)
@@ -54,7 +53,7 @@ const Words = () => {
                 </Form>
             </div >
             <div>
-                <WordsList search={search}/>
+                <WordsList search={search} />
                 {scrollToTopp
                     ?
                     <BsFileArrowUpFill

@@ -4,8 +4,6 @@ import { observer } from "mobx-react-lite"
 import { Context } from ".."
 import { AiOutlineDelete } from 'react-icons/ai'
 import UndoCollectionDelete from './UI/UndoCollectionDelete'
-import { deleteWord } from '../http/collectionApi'
-import { getCollections, deleteCollection, deleteManyCollection } from "../http/collectionApi"
 
 
 const TimeoutCollectionDelete = observer(({ wordId, collId }) => {

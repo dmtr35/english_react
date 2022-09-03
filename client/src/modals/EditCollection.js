@@ -5,6 +5,7 @@ import Modal from "react-bootstrap/Modal"
 import { observer } from 'mobx-react-lite'
 import { Form } from 'react-bootstrap'
 import { editCollection } from '../http/collectionApi'
+import { runInAction } from "mobx"
 
 
 const EditCollection = observer(({ idColl, show, onHide, collName }) => {
@@ -14,11 +15,13 @@ const EditCollection = observer(({ idColl, show, onHide, collName }) => {
 
     const editColl = () => {
         if (!name) return (onHide(), fullCollections.setMenuColl(''))
-
         editCollection(idColl, name)
-            .then(data => onHide())
-            .then(data => fullCollections.setIsLoadColleltions(true))
-            .then(data => fullCollections.setMenuColl(''))
+        onHide()
+        fullCollections.setMenuColl('')
+        runInAction(() => {
+            const index = fullCollections.collections.findIndex(el => el._id === idColl)
+            fullCollections.collections[index].name = name
+        })
     }
 
 

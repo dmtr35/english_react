@@ -1,15 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState } from 'react'
 import { Context } from "../index"
-import Navbar from "react-bootstrap/Navbar"
-import Container from "react-bootstrap/Container"
 import Button from "react-bootstrap/Button"
 import Modal from "react-bootstrap/Modal"
-import { NavLink } from "react-router-dom"
-import { LOGIN_ROUTE, REGISTRATION_ROUTE, LEARN_WORDS } from '../utils/consts'
 import { observer } from 'mobx-react-lite'
-import { runInAction, makeAutoObservable } from "mobx"
-import { useNavigate } from 'react-router-dom'
-import { Dropdown, Form, Row, Col } from 'react-bootstrap'
+import { runInAction } from "mobx"
+import { Dropdown, Form } from 'react-bootstrap'
 import { editWord, deleteAndMove } from '../http/collectionApi'
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import InputGroup from 'react-bootstrap/InputGroup'

@@ -13,7 +13,6 @@ import { AiOutlineDelete } from 'react-icons/ai'
 import { AiOutlineEdit } from 'react-icons/ai'
 import { AiOutlinePlusSquare } from 'react-icons/ai'
 import { AiOutlineMenu } from 'react-icons/ai'
-import TimeoutCollectionDelete from './TimeoutCollectionDelete'
 
 
 
@@ -50,7 +49,7 @@ const Collections = observer(() => {
     useEffect(() => {
         getCollections(`${localStorage.getItem('userId')}`)
             .then(data => collections(data))
-            .then(data => fullCollections.setIsLoadColleltions(false))
+        fullCollections.setIsLoadColleltions(false)
     }, [fullCollections.checked, fullCollections.isLoadColleltions])
 
     const collections = (data) => {
@@ -59,12 +58,13 @@ const Collections = observer(() => {
 
     const deleteColl = (id) => {
         deleteCollection(id)
-            .then(data => fullCollections.setIsLoadColleltions(true))
+        fullCollections.setCollections(fullCollections.collections.filter(i => i._id !== (id)))
+        fullCollections.setRandomListWords(fullCollections.randomListWords.filter(i => i.collectionId !== (id)))
     }
     const deleteManyColl = () => {
         deleteManyCollection(JSON.parse(localStorage.getItem(`arrCheck-${userId}`)))
-            .then(data => fullCollections.setIsLoadColleltions(true))
-            .then(data => localStorage.removeItem(`arrCheck-${userId}`))
+        fullCollections.setIsLoadColleltions(true)
+        localStorage.removeItem(`arrCheck-${userId}`)
     }
 
     const addMenuColl = (id) => {
