@@ -7,6 +7,7 @@ import Modal from "react-bootstrap/Modal"
 import { NavLink } from "react-router-dom"
 import { LOGIN_ROUTE, REGISTRATION_ROUTE, LEARN_WORDS } from '../utils/consts'
 import { observer } from 'mobx-react-lite'
+import { runInAction, makeAutoObservable } from "mobx"
 import { useNavigate } from 'react-router-dom'
 import { Dropdown, Form, Row, Col } from 'react-bootstrap'
 import { editWord, deleteAndMove } from '../http/collectionApi'
@@ -21,23 +22,29 @@ const EditWord = observer(({ currentCollId, wordId, show, onHide, engW, rusW }) 
     const [titleDropdown, setTitleDropdown] = useState('Переместить в другую колекцию')
     const [transferWord, setTransferWord] = useState('')
 
+    // .then(dataId => fullCollections.setRandomListWords(fullCollections.randomListWords.filter(i => i.wordId !== (wordId))))
 
 
     const editWordParent = () => {
         if (!eng || !rus) return (onHide(), fullCollections.setMenuWord(''))
-        const arrWord = [{ 'eng': `${eng}`, 'rus': `${rus}` }]
+        const arrWord = [{ 'eng': `${eng}`, 'rus': `${rus}`, '_id': `${wordId}` }]
 
         if (titleDropdown === 'Переместить в другую колекцию') {
             editWord(wordId, arrWord)
                 .then(data => onHide())
-                .then(data => fullCollections.setIsLoadColleltions(true))
                 .then(data => fullCollections.setMenuWord(''))
+
+            runInAction(() => {
+                const index = fullCollections.randomListWords.findIndex(el => el.wordId === wordId)
+                fullCollections.randomListWords[index].eng = eng
+                fullCollections.randomListWords[index].rus = rus
+            })
         } else {
             deleteAndMove(transferWord, currentCollId, wordId, arrWord)
                 .then(data => onHide())
-                .then(data => fullCollections.setIsLoadColleltions(true))
                 .then(data => fullCollections.setMenuWord(''))
-
+            fullCollections.setRandomListWords(fullCollections.randomListWords.filter(i => i.wordId !== (wordId)))
+            fullCollections.setRandomListWords([...fullCollections.randomListWords, { eng, rus, wordId, collectionId: transferWord }])
         }
     }
     const titleAndWordId = (collId, collName) => {
@@ -73,7 +80,7 @@ const EditWord = observer(({ currentCollId, wordId, show, onHide, engW, rusW }) 
                     />
                     <hr />
                     <InputGroup className="mb-3 dropdown_move">
-                        <DropdownButton 
+                        <DropdownButton
                             title={titleDropdown}
                         >
                             {fullCollections.collections
