@@ -3,7 +3,6 @@ import User from '../models/User.js'
 import tokenService from '../service/token-service.js'
 import bcrypt from 'bcrypt'
 import { validationResult } from 'express-validator'
-import jwt from "jsonwebtoken"
 
 
 

@@ -1,7 +1,5 @@
 import 'dotenv/config'
 import mongoose from 'mongoose'
-import { v4 as uuidv4 } from 'uuid'
-import Collections from '../models/Collections.js'
 import Words from '../models/Words.js'
 import path from 'path'
 import fs from 'fs'
@@ -18,7 +16,6 @@ class WordsController {
             const collectionId = req.params.id
             const { filterArrWord } = req.body
             const arrWord = JSON.parse(filterArrWord)
-
             await Words.updateOne({ "collId": collectionId }, { "$push": { "words": { "$each": arrWord } } })
             return res.json("excellent")
         } catch (e) {
@@ -61,12 +58,7 @@ class WordsController {
     async getWords(req, res) {
         try {
             const { collId } = req.body
-            console.log('collId:', collId);
-
             const words = await Words.find({ collId: { $in: collId } })
-            // const words = await Words.find({ collId })
-            // console.log(words);
-            // .skip(1).limit(1)
             return res.json(words)
         } catch (e) {
             console.log(e)
@@ -79,7 +71,7 @@ class WordsController {
         try {
             const { wordId } = req.params
             const arrWord = req.body
-            const response = await Words.findOneAndUpdate({ "words._id": wordId }, { "$set": { "words.$": arrWord } }, { new: true })
+            await Words.findOneAndUpdate({ "words._id": wordId }, { "$set": { "words.$": arrWord } }, { new: true })
             return res.json("Word renamed")
         } catch (e) {
             res.status(500).json({ message: 'Word renamed, error:' + e })
@@ -91,11 +83,7 @@ class WordsController {
         try {
             const collectionId = req.params.id
             const { wordId } = req.body
-            console.log('collectionId::', collectionId)
-            console.log('wordId::', wordId)
-            
             await Words.updateOne({ "collId": collectionId }, { "$pull": { "words": { "_id": wordId } } })
-            // return res.status(200).json({ response })
             return res.status(200).json({ wordId })
         } catch (e) {
             console.log(e)
@@ -108,12 +96,6 @@ class WordsController {
         try {
             const transferWord = req.params.id
             const { currentCollId, arrWord, wordId } = req.body
-            // console.log('transferWord:', transferWord);
-            // console.log('currentCollId:', currentCollId);
-            // console.log('arrWord:', arrWord);
-            // console.log('wordId:', wordId);
-            
-
             const session = await mongoose.startSession()
             await session.withTransaction(async () => {
                 await Words.updateOne({ "collId": currentCollId }, { "$pull": { "words": { "_id": wordId } } }, { session })

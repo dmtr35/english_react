@@ -12,15 +12,11 @@ export const createFromFile = async (id, formData) => {
 }
 
 export const getCollections = async (id) => {
-    const limit = 8
-    const page = 1
-    const { data } = await $authHost.get(`collections/getCollections/${id}/?limit=${limit}&page=${page}`)
+    const { data } = await $authHost.get(`collections/getCollections/${id}`)
     return data
 }
 export const getWords = async (collId) => {
-    const limit = 10
-    const page = 1
-    const response = await $authHost.post(`words/getWords/?limit=${limit}&page=${page}`, { collId })
+    const response = await $authHost.post(`words/getWords/`, { collId })
     return response.data
 }
 

@@ -1,6 +1,5 @@
 import 'dotenv/config'
 import mongoose from 'mongoose'
-import { v4 as uuidv4 } from 'uuid'
 import Collections from '../models/Collections.js'
 import Words from '../models/Words.js'
 
