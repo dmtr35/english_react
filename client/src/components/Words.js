@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react"
 import WordsList from "./WordsList"
-import "../styles/module.css"
 import { Form, FormControl } from "react-bootstrap"
 import { switching } from "../utils/dopFunction"
 import { BsFileArrowUpFill } from 'react-icons/bs'

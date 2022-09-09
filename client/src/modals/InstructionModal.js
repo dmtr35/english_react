@@ -5,12 +5,11 @@ import Image from 'react-bootstrap/Image'
 import info from '../assets/info.png'
 
 
-const Instructions = observer(({ show, onHide }) => {
+const InstructionModal = observer(({ show, onHide }) => {
 
 
     return (
         <Modal
-            className='qqq'
             show={show}
             onHide={onHide}
             size="lg"
@@ -25,7 +24,7 @@ const Instructions = observer(({ show, onHide }) => {
 })
 
 
-export default Instructions
+export default InstructionModal
 
 
 

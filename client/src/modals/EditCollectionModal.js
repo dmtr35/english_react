@@ -8,18 +8,18 @@ import { editCollection } from '../http/collectionApi'
 import { runInAction } from "mobx"
 
 
-const EditCollection = observer(({ idColl, show, onHide, collName }) => {
+const EditCollectionModal = observer(({ collId, show, onHide, collName }) => {
     const { fullCollections } = useContext(Context)
     const [name, setName] = useState(`${collName}`)
 
 
     const editColl = () => {
         if (!name) return (onHide(), fullCollections.setMenuColl(''))
-        editCollection(idColl, name)
+        editCollection(collId, name)
         onHide()
         fullCollections.setMenuColl('')
         runInAction(() => {
-            const index = fullCollections.collections.findIndex(el => el._id === idColl)
+            const index = fullCollections.collections.findIndex(el => el._id === collId)
             fullCollections.collections[index].name = name
         })
     }
@@ -56,7 +56,7 @@ const EditCollection = observer(({ idColl, show, onHide, collName }) => {
 })
 
 
-export default EditCollection
+export default EditCollectionModal
 
 
 

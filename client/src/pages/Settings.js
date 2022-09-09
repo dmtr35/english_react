@@ -9,15 +9,14 @@ const Settings = observer(() => {
     const { fullCollections } = useContext(Context)
     const checkDelayWordDelete = JSON.parse(localStorage.getItem('delayWordDelete'))
 
-    console.log(checkDelayWordDelete);
 
     const delayWordDelete = () => {
         if (localStorage.getItem('delayWordDelete') === 'false') {
             localStorage.setItem('delayWordDelete', true)
         } else localStorage.setItem('delayWordDelete', false)
-    } 
+    }
 
-    
+
 
     return (
         <div>
@@ -34,13 +33,10 @@ const Settings = observer(() => {
                             type="checkbox"
                             value="checked"
                             onClick={() => delayWordDelete()}
-                        defaultChecked={checkDelayWordDelete}
-                        // onChange={() => handleChange(collection._id)}
+                            defaultChecked={checkDelayWordDelete}
                         />
-                        <p className="settings_text">Задержка при удалении слова</p>
+                        <p className="settings_text">Задержка при удалении коллекции</p>
                     </div>
-                    {/* <div className='sett_row'></div> */}
-                    {/* <div className='sett_row'></div> */}
                 </div>
             </div>
         </div>

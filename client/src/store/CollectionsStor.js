@@ -8,13 +8,12 @@ export default class CollectionStore {
         this._randomListWords = []
         this._isActive = false
         this._isLoadColleltions = false
-        this._isLoadColleltions = false
-        this._menuColl = []
+        this._menuColl = ''
         this._menuWord = ''
         this._activeTurnWord = []
         this._switching = true
         this._checked = false
-        this._arrWordsToDelete = []
+        this._modalDelTimeout = []
 
         makeAutoObservable(this)
     }
@@ -49,9 +48,8 @@ export default class CollectionStore {
     setChecked(checked) {
         this._checked = checked
     }
-    setArrWordsToDelete(arrWordsToDelete) {
-        this._arrWordsToDelete
-            = arrWordsToDelete
+    setModalDelTimeout(modalDelTimeout) {
+        this._modalDelTimeout = modalDelTimeout
     }
 
 
@@ -88,8 +86,8 @@ export default class CollectionStore {
     get checked() {
         return this._checked
     }
-    get arrWordsToDelete() {
-        return this._arrWordsToDelete
+    get modalDelTimeout() {
+        return this._modalDelTimeout
     }
 
 

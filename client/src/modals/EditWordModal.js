@@ -10,7 +10,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton'
 import InputGroup from 'react-bootstrap/InputGroup'
 
 
-const EditWord = observer(({ currentCollId, wordId, show, onHide, engW, rusW }) => {
+const EditWordModal = observer(({ currentCollId, wordId, show, onHide, engW, rusW }) => {
     const { fullCollections } = useContext(Context)
     const [eng, setEng] = useState(`${engW}`)
     const [rus, setRus] = useState(`${rusW}`)
@@ -103,7 +103,7 @@ const EditWord = observer(({ currentCollId, wordId, show, onHide, engW, rusW }) 
 })
 
 
-export default EditWord
+export default EditWordModal
 
 
 

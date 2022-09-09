@@ -1,26 +1,21 @@
 import React, { useContext, useEffect, useState, useRef } from "react"
-import { getCollections, deleteCollection, deleteManyCollection } from "../http/collectionApi"
+import { getCollections, deleteManyCollection } from "../http/collectionApi"
 import Card from "react-bootstrap/Card"
 import Button from "react-bootstrap/Button"
-import '../styles/module.css'
 import { observer } from "mobx-react-lite"
 import { Context } from ".."
 import { handleChange, isCheckTrue } from "../utils/dopFunction"
-import CreateCollection from "../modals/CreateCollection"
-import EditCollection from "../modals/EditCollection"
-import AddWords from "../modals/AddWords"
-import { AiOutlineDelete } from 'react-icons/ai'
-import { AiOutlineEdit } from 'react-icons/ai'
-import { AiOutlinePlusSquare } from 'react-icons/ai'
+import CreateCollectionModal from "../modals/CreateCollectionModal"
 import { AiOutlineMenu } from 'react-icons/ai'
+import MenuCollection from '../components/CollectionMenu/MenuCollection'
+import ModalDivDeleteColl from '../modals/ModalDivDeleteColl'
+
 
 
 
 const Collections = observer(() => {
     const { fullCollections } = useContext(Context)
     const [addCollectionsVisible, setAddCollectionsVisible] = useState(false)
-    const [editCollectionsVisible, setEditCollectionsVisible] = useState(false)
-    const [addWordsVisible, setAddWordsVisible] = useState(false)
     const userId = localStorage.getItem('userId')
     const arrCheck = localStorage.getItem(`arrCheck-${userId}`)
     const [show, setShow] = useState(false)
@@ -56,11 +51,6 @@ const Collections = observer(() => {
         fullCollections.setCollections(data)
     }
 
-    const deleteColl = (id) => {
-        deleteCollection(id)
-        fullCollections.setCollections(fullCollections.collections.filter(i => i._id !== (id)))
-        fullCollections.setRandomListWords(fullCollections.randomListWords.filter(i => i.collectionId !== (id)))
-    }
     const deleteManyColl = () => {
         deleteManyCollection(JSON.parse(localStorage.getItem(`arrCheck-${userId}`)))
         fullCollections.setIsLoadColleltions(true)
@@ -71,11 +61,9 @@ const Collections = observer(() => {
         if (fullCollections.menuColl.includes(id)) {
             fullCollections.setMenuColl('')
             fullCollections.setMenuWord('')
-            fullCollections.setArrWordsToDelete([])
         } else {
             fullCollections.setMenuWord('')
-            fullCollections.setMenuColl([id])
-            fullCollections.setArrWordsToDelete([])
+            fullCollections.setMenuColl(id)
         }
     }
 
@@ -86,8 +74,9 @@ const Collections = observer(() => {
                     onClick={() => { setAddCollectionsVisible(true) }}
                     variant="primary"
                     size="lg"
-                >Добавить колекцию </Button>
-                <CreateCollection show={addCollectionsVisible} onHide={() => setAddCollectionsVisible(false)} />
+                >Добавить колекцию
+                </Button>
+                <CreateCollectionModal show={addCollectionsVisible} onHide={() => setAddCollectionsVisible(false)} />
             </div>
             <div className="d-grid gap-2 mt-2 mb-2 m-3">
                 <Button className="button"
@@ -122,7 +111,8 @@ const Collections = observer(() => {
                                 <div className="textFormColl">
                                     {collection.name}
                                 </div>
-                                {!fullCollections.menuColl.includes(collection._id) ?
+                                {!fullCollections.menuColl.includes(collection._id)
+                                    ?
                                     <div className="parentMenu">
                                         <div
                                             className="menu"
@@ -132,47 +122,19 @@ const Collections = observer(() => {
                                                 className="iconMenuColl"
                                                 onClick={() => addMenuColl(collection._id)}
                                             />
+                                            <ModalDivDeleteColl
+                                                collId={collection._id}
+                                            />
                                         </div>
                                     </div>
                                     :
-                                    <div className="parentMenu">
-                                        <div
-                                            className="menu4IconCollParent"
-                                            style={{ cursor: 'pointer' }}
-                                        >
-                                            <AiOutlinePlusSquare
-                                                className="iconMenuColl"
-                                                onClick={() => setAddWordsVisible(true)}
-                                            />
-                                            <AiOutlineEdit
-                                                className="iconMenuColl"
-                                                onClick={() => setEditCollectionsVisible(true)}
-                                            />
-                                            <AiOutlineDelete
-                                                className="iconMenuColl"
-                                                onClick={() => deleteColl(collection._id)}
-                                            />
-                                            {/* <TimeoutCollectionDelete
-                                                className="iconMenuColl"
-                                                collId={collection._id}
-                                            /> */}
-                                            <AiOutlineMenu
-                                                className="iconMenuColl"
-                                                onClick={() => addMenuColl(collection._id)}
-                                            />
-                                            <EditCollection
-                                                idColl={collection._id}
-                                                show={editCollectionsVisible}
-                                                onHide={() => setEditCollectionsVisible(false)}
-                                                collName={collection.name}
-                                            />
-                                            <AddWords
-                                                idColl={collection._id}
-                                                show={addWordsVisible}
-                                                onHide={() => setAddWordsVisible(false)}
-                                            />
-                                        </div>
-                                    </div>
+                                    <>
+                                        <MenuCollection
+                                            collId={collection._id}
+                                            collName={collection.name}
+                                            addMenuColl={addMenuColl}
+                                        />
+                                    </>
                                 }
                             </div>
                         </Card>
@@ -192,9 +154,14 @@ const Collections = observer(() => {
                 </div>
             </div>
         </div >
+
+
     )
 })
 
 
 
 export default Collections
+
+
+

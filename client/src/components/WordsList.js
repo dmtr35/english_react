@@ -1,23 +1,16 @@
 import React, { useContext, useState, useEffect } from "react"
 import Card from "react-bootstrap/Card"
-import "../styles/module.css"
-import EditWord from '../modals/EditWord'
 import { isCheckTrue } from "../utils/dopFunction"
 import { observer } from "mobx-react-lite"
 import { Context } from ".."
-import { AiOutlineEdit } from 'react-icons/ai'
 import { AiOutlineMenu } from 'react-icons/ai'
-import { AiOutlineDelete } from 'react-icons/ai'
 import { getWords } from '../http/collectionApi'
-import { deleteWord } from '../http/collectionApi'
-import TimeoutWordDelete from './TimeoutWordDelete'
+import MenuWord from './WordMenu/MenuWord'
 
 const WordsList = observer(({ search }) => {
     const { fullCollections } = useContext(Context)
-    const [editWordVisible, setEditWordVisible] = useState(false)
     const userId = localStorage.getItem('userId')
     const arrCollId = JSON.parse((localStorage.getItem(`arrCheck-${userId}`)))
-    const checkDelayWordDelete = JSON.parse(localStorage.getItem('delayWordDelete'))
 
 
     useEffect(() => {
@@ -30,38 +23,32 @@ const WordsList = observer(({ search }) => {
         if (fullCollections.activeTurnWord.includes(id)) {
             if (fullCollections.menuWord) {
                 fullCollections.setMenuWord('')
-                fullCollections.setArrWordsToDelete([])
             } else {
                 fullCollections.setMenuWord('')
                 fullCollections.setMenuColl('')
                 fullCollections.setActiveTurnWord(fullCollections.activeTurnWord.filter(i => i !== id))
-                fullCollections.setArrWordsToDelete([])
             }
         } else {
             if (fullCollections.menuWord) {
                 fullCollections.setMenuWord('')
-                fullCollections.setArrWordsToDelete([])
             } else {
                 fullCollections.setMenuWord('')
                 fullCollections.setMenuColl('')
                 fullCollections.setActiveTurnWord([...fullCollections.activeTurnWord, id])
-                fullCollections.setArrWordsToDelete([])
             }
         }
     }
     const turnMenu = (id) => {
         if (fullCollections.menuWord.includes(id)) {
             fullCollections.setMenuWord('')
-            fullCollections.setArrWordsToDelete([])
         } else {
             fullCollections.setMenuColl('')
-            fullCollections.setMenuWord([id])
-            fullCollections.setArrWordsToDelete([])
+            fullCollections.setMenuWord(id)
         }
     }
 
     const wordsList = (data) => {
-        console.log('data1:', data);
+        // console.log('data1:', data);
         let random = []
         data.filter(collection => isCheckTrue(collection.collId))
             .map((collection) =>
@@ -72,19 +59,9 @@ const WordsList = observer(({ search }) => {
                     ))
         if (localStorage.getItem('switch') === 'true') random.sort(() => Math.random() - 0.5)
         fullCollections.setRandomListWords(random)
-        console.log('random:', random)
+        // console.log('random:', random)
     }
 
-    const delWord = (wordId, collId) => {
-        if (!fullCollections.arrWordsToDelete.includes(wordId)) {
-            fullCollections.setArrWordsToDelete([...fullCollections.arrWordsToDelete, wordId])
-        }
-        deleteWord(wordId, collId)
-        fullCollections.setRandomListWords(fullCollections.randomListWords.filter(i => i.wordId !== (wordId)))
-        if (fullCollections.menuWord.includes(wordId)) {
-            fullCollections.setMenuWord('')
-        }
-    }
 
     return (
         <div>
@@ -98,281 +75,75 @@ const WordsList = observer(({ search }) => {
                         <Card className="wordblock"
                             style={{ cursor: 'pointer' }}
                         >
-                            {!fullCollections.arrWordsToDelete.includes(word.wordId)
-                                ?
-                                <div
-                                    className="d-flex"
-                                >
-                                    {!fullCollections.activeTurnWord.includes(word.wordId)
-                                        ?
-                                        <>
-                                            <div
-                                                className={'wordEng w-100'}
-                                                onClick={() => turnWord(word.wordId)}
-                                            >
-                                                {word.eng}
+                            <div
+                                className="d-flex"
+                            >
+                                {!fullCollections.activeTurnWord.includes(word.wordId)
+                                    ?
+                                    <>
+                                        <div
+                                            className={'wordEng w-100'}
+                                            onClick={() => turnWord(word.wordId)}
+                                        >
+                                            {word.eng}
+                                        </div>
+                                        {!fullCollections.menuWord.includes(word.wordId)
+                                            ?
+                                            <div className="menu1IconParent">
+                                                <div
+                                                    className="menu1Icon"
+                                                    style={{ cursor: 'pointer' }}
+                                                >
+                                                    <AiOutlineMenu
+                                                        className="imageMemu"
+                                                        onClick={() => { turnMenu(word.wordId) }}
+                                                    />
+                                                </div>
                                             </div>
-                                            {!fullCollections.menuWord.includes(word.wordId)
-                                                ?
-                                                <div className="menu1IconParent">
-                                                    <div
-                                                        className="menu1Icon"
-                                                        style={{ cursor: 'pointer' }}
-                                                    >
-                                                        <AiOutlineMenu
-                                                            className="imageMemu"
-                                                            onClick={() => { turnMenu(word.wordId) }}
-                                                        />
-                                                    </div>
+                                            :
+                                            <MenuWord
+                                                collId={word.collectionId}
+                                                wordId={word.wordId}
+                                                eng={word.eng}
+                                                rus={word.rus}
+                                                turnMenu={turnMenu}
+                                            />
+                                        }
+                                    </>
+                                    :
+                                    <>
+                                        <div
+                                            style={{ background: "#0D6EFD", color: '#fff' }}
+                                            className={'wordEng w-100'}
+                                            onClick={() => turnWord(word.wordId)}
+                                        >
+                                            {word.rus}
+                                        </div>
+                                        {!fullCollections.menuWord.includes(word.wordId)
+                                            ?
+                                            <div className="menu1IconParent">
+                                                <div
+                                                    className="menu1Icon"
+                                                    style={{ cursor: 'pointer' }}
+                                                >
+                                                    <AiOutlineMenu
+                                                        className="imageMemuColor"
+                                                        onClick={() => { turnMenu(word.wordId) }}
+                                                    />
                                                 </div>
-                                                :
-                                                <div className="menu3IconParent d-flex">
-                                                    <div
-                                                        className="menu3Icon d-flex"
-                                                        style={{ cursor: 'pointer' }}
-                                                    >
-                                                        <AiOutlineEdit
-                                                            className="imageMemu"
-                                                            onClick={() => setEditWordVisible(true)}
-                                                        />
-                                                        <EditWord currentCollId={word.collectionId} wordId={word.wordId} show={editWordVisible} onHide={() => setEditWordVisible(false)} engW={word.eng} rusW={word.rus} />
-                                                        {!checkDelayWordDelete
-                                                            ?
-                                                            <>
-                                                                {fullCollections.activeTurnWord.includes(word.wordId)
-                                                                    ?
-                                                                    <AiOutlineDelete
-                                                                        className="imageMemu"
-                                                                        style={{ color: '#fff' }}
-                                                                        onClick={() => delWord(word.wordId, word.collectionId)}
-                                                                    />
-                                                                    :
-                                                                    <AiOutlineDelete
-                                                                        className="imageMemu"
-                                                                        style={{ color: '#000' }}
-                                                                        onClick={() => delWord(word.wordId, word.collectionId)}
-                                                                    />
-                                                                }
-                                                            </>
-                                                            :
-                                                            <>
-                                                                <TimeoutWordDelete
-                                                                    wordId={word.wordId}
-                                                                    collId={word.collectionId}
-                                                                />
-                                                            </>
-                                                        }
-                                                        <AiOutlineMenu
-                                                            className="imageMemu"
-                                                            onClick={() => { turnMenu(word.wordId) }}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            }
-                                        </>
-                                        :
-                                        <>
-                                            <div
-                                                style={{ background: "#0D6EFD", color: '#fff' }}
-                                                className={'wordEng w-100'}
-                                                onClick={() => turnWord(word.wordId)}
-                                            >
-                                                {word.rus}
                                             </div>
-                                            {!fullCollections.menuWord.includes(word.wordId)
-                                                ?
-                                                <div className="menu1IconParent">
-                                                    <div
-                                                        className="menu1Icon"
-                                                        style={{ cursor: 'pointer' }}
-                                                    >
-                                                        <AiOutlineMenu
-                                                            className="imageMemuColor"
-                                                            onClick={() => { turnMenu(word.wordId) }}
-                                                        />
-                                                    </div>
-                                                </div>
-                                                :
-                                                <div className="menu3IconParent">
-                                                    <div
-                                                        className="menu3Icon d-flex"
-                                                        style={{ cursor: 'pointer' }}
-                                                    >
-                                                        <AiOutlineEdit
-                                                            className="imageMemuColor"
-                                                            onClick={() => setEditWordVisible(true)}
-                                                        />
-                                                        <EditWord currentCollId={word.collectionId} wordId={word.wordId} show={editWordVisible} onHide={() => setEditWordVisible(false)} engW={word.eng} rusW={word.rus} />
-                                                        {!checkDelayWordDelete
-                                                            ?
-                                                            <>
-                                                                {fullCollections.activeTurnWord.includes(word.wordId)
-                                                                    ?
-                                                                    <AiOutlineDelete
-                                                                        className="imageMemu"
-                                                                        style={{ color: '#fff' }}
-                                                                        onClick={() => delWord(word.wordId, word.collectionId)}
-                                                                    />
-                                                                    :
-                                                                    <AiOutlineDelete
-                                                                        className="imageMemu"
-                                                                        style={{ color: '#000' }}
-                                                                        onClick={() => delWord(word.wordId, word.collectionId)}
-                                                                    />
-                                                                }
-                                                            </>
-                                                            :
-                                                            <>
-                                                                <TimeoutWordDelete
-                                                                    wordId={word.wordId}
-                                                                    collId={word.collectionId}
-                                                                />
-                                                            </>
-                                                        }
-                                                        <AiOutlineMenu
-                                                            className="imageMemuColor"
-                                                            onClick={() => { turnMenu(word.wordId) }}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            }
-                                        </>
-                                    }
-                                </div>
-                                :
-                                <div
-                                    className="d-flex"
-                                >
-                                    {!fullCollections.activeTurnWord.includes(word.wordId)
-                                        ?
-                                        <>
-                                            <div
-                                                className={'wordEng w-100'}
-                                                onClick={() => turnWord(word.wordId)}
-                                            >
-                                                {word.eng}
-                                            </div>
-                                            {!fullCollections.menuWord.includes(word.wordId)
-                                                ?
-                                                <div className="menu1IconParent">
-
-                                                    <div
-                                                        className="menu1Icon d-flex"
-                                                        style={{ cursor: 'pointer' }}
-                                                    >
-                                                    </div>
-                                                </div>
-                                                :
-                                                <div className="menu3IconParent d-flex">
-                                                    <div
-                                                        className="menu3IconTimer d-flex"
-                                                        style={{ cursor: 'pointer' }}
-                                                    >
-                                                        <AiOutlineEdit
-                                                            className="imageMemu"
-                                                            onClick={() => setEditWordVisible(true)}
-                                                        />
-                                                        <EditWord currentCollId={word.collectionId} wordId={word.wordId} show={editWordVisible} onHide={() => setEditWordVisible(false)} engW={word.eng} rusW={word.rus} />
-                                                        {!checkDelayWordDelete
-                                                            ?
-                                                            <>
-                                                                {fullCollections.activeTurnWord.includes(word.wordId)
-                                                                    ?
-                                                                    <AiOutlineDelete
-                                                                        className="imageMemu"
-                                                                        style={{ color: '#fff' }}
-                                                                        onClick={() => delWord(word.wordId, word.collectionId)}
-                                                                    />
-                                                                    :
-                                                                    <AiOutlineDelete
-                                                                        className="imageMemu"
-                                                                        style={{ color: '#000' }}
-                                                                        onClick={() => delWord(word.wordId, word.collectionId)}
-                                                                    />
-                                                                }
-                                                            </>
-                                                            :
-                                                            <>
-                                                                <TimeoutWordDelete
-                                                                    wordId={word.wordId}
-                                                                    collId={word.collectionId}
-                                                                />
-                                                            </>
-                                                        }
-                                                        <AiOutlineMenu
-                                                            className="imageMemu"
-                                                            onClick={() => { turnMenu(word.wordId) }}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            }
-                                        </>
-                                        :
-                                        <>
-                                            <div
-                                                style={{ background: "#0D6EFD", color: '#fff' }}
-                                                className={'wordEng w-100'}
-                                                onClick={() => turnWord(word.wordId)}
-                                            >
-                                                {word.rus}
-                                            </div>
-                                            {!fullCollections.menuWord.includes(word.wordId)
-                                                ?
-                                                <div className="menu1IconParent">
-                                                    <div
-                                                        className="menu1Icon d-flex"
-                                                        style={{ cursor: 'pointer' }}
-                                                    >
-                                                    </div>
-                                                </div>
-                                                :
-                                                <div className="menu3IconParent">
-                                                    <div
-                                                        className="menu3IconTimer d-flex"
-                                                        style={{ cursor: 'pointer' }}
-                                                    >
-                                                        <AiOutlineEdit
-                                                            className="imageMemuColor"
-                                                            onClick={() => setEditWordVisible(true)}
-                                                        />
-                                                        <EditWord currentCollId={word.collectionId} wordId={word.wordId} show={editWordVisible} onHide={() => setEditWordVisible(false)} engW={word.eng} rusW={word.rus} />
-                                                        {!checkDelayWordDelete
-                                                            ?
-                                                            <>
-                                                                {fullCollections.activeTurnWord.includes(word.wordId)
-                                                                    ?
-                                                                    <AiOutlineDelete
-                                                                        className="imageMemu"
-                                                                        style={{ color: '#fff' }}
-                                                                        onClick={() => delWord(word.wordId, word.collectionId)}
-                                                                    />
-                                                                    :
-                                                                    <AiOutlineDelete
-                                                                        className="imageMemu"
-                                                                        style={{ color: '#000' }}
-                                                                        onClick={() => delWord(word.wordId, word.collectionId)}
-                                                                    />
-                                                                }
-                                                            </>
-                                                            :
-                                                            <>
-                                                                <TimeoutWordDelete
-                                                                    wordId={word.wordId}
-                                                                    collId={word.collectionId}
-                                                                />
-                                                            </>
-                                                        }
-                                                        <AiOutlineMenu
-                                                            className="imageMemuColor"
-                                                            onClick={() => { turnMenu(word.wordId) }}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            }
-                                        </>
-                                    }
-                                </div>
-                            }
+                                            :
+                                            <MenuWord
+                                                collId={word.collectionId}
+                                                wordId={word.wordId}
+                                                eng={word.eng}
+                                                rus={word.rus}
+                                                turnMenu={turnMenu}
+                                            />
+                                        }
+                                    </>
+                                }
+                            </div>
                         </Card>
                     </div>
                 )

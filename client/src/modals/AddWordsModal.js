@@ -7,10 +7,10 @@ import { Form, Row, Col } from 'react-bootstrap'
 import { addWords, addWordsFromFile } from '../http/collectionApi'
 import Image from 'react-bootstrap/Image'
 import info from '../assets/info.png'
-import Instructions from '../modals/Instructions'
+import InstructionModal from '../modals/InstructionModal'
 
 
-const AddWords = observer(({ idColl, show, onHide }) => {
+const AddWordsModal = observer(({ collId, show, onHide }) => {
     const { fullCollections } = useContext(Context)
     const [arrWord, setArrWord] = useState([])
     const [file, setFile] = useState(null)
@@ -32,20 +32,25 @@ const AddWords = observer(({ idColl, show, onHide }) => {
 
     const addWordsParent = () => {
         const filterArrWord = arrWord.filter((word) => word.eng && word.rus)
+        console.log(filterArrWord);
+
         const formData = new FormData()
         formData.append('filterArrWord', JSON.stringify(filterArrWord))
         formData.append('file', file)
+        if (!file && filterArrWord.length === 0) return (fullCollections.setMenuColl(''), onHide())
         if (!file) {
-            addWords(idColl, formData)
+            addWords(collId, formData)
                 .then(data => setArrWord([]))
                 .then(data => fullCollections.setIsLoadColleltions(true))
                 .then(data => fullCollections.setMenuColl(''))
+                .then(data => onHide())
         } else {
-            addWordsFromFile(idColl, formData)
+            addWordsFromFile(collId, formData)
                 .then(data => setFile(null))
                 .then(data => setArrWord([]))
                 .then(data => fullCollections.setIsLoadColleltions(true))
                 .then(data => fullCollections.setMenuColl(''))
+                .then(data => onHide())
         }
     }
 
@@ -76,7 +81,7 @@ const AddWords = observer(({ idColl, show, onHide }) => {
                             className='image_info'
                             src={info}
                         />
-                        <Instructions
+                        <InstructionModal
                             show={instructionsVisible}
                             onHide={() => setInstructionsVisible(false)}
                         />
@@ -128,7 +133,7 @@ const AddWords = observer(({ idColl, show, onHide }) => {
 })
 
 
-export default AddWords
+export default AddWordsModal
 
 
 

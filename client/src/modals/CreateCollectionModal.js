@@ -7,10 +7,10 @@ import { Form, Row, Col } from 'react-bootstrap'
 import { createCollection, createFromFile } from '../http/collectionApi'
 import Image from 'react-bootstrap/Image'
 import info from '../assets/info.png'
-import Instructions from '../modals/Instructions'
+import InstructionModal from '../modals/InstructionModal'
 
 
-const CreateCollection = observer(({ show, onHide }) => {
+const CreateCollectionModal = observer(({ show, onHide }) => {
     const { fullCollections } = useContext(Context)
     const [name, setName] = useState('')
     const [arrWord, setArrWord] = useState([])
@@ -102,7 +102,7 @@ const CreateCollection = observer(({ show, onHide }) => {
                             className='image_info'
                             src={info}
                         />
-                        <Instructions
+                        <InstructionModal
                             show={instructionsVisible}
                             onHide={() => setInstructionsVisible(false)}
                         />
@@ -154,7 +154,7 @@ const CreateCollection = observer(({ show, onHide }) => {
 })
 
 
-export default CreateCollection
+export default CreateCollectionModal
 
 
 

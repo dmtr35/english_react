@@ -1,6 +1,7 @@
 .start {
     display: flex;
     min-height: 100vh;
+    position: relative;
 }
 
 .collection-list {
@@ -120,7 +121,7 @@
 .menu3IconTimer {
     position: absolute;
     top: 7px;
-    left: -104px;
+    left: -95px;
 }
 
 .menu1IconParent {
@@ -283,13 +284,17 @@
 }
 
 /* ===================================================== */
-/* timer */
-/* .timerWordDelete {
-
+/* timeoutCollDeleteModal */
+.modal_del_timeout {
+    position: fixed;
+    height: 5vh;
+    width: 28vw;
+    background-color: rgba(0,0,0,0.4);
+    bottom: 10px;
+    left: 10px;
+    z-index: 10001
 }
-.timerCollectionDelete {
-    font-size: 20px;
-} */
+
 /* ========================================================= */
 /* settings */
 .settings_logo {
@@ -406,6 +411,12 @@
         right: 60px;
     }
 
+    .timeoutCollDeleteModal {
+        height: 6vh;
+        width: 40vw;
+        background-color: #629BF0;
+    }
+
 }
 
 @media (max-width: 690px) {
@@ -458,6 +469,13 @@
         height: 350px;
         bottom: -160px;
         right: 40px;
+    }
+
+    .timeoutCollDeleteModal {
+        height: 6vh;
+        width: 50vw;
+        /* height: 5vh; */
+        background-color: #629BF0;
     }
 
 }
