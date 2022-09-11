@@ -17,11 +17,10 @@ const Collections = observer(() => {
     const { fullCollections } = useContext(Context)
     const [addCollectionsVisible, setAddCollectionsVisible] = useState(false)
     const userId = localStorage.getItem('userId')
-    const arrCheck = localStorage.getItem(`arrCheck-${userId}`)
+    const arrCheck = JSON.parse(localStorage.getItem(`arrCheck-${userId}`))
     const [show, setShow] = useState(false)
     const [disabledDeleteChecked, setDisabledDeleteChecked] = useState(false)
-
-
+    
     const hideCollections = useRef('none')
 
 
@@ -36,13 +35,18 @@ const Collections = observer(() => {
     }
 
     useEffect(() => {
-        if (!arrCheck || arrCheck === '[]') {
+        if (localStorage.getItem('delayWordDelete') === null) {
+            localStorage.setItem('delayWordDelete', true)
+        }
+    }, [])
+    useEffect(() => {
+        if (!arrCheck || arrCheck.length === 0) {
             setDisabledDeleteChecked(true)
         } else setDisabledDeleteChecked(false)
     }, [arrCheck])
 
     useEffect(() => {
-        getCollections(`${localStorage.getItem('userId')}`)
+        getCollections(userId)
             .then(data => collections(data))
         fullCollections.setIsLoadColleltions(false)
     }, [fullCollections.checked, fullCollections.isLoadColleltions])
@@ -52,9 +56,9 @@ const Collections = observer(() => {
     }
 
     const deleteManyColl = () => {
-        deleteManyCollection(JSON.parse(localStorage.getItem(`arrCheck-${userId}`)))
-        fullCollections.setIsLoadColleltions(true)
-        localStorage.removeItem(`arrCheck-${userId}`)
+        deleteManyCollection(arrCheck)
+            .then(data => fullCollections.setIsLoadColleltions(true))
+            .then(data => localStorage.removeItem(`arrCheck-${userId}`))
     }
 
     const addMenuColl = (id) => {
@@ -66,6 +70,7 @@ const Collections = observer(() => {
             fullCollections.setMenuColl(id)
         }
     }
+
 
     return (
         <div className="collection-list">
@@ -122,9 +127,6 @@ const Collections = observer(() => {
                                                 className="iconMenuColl"
                                                 onClick={() => addMenuColl(collection._id)}
                                             />
-                                            <ModalDivDeleteColl
-                                                collId={collection._id}
-                                            />
                                         </div>
                                     </div>
                                     :
@@ -138,6 +140,10 @@ const Collections = observer(() => {
                                 }
                             </div>
                         </Card>
+                        <ModalDivDeleteColl
+                            collId={collection._id}
+                            cancelDeleteColl={fullCollections.cancelDeleteColl}
+                        />
                     </div>
                 )
                 }

@@ -38,10 +38,13 @@ const EditWordModal = observer(({ currentCollId, wordId, show, onHide, engW, rus
             deleteAndMove(transferWord, currentCollId, wordId, arrWord)
                 .then(data => onHide())
                 .then(data => fullCollections.setMenuWord(''))
-            fullCollections.setRandomListWords(fullCollections.randomListWords.filter(i => i.wordId !== (wordId)))
-            fullCollections.setRandomListWords([...fullCollections.randomListWords, { eng, rus, wordId, collectionId: transferWord }])
+            runInAction(() => {
+                fullCollections.setRandomListWords(fullCollections.randomListWords.filter(i => i.wordId !== (wordId)))
+                fullCollections.setRandomListWords([...fullCollections.randomListWords, { eng, rus, wordId, collectionId: transferWord }])
+            })
         }
     }
+    
     const titleAndWordId = (collId, collName) => {
         setTitleDropdown(collName)
         setTransferWord(collId)

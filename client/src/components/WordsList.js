@@ -10,11 +10,11 @@ import MenuWord from './WordMenu/MenuWord'
 const WordsList = observer(({ search }) => {
     const { fullCollections } = useContext(Context)
     const userId = localStorage.getItem('userId')
-    const arrCollId = JSON.parse((localStorage.getItem(`arrCheck-${userId}`)))
-
+    const arrCheck = JSON.parse((localStorage.getItem(`arrCheck-${userId}`)))
+    const [arrCheckColl, setArrCheckColl] =useState([])
 
     useEffect(() => {
-        getWords(arrCollId)
+        getWords(arrCheck)
             .then(data => wordsList(data))
     }, [fullCollections.checked, fullCollections.isLoadColleltions])
 
@@ -59,6 +59,7 @@ const WordsList = observer(({ search }) => {
                     ))
         if (localStorage.getItem('switch') === 'true') random.sort(() => Math.random() - 0.5)
         fullCollections.setRandomListWords(random)
+        setArrCheckColl(arrCheck)
         // console.log('random:', random)
     }
 
@@ -67,6 +68,7 @@ const WordsList = observer(({ search }) => {
         <div>
             {fullCollections.randomListWords
                 .filter(word => word.eng.includes(search) || word.rus.includes(search))
+                .filter(word => arrCheckColl.includes(word.collectionId))
                 .map((word) =>
                     <div
                         key={word.wordId}

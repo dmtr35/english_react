@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useContext } from "react"
 import { Context } from "../.."
 import { observer } from "mobx-react-lite"
 import EditWordModal from '../../modals/EditWordModal'

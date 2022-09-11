@@ -411,10 +411,14 @@
         right: 60px;
     }
 
-    .timeoutCollDeleteModal {
-        height: 6vh;
-        width: 40vw;
-        background-color: #629BF0;
+    .modal_del_timeout {
+        position: fixed;
+        height: 5vh;
+        width: 33vw;
+        background-color: rgba(0,0,0,0.4);
+        bottom: 10px;
+        left: 10px;
+        z-index: 10001
     }
 
 }
@@ -471,11 +475,14 @@
         right: 40px;
     }
 
-    .timeoutCollDeleteModal {
-        height: 6vh;
-        width: 50vw;
-        /* height: 5vh; */
-        background-color: #629BF0;
+    .modal_del_timeout {
+        position: fixed;
+        height: 5vh;
+        width: 40vw;
+        background-color: rgba(0,0,0,0.4);
+        bottom: 10px;
+        left: 10px;
+        z-index: 10001
     }
 
 }
@@ -491,5 +498,14 @@
         height: 350px;
         bottom: -180px;
         right: 10px;
+    }
+    .modal_del_timeout {
+        position: fixed;
+        height: 5vh;
+        width: 45vw;
+        background-color: rgba(0,0,0,0.4);
+        bottom: 10px;
+        left: 10px;
+        z-index: 10001
     }
 }

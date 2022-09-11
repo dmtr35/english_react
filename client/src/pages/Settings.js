@@ -10,8 +10,9 @@ const Settings = observer(() => {
     const checkDelayWordDelete = JSON.parse(localStorage.getItem('delayWordDelete'))
 
 
+    
     const delayWordDelete = () => {
-        if (localStorage.getItem('delayWordDelete') === 'false') {
+        if (localStorage.getItem('delayWordDelete') === 'false'|| localStorage.getItem('delayWordDelete') === null) {
             localStorage.setItem('delayWordDelete', true)
         } else localStorage.setItem('delayWordDelete', false)
     }

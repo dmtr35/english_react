@@ -9,7 +9,7 @@ import { AiOutlineEdit } from 'react-icons/ai'
 import { AiOutlinePlusSquare } from 'react-icons/ai'
 import { AiOutlineMenu } from 'react-icons/ai'
 import TimeoutCollectionDelete from './TimeoutCollectionDelete'
-// import ModalDivDeleteColl from '../../modals/ModalDivDeleteColl'
+import { handleChange } from "../../utils/dopFunction"
 
 
 
@@ -19,10 +19,14 @@ const MenuCollection = observer(({ collId, collName, addMenuColl }) => {
     const [editCollectionsVisible, setEditCollectionsVisible] = useState(false)
     const [addWordsVisible, setAddWordsVisible] = useState(false)
     const checkDelayWordDelete = JSON.parse(localStorage.getItem('delayWordDelete'))
-
+    const userId = localStorage.getItem('userId')
+    const arrCheck = JSON.parse(localStorage.getItem(`arrCheck-${userId}`))
 
     const deleteColl = (id) => {
         deleteCollection(id)
+            .then(() => localStorage.removeItem(`arrCheck-${userId}`, collId))
+            .then(() => localStorage.setItem(`arrCheck-${userId}`, JSON.stringify(arrCheck)))
+            .then(() => handleChange(id))
         fullCollections.setCollections(fullCollections.collections.filter(i => i._id !== (id)))
         fullCollections.setRandomListWords(fullCollections.randomListWords.filter(i => i.collectionId !== (id)))
     }
@@ -43,8 +47,6 @@ const MenuCollection = observer(({ collId, collName, addMenuColl }) => {
                     onClick={() => setEditCollectionsVisible(true)}
                 />
 
-
-
                 {!checkDelayWordDelete ?
                     <AiOutlineDelete
                         className="iconMenuColl"
@@ -56,8 +58,6 @@ const MenuCollection = observer(({ collId, collName, addMenuColl }) => {
                         deleteColl={deleteColl}
                     />
                 }
-
-
 
                 <AiOutlineMenu
                     className="iconMenuColl"
@@ -75,9 +75,6 @@ const MenuCollection = observer(({ collId, collName, addMenuColl }) => {
                     onHide={() => setEditCollectionsVisible(false)}
                     collName={collName}
                 />
-
-
-
             </div>
         </div>
     )

@@ -1,8 +1,8 @@
 import React, { useContext } from "react"
-import { Context } from "../.."
+import { Context } from "../../.."
 import { observer } from "mobx-react-lite"
 import { AiOutlineDelete } from 'react-icons/ai'
-import { deleteWord } from '../../http/collectionApi'
+import { deleteWord } from '../../../http/collectionApi'
 
 
 const DeleteWord = observer(({ wordId, collId }) => {
@@ -16,7 +16,6 @@ const DeleteWord = observer(({ wordId, collId }) => {
             fullCollections.setMenuWord('')
         }
     }
-
 
 
     return (

@@ -14,6 +14,7 @@ export default class CollectionStore {
         this._switching = true
         this._checked = false
         this._modalDelTimeout = []
+        this._cancelDeleteColl = ''
 
         makeAutoObservable(this)
     }
@@ -50,6 +51,9 @@ export default class CollectionStore {
     }
     setModalDelTimeout(modalDelTimeout) {
         this._modalDelTimeout = modalDelTimeout
+    }
+    setCancelDeleteColl(cancelDeleteColl) {
+        this._cancelDeleteColl = cancelDeleteColl
     }
 
 
@@ -88,6 +92,9 @@ export default class CollectionStore {
     }
     get modalDelTimeout() {
         return this._modalDelTimeout
+    }
+    get cancelDeleteColl() {
+        return this._cancelDeleteColl
     }
 
 
