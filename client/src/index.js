@@ -4,7 +4,17 @@ import App from './App'
 import UserStore from './store/UserStor'
 import CollectionStore from './store/CollectionsStor'
 
+import { Provider } from 'react-redux'
+import { store } from './store/index'
+
+
 export const Context = createContext(null)
+
+
+
+
+
+
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
@@ -14,7 +24,9 @@ root.render(
     fullCollections: new CollectionStore()
   }}>
     <React.StrictMode>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </React.StrictMode>
   </Context.Provider>
 )

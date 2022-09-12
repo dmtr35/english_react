@@ -9,8 +9,7 @@ export const registration = async (email, password) => {
 
 export const login = async (email, password) => {
     const { data } = await $host.post('auth/login', { email, password })
-    console.log(data);
-    
+    // console.log(data)
 
     localStorage.setItem('token', data.accessToken)
     localStorage.setItem('userId', data.id)

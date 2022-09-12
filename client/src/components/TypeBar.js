@@ -9,15 +9,30 @@ import { useNavigate } from "react-router-dom"
 import { LOGIN_ROUTE, SETTINGS, LEARN_WORDS } from "../utils/consts"
 import { FaBook } from 'react-icons/fa'
 import { AiFillSetting } from 'react-icons/ai'
+import { useDispatch, useSelector } from 'react-redux'
+// import { setIsAuth } from '../store/index'
+import { ISAUTH_USERS } from '../store/userReducer'
+
 
 
 
 const TypeBar = observer(() => {
+    const dispatch = useDispatch()
+      const isAuth = useSelector(state => state.isAuthReducer.isAuth)
+      console.log(isAuth)
+    
+      const setAuth = (isAuth) => {
+        dispatch({ type: ISAUTH_USERS, payload: isAuth })
+      }
+
+
+
     const { user } = useContext(Context)
     const navigate = useNavigate()
 
     const logOut = () => {
-        user.setIsAuth(false)
+        // user.setIsAuth(false)
+        setAuth(false)
         localStorage.removeItem('token')
         localStorage.removeItem('userId')
         navigate(LOGIN_ROUTE)

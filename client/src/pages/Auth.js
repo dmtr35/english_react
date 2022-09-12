@@ -9,10 +9,22 @@ import { registration, login } from '../http/userAPI'
 import { observer } from 'mobx-react-lite'
 import { Context } from '..'
 
+import { useDispatch, useSelector } from 'react-redux'
+// import { setIsAuth } from '../store/index'
+import { ISAUTH_USERS } from '../store/userReducer'
 
 const Auth = observer(() => {
-    const { user } = useContext(Context)
+    const dispatch = useDispatch()
+    const isAuth = useSelector(state => state.isAuthReducer.isAuth)
+    console.log(isAuth)
+    
+    const setAuth = (isAuth) => {
+        dispatch({type: ISAUTH_USERS, payload: isAuth})
+    }
 
+
+
+    const { user } = useContext(Context)
     const navigate = useNavigate()
     const location = useLocation()
     const isLogin = location.pathname === LOGIN_ROUTE
@@ -27,8 +39,8 @@ const Auth = observer(() => {
                 data = await login(email, password)
 
                 if (data) {
-                    // console.log(typeof data.id)
-                    user.setIsAuth(true)
+                    // user.setIsAuth(true)
+                    setAuth(true)
                     document.location.href = LEARN_WORDS
                 }
             } else {

@@ -9,18 +9,28 @@ import CreateCollectionModal from "../modals/CreateCollectionModal"
 import { AiOutlineMenu } from 'react-icons/ai'
 import MenuCollection from '../components/CollectionMenu/MenuCollection'
 import ModalDivDeleteColl from '../modals/ModalDivDeleteColl'
-
+// import { useDispatch, useSelector } from 'react-redux'
+// import { setIsAuth } from '../store/index'
+// import { ISAUTH_USERS } from '../store/userReducer'
 
 
 
 const Collections = observer(() => {
+    // const dispatch = useDispatch()
+    // const isAuth = useSelector(state => state.isAuthReducer.isAuth)
+    // console.log(isAuth)
+    
+    // const setAuth = (isAuth) => {
+    //     dispatch({type: ISAUTH_USERS, payload: isAuth})
+    // }
+
     const { fullCollections } = useContext(Context)
     const [addCollectionsVisible, setAddCollectionsVisible] = useState(false)
     const userId = localStorage.getItem('userId')
     const arrCheck = JSON.parse(localStorage.getItem(`arrCheck-${userId}`))
     const [show, setShow] = useState(false)
     const [disabledDeleteChecked, setDisabledDeleteChecked] = useState(false)
-    
+
     const hideCollections = useRef('none')
 
 
