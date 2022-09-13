@@ -1,54 +1,65 @@
-import React, { useContext, useState, useEffect } from "react"
+import React, { useEffect } from "react"
 import Card from "react-bootstrap/Card"
 import { isCheckTrue } from "../utils/dopFunction"
-import { observer } from "mobx-react-lite"
-import { Context } from ".."
 import { AiOutlineMenu } from 'react-icons/ai'
 import { getWords } from '../http/collectionApi'
 import MenuWord from './WordMenu/MenuWord'
 
-const WordsList = observer(({ search }) => {
-    const { fullCollections } = useContext(Context)
+import { useDispatch, useSelector } from 'react-redux'
+import { setMenuCollPayload, setMenuWordPayload, setRandomListWordsPayload, setActiveTurnWordsPayload } from '../store/collectionsReducer'
+
+const WordsList = ({ search }) => {
+    const dispatch = useDispatch()
+    const isLoadCollections = useSelector(state => state.collectionsReducer.isLoadCollections)
+    const checked = useSelector(state => state.collectionsReducer.checked)
+    const menuWord = useSelector(state => state.collectionsReducer.menuWord)
+    const randomListWords = useSelector(state => state.collectionsReducer.randomListWords)
+    const activeTurnWords = useSelector(state => state.collectionsReducer.activeTurnWords)
+    const setMenuColl = (value) => { dispatch(setMenuCollPayload(value)) }
+    const setMenuWord = (value) => { dispatch(setMenuWordPayload(value)) }
+    const setRandomListWords = (value) => { dispatch(setRandomListWordsPayload(value)) }
+    const setActiveTurnWords = (value) => { dispatch(setActiveTurnWordsPayload(value)) }
+
     const userId = localStorage.getItem('userId')
     const arrCheck = JSON.parse((localStorage.getItem(`arrCheck-${userId}`)))
-    const [arrCheckColl, setArrCheckColl] =useState([])
+
 
     useEffect(() => {
         getWords(arrCheck)
             .then(data => wordsList(data))
-    }, [fullCollections.checked, fullCollections.isLoadColleltions])
+    }, [checked, isLoadCollections])
 
 
     const turnWord = (id) => {
-        if (fullCollections.activeTurnWord.includes(id)) {
-            if (fullCollections.menuWord) {
-                fullCollections.setMenuWord('')
+        if (activeTurnWords.includes(id)) {
+            if (menuWord) {
+                setMenuWord('')
             } else {
-                fullCollections.setMenuWord('')
-                fullCollections.setMenuColl('')
-                fullCollections.setActiveTurnWord(fullCollections.activeTurnWord.filter(i => i !== id))
+                setMenuWord('')
+                setMenuColl('')
+                setActiveTurnWords(activeTurnWords.filter(i => i !== id))
             }
         } else {
-            if (fullCollections.menuWord) {
-                fullCollections.setMenuWord('')
+            if (menuWord) {
+                setMenuWord('')
             } else {
-                fullCollections.setMenuWord('')
-                fullCollections.setMenuColl('')
-                fullCollections.setActiveTurnWord([...fullCollections.activeTurnWord, id])
+                setMenuWord('')
+                setMenuColl('')
+                setActiveTurnWords([...activeTurnWords, id])
             }
         }
     }
     const turnMenu = (id) => {
-        if (fullCollections.menuWord.includes(id)) {
-            fullCollections.setMenuWord('')
+        if (menuWord.includes(id)) {
+            setMenuWord('')
         } else {
-            fullCollections.setMenuColl('')
-            fullCollections.setMenuWord(id)
+            setMenuColl('')
+            setMenuWord(id)
         }
     }
 
     const wordsList = (data) => {
-        // console.log('data1:', data);
+        // console.log('data1:', data)
         let random = []
         data.filter(collection => isCheckTrue(collection.collId))
             .map((collection) =>
@@ -58,17 +69,16 @@ const WordsList = observer(({ search }) => {
                             .push({ collectionId: collection.collId, wordId: word._id, eng: word.eng, rus: word.rus })
                     ))
         if (localStorage.getItem('switch') === 'true') random.sort(() => Math.random() - 0.5)
-        fullCollections.setRandomListWords(random)
-        setArrCheckColl(arrCheck)
+        setRandomListWords(random)
         // console.log('random:', random)
     }
 
 
     return (
         <div>
-            {fullCollections.randomListWords
+            {randomListWords
                 .filter(word => word.eng.includes(search) || word.rus.includes(search))
-                .filter(word => arrCheckColl.includes(word.collectionId))
+                .filter(word => arrCheck.includes(word.collectionId))
                 .map((word) =>
                     <div
                         key={word.wordId}
@@ -80,7 +90,7 @@ const WordsList = observer(({ search }) => {
                             <div
                                 className="d-flex"
                             >
-                                {!fullCollections.activeTurnWord.includes(word.wordId)
+                                {!activeTurnWords.includes(word.wordId)
                                     ?
                                     <>
                                         <div
@@ -89,7 +99,7 @@ const WordsList = observer(({ search }) => {
                                         >
                                             {word.eng}
                                         </div>
-                                        {!fullCollections.menuWord.includes(word.wordId)
+                                        {!menuWord.includes(word.wordId)
                                             ?
                                             <div className="menu1IconParent">
                                                 <div
@@ -121,7 +131,7 @@ const WordsList = observer(({ search }) => {
                                         >
                                             {word.rus}
                                         </div>
-                                        {!fullCollections.menuWord.includes(word.wordId)
+                                        {!menuWord.includes(word.wordId)
                                             ?
                                             <div className="menu1IconParent">
                                                 <div
@@ -152,7 +162,7 @@ const WordsList = observer(({ search }) => {
             }
         </div>
     )
-})
+}
 
 
 

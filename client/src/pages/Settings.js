@@ -1,12 +1,8 @@
-import React, { useContext, useEffect, useState, useRef } from "react"
-import Collections from '../components/Collections'
-import Words from '../components/Words'
+import React, { useContext } from "react"
 import TypeBar from '../components/TypeBar'
-import { observer } from "mobx-react-lite"
 import { Context } from ".."
 
-const Settings = observer(() => {
-    const { fullCollections } = useContext(Context)
+const Settings = () => {
     const checkDelayWordDelete = JSON.parse(localStorage.getItem('delayWordDelete'))
 
 
@@ -43,7 +39,7 @@ const Settings = observer(() => {
         </div>
 
     )
-})
+}
 
 
 export default Settings

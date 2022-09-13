@@ -1,38 +1,24 @@
-import React, { useContext } from "react"
+import React from "react"
 import { Navbar } from "react-bootstrap"
 import Nav from "react-bootstrap/Nav"
 import Container from "react-bootstrap/Container"
 import Button from "react-bootstrap/Button"
-import { observer } from "mobx-react-lite"
-import { Context } from ".."
 import { useNavigate } from "react-router-dom"
 import { LOGIN_ROUTE, SETTINGS, LEARN_WORDS } from "../utils/consts"
 import { FaBook } from 'react-icons/fa'
 import { AiFillSetting } from 'react-icons/ai'
-import { useDispatch, useSelector } from 'react-redux'
-// import { setIsAuth } from '../store/index'
-import { ISAUTH_USERS } from '../store/userReducer'
+import { useDispatch } from 'react-redux'
+import { setIsAuthPayload } from '../store/userReducer'
 
 
 
-
-const TypeBar = observer(() => {
+const TypeBar = () => {
     const dispatch = useDispatch()
-      const isAuth = useSelector(state => state.isAuthReducer.isAuth)
-      console.log(isAuth)
-    
-      const setAuth = (isAuth) => {
-        dispatch({ type: ISAUTH_USERS, payload: isAuth })
-      }
-
-
-
-    const { user } = useContext(Context)
+    const setIsAuth = (value) => { dispatch(setIsAuthPayload(value)) }
     const navigate = useNavigate()
 
     const logOut = () => {
-        // user.setIsAuth(false)
-        setAuth(false)
+        setIsAuth(false)
         localStorage.removeItem('token')
         localStorage.removeItem('userId')
         navigate(LOGIN_ROUTE)
@@ -76,7 +62,7 @@ const TypeBar = observer(() => {
             </Container>
         </Navbar>
     )
-})
+}
 
 
 

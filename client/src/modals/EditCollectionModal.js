@@ -1,26 +1,30 @@
-import React, { useContext, useState, useEffect } from 'react'
-import { Context } from "../index"
+import React, { useContext, useState } from 'react'
 import Button from "react-bootstrap/Button"
 import Modal from "react-bootstrap/Modal"
-import { observer } from 'mobx-react-lite'
 import { Form } from 'react-bootstrap'
 import { editCollection } from '../http/collectionApi'
 import { runInAction } from "mobx"
 
+import { useDispatch, useSelector } from 'react-redux'
+import { setMenuCollPayload } from '../store/collectionsReducer'
 
-const EditCollectionModal = observer(({ collId, show, onHide, collName }) => {
-    const { fullCollections } = useContext(Context)
+const EditCollectionModal = ({ collId, show, onHide, collName }) => {
+    const dispatch = useDispatch()
+    const setMenuColl = (value) => { dispatch(setMenuCollPayload(value)) }
+    const collections = useSelector(state => state.collectionsReducer.collections)
+
+
     const [name, setName] = useState(`${collName}`)
 
 
     const editColl = () => {
-        if (!name) return (onHide(), fullCollections.setMenuColl(''))
+        if (!name) return (onHide(), setMenuColl(''))
         editCollection(collId, name)
         onHide()
-        fullCollections.setMenuColl('')
+        setMenuColl('')
         runInAction(() => {
-            const index = fullCollections.collections.findIndex(el => el._id === collId)
-            fullCollections.collections[index].name = name
+            const index = collections.findIndex(el => el._id === collId)
+            collections[index].name = name
         })
     }
 
@@ -53,7 +57,7 @@ const EditCollectionModal = observer(({ collId, show, onHide, collName }) => {
             </Modal.Footer>
         </Modal>
     )
-})
+}
 
 
 export default EditCollectionModal

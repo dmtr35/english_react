@@ -1,5 +1,6 @@
 import { createStore, combineReducers } from 'redux'
-import {isAuthReducer} from '../store/userReducer'
+import { isAuthReducer } from '../store/userReducer'
+import { collectionsReducer } from '../store/collectionsReducer'
 
 
 
@@ -10,7 +11,8 @@ import {isAuthReducer} from '../store/userReducer'
 
 
 const rootReducer = combineReducers({
-    isAuthReducer
+    isAuthReducer,
+    collectionsReducer
 })
 
 

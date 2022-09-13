@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState } from 'react'
 import { Context } from "../index"
 import Button from "react-bootstrap/Button"
 import Modal from "react-bootstrap/Modal"
@@ -8,10 +8,16 @@ import { createCollection, createFromFile } from '../http/collectionApi'
 import Image from 'react-bootstrap/Image'
 import info from '../assets/info.png'
 import InstructionModal from '../modals/InstructionModal'
+import { useDispatch } from 'react-redux'
+import { setIsLoadCollectionsPayload, setMenuCollPayload, setMenuWordPayload } from '../store/collectionsReducer'
 
 
-const CreateCollectionModal = observer(({ show, onHide }) => {
-    const { fullCollections } = useContext(Context)
+const CreateCollectionModal = ({ show, onHide }) => {
+    const dispatch = useDispatch()
+    const setIsLoadColleltions = (value) => { dispatch(setIsLoadCollectionsPayload(value)) }
+    const setMenuColl = (value) => { dispatch(setMenuCollPayload(value)) }
+    const setMenuWord = (value) => { dispatch(setMenuWordPayload(value)) }
+
     const [name, setName] = useState('')
     const [arrWord, setArrWord] = useState([])
     const [file, setFile] = useState(null)
@@ -35,8 +41,8 @@ const CreateCollectionModal = observer(({ show, onHide }) => {
     const addCollection = () => {
         if (!name) {
             onHide()
-            fullCollections.setMenuColl('')
-            fullCollections.setMenuWord('')
+            setMenuColl('')
+            setMenuWord('')
             setArrWord([])
             return
         }
@@ -49,20 +55,20 @@ const CreateCollectionModal = observer(({ show, onHide }) => {
         if (!file) {
             createCollection(userId, formData)
                 .then(data => onHide())
-                .then(data => fullCollections.setIsLoadColleltions(true))
+                .then(data => setIsLoadColleltions(true))
                 .then(data => setName(''))
                 .then(data => setArrWord([]))
-                .then(data => fullCollections.setMenuColl(''))
-                .then(data => fullCollections.setMenuWord(''))
+                .then(data => setMenuColl(''))
+                .then(data => setMenuWord(''))
         } else {
             createFromFile(userId, formData)
                 .then(data => onHide())
-                .then(data => fullCollections.setIsLoadColleltions(true))
+                .then(data => setIsLoadColleltions(true))
                 .then(data => setName(''))
                 .then(data => setFile(null))
                 .then(data => setArrWord([]))
-                .then(data => fullCollections.setMenuColl(''))
-                .then(data => fullCollections.setMenuWord(''))
+                .then(data => setMenuColl(''))
+                .then(data => setMenuWord(''))
         }
     }
 
@@ -86,10 +92,6 @@ const CreateCollectionModal = observer(({ show, onHide }) => {
                         className='mt-3'
                         placeholder="Введите название колекции"
                     />
-                    {/* <hr /> */}
-
-                    {/* <hr /> */}
-
                     <div className='div_file'>
                         <Form.Control
                             className='upload_file'
@@ -107,7 +109,6 @@ const CreateCollectionModal = observer(({ show, onHide }) => {
                             onHide={() => setInstructionsVisible(false)}
                         />
                     </div>
-
                     <p className='text_or'>Или</p>
                     <Button
                         variant={"outline-dark"}
@@ -151,7 +152,7 @@ const CreateCollectionModal = observer(({ show, onHide }) => {
             </Modal.Footer>
         </Modal>
     )
-})
+}
 
 
 export default CreateCollectionModal

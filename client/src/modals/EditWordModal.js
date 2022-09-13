@@ -1,50 +1,58 @@
-import React, { useContext, useState } from 'react'
-import { Context } from "../index"
+import React, { useState } from 'react'
 import Button from "react-bootstrap/Button"
 import Modal from "react-bootstrap/Modal"
-import { observer } from 'mobx-react-lite'
 import { runInAction } from "mobx"
 import { Dropdown, Form } from 'react-bootstrap'
 import { editWord, deleteAndMove } from '../http/collectionApi'
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import InputGroup from 'react-bootstrap/InputGroup'
+import { useDispatch, useSelector } from 'react-redux'
+import { setMenuWordPayload } from '../store/collectionsReducer'
 
 
-const EditWordModal = observer(({ currentCollId, wordId, show, onHide, engW, rusW }) => {
-    const { fullCollections } = useContext(Context)
+const EditWordModal = ({ currentCollId, wordId, show, onHide, engW, rusW }) => {
+    const dispatch = useDispatch()
+    const setMenuWord = (value) => { dispatch(setMenuWordPayload(value)) }
+    const collections = useSelector(state => state.collectionsReducer.collections)
+    const randomListWords = useSelector(state => state.collectionsReducer.randomListWords)
+
+
     const [eng, setEng] = useState(`${engW}`)
     const [rus, setRus] = useState(`${rusW}`)
     const [titleDropdown, setTitleDropdown] = useState('Переместить в другую колекцию')
     const [transferWord, setTransferWord] = useState('')
 
-    // .then(dataId => fullCollections.setRandomListWords(fullCollections.randomListWords.filter(i => i.wordId !== (wordId))))
+
 
 
     const editWordParent = () => {
-        if (!eng || !rus) return (onHide(), fullCollections.setMenuWord(''))
+        if (!eng || !rus) return (onHide(), setMenuWord(''))
         const arrWord = [{ 'eng': `${eng}`, 'rus': `${rus}`, '_id': `${wordId}` }]
 
         if (titleDropdown === 'Переместить в другую колекцию') {
             editWord(wordId, arrWord)
-                .then(data => onHide())
-                .then(data => fullCollections.setMenuWord(''))
+                .then(() => onHide())
+                .then(() => setMenuWord(''))
 
             runInAction(() => {
-                const index = fullCollections.randomListWords.findIndex(el => el.wordId === wordId)
-                fullCollections.randomListWords[index].eng = eng
-                fullCollections.randomListWords[index].rus = rus
+                const index = randomListWords.findIndex(el => el.wordId === wordId)
+                randomListWords[index].eng = eng
+                randomListWords[index].rus = rus
             })
         } else {
             deleteAndMove(transferWord, currentCollId, wordId, arrWord)
-                .then(data => onHide())
-                .then(data => fullCollections.setMenuWord(''))
+                .then(() => onHide())
+                .then(() => setMenuWord(''))
+
             runInAction(() => {
-                fullCollections.setRandomListWords(fullCollections.randomListWords.filter(i => i.wordId !== (wordId)))
-                fullCollections.setRandomListWords([...fullCollections.randomListWords, { eng, rus, wordId, collectionId: transferWord }])
+                const index = randomListWords.findIndex(el => el.wordId === wordId)
+                randomListWords[index].eng = eng
+                randomListWords[index].rus = rus
+                randomListWords[index].collectionId = transferWord
             })
         }
     }
-    
+
     const titleAndWordId = (collId, collName) => {
         setTitleDropdown(collName)
         setTransferWord(collId)
@@ -81,7 +89,7 @@ const EditWordModal = observer(({ currentCollId, wordId, show, onHide, engW, rus
                         <DropdownButton
                             title={titleDropdown}
                         >
-                            {fullCollections.collections
+                            {collections
                                 .filter((data) => data._id !== currentCollId)
                                 .map((data) =>
                                     <Dropdown.Item
@@ -103,7 +111,7 @@ const EditWordModal = observer(({ currentCollId, wordId, show, onHide, engW, rus
             </Modal.Footer>
         </Modal>
     )
-})
+}
 
 
 export default EditWordModal

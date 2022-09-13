@@ -1,17 +1,21 @@
-import React, { useContext, useState, useEffect } from 'react'
-import { Context } from "../index"
+import React, { useState } from 'react'
 import Button from "react-bootstrap/Button"
 import Modal from "react-bootstrap/Modal"
-import { observer } from 'mobx-react-lite'
 import { Form, Row, Col } from 'react-bootstrap'
 import { addWords, addWordsFromFile } from '../http/collectionApi'
 import Image from 'react-bootstrap/Image'
 import info from '../assets/info.png'
 import InstructionModal from '../modals/InstructionModal'
+import { useDispatch } from 'react-redux'
+import { setIsLoadCollectionsPayload, setMenuCollPayload } from '../store/collectionsReducer'
 
 
-const AddWordsModal = observer(({ collId, show, onHide }) => {
-    const { fullCollections } = useContext(Context)
+const AddWordsModal = ({ collId, show, onHide }) => {
+    const dispatch = useDispatch()
+    const setIsLoadColleltions = (value) => { dispatch(setIsLoadCollectionsPayload(value)) }
+    const setMenuColl = (value) => { dispatch(setMenuCollPayload(value)) }
+
+
     const [arrWord, setArrWord] = useState([])
     const [file, setFile] = useState(null)
     const [instructionsVisible, setInstructionsVisible] = useState(false)
@@ -32,24 +36,22 @@ const AddWordsModal = observer(({ collId, show, onHide }) => {
 
     const addWordsParent = () => {
         const filterArrWord = arrWord.filter((word) => word.eng && word.rus)
-        console.log(filterArrWord);
-
         const formData = new FormData()
         formData.append('filterArrWord', JSON.stringify(filterArrWord))
         formData.append('file', file)
-        if (!file && filterArrWord.length === 0) return (fullCollections.setMenuColl(''), onHide())
+        if (!file && filterArrWord.length === 0) return (setMenuColl(''), onHide())
         if (!file) {
             addWords(collId, formData)
                 .then(data => setArrWord([]))
-                .then(data => fullCollections.setIsLoadColleltions(true))
-                .then(data => fullCollections.setMenuColl(''))
+                .then(data => setIsLoadColleltions(true))
+                .then(data => setMenuColl(''))
                 .then(data => onHide())
         } else {
             addWordsFromFile(collId, formData)
                 .then(data => setFile(null))
                 .then(data => setArrWord([]))
-                .then(data => fullCollections.setIsLoadColleltions(true))
-                .then(data => fullCollections.setMenuColl(''))
+                .then(data => setIsLoadColleltions(true))
+                .then(data => setMenuColl(''))
                 .then(data => onHide())
         }
     }
@@ -130,7 +132,7 @@ const AddWordsModal = observer(({ collId, show, onHide }) => {
             </Modal.Footer>
         </Modal>
     )
-})
+}
 
 
 export default AddWordsModal

@@ -26,7 +26,7 @@ $authHost.interceptors.request.use(authInterceptor)
 //     if(response.status === 200) {
 //         console.log(response.data.wordId)
 //         const dataId = response.data.wordId
-//         // fullCollections.setRandomListWords(fullCollections.randomListWords.filter(i => i !== dataId))
+//         // setRandomListWords(randomListWords.filter(i => i !== dataId))
 //     }
 //     return response
 // })

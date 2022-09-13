@@ -1,7 +1,5 @@
-import React, { useContext, useState } from "react"
+import React, { useState } from "react"
 import { deleteCollection } from "../../http/collectionApi"
-import { observer } from "mobx-react-lite"
-import { Context } from "../.."
 import EditCollectionModal from "../../modals/EditCollectionModal"
 import AddWordsModal from "../../modals/AddWordsModal"
 import { AiOutlineDelete } from 'react-icons/ai'
@@ -10,12 +8,20 @@ import { AiOutlinePlusSquare } from 'react-icons/ai'
 import { AiOutlineMenu } from 'react-icons/ai'
 import TimeoutCollectionDelete from './TimeoutCollectionDelete'
 import { handleChange } from "../../utils/dopFunction"
+import { useDispatch, useSelector } from 'react-redux'
+import { setCollectionsPayload, setRandomListWordsPayload} from '../../store/collectionsReducer'
 
 
 
 
-const MenuCollection = observer(({ collId, collName, addMenuColl }) => {
-    const { fullCollections } = useContext(Context)
+const MenuCollection = ({ collId, collName, addMenuColl }) => {
+    const dispatch = useDispatch()
+    const collections = useSelector(state => state.collectionsReducer.collections)
+    const randomListWords = useSelector(state => state.collectionsReducer.randomListWords)
+    const setCollections = (value) => { dispatch(setCollectionsPayload(value)) }
+    const setRandomListWords = (value) => { dispatch(setRandomListWordsPayload(value)) }
+
+
     const [editCollectionsVisible, setEditCollectionsVisible] = useState(false)
     const [addWordsVisible, setAddWordsVisible] = useState(false)
     const checkDelayWordDelete = JSON.parse(localStorage.getItem('delayWordDelete'))
@@ -27,8 +33,8 @@ const MenuCollection = observer(({ collId, collName, addMenuColl }) => {
             .then(() => localStorage.removeItem(`arrCheck-${userId}`, collId))
             .then(() => localStorage.setItem(`arrCheck-${userId}`, JSON.stringify(arrCheck)))
             .then(() => handleChange(id))
-        fullCollections.setCollections(fullCollections.collections.filter(i => i._id !== (id)))
-        fullCollections.setRandomListWords(fullCollections.randomListWords.filter(i => i.collectionId !== (id)))
+        setCollections(collections.filter(i => i._id !== (id)))
+        setRandomListWords(randomListWords.filter(i => i.collectionId !== (id)))
     }
 
 
@@ -78,7 +84,7 @@ const MenuCollection = observer(({ collId, collName, addMenuColl }) => {
             </div>
         </div>
     )
-})
+}
 
 
 

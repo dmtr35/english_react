@@ -14,19 +14,19 @@ const defaultState = {
 }
 
 
-export const ISAUTH_USERS = "ISAUTH_USERS"
+export const IS_AUTH_USERS = "IS_AUTH_USERS"
 
 export const isAuthReducer = (state = defaultState, action) => {
     switch (action.type) {
 
-        case ISAUTH_USERS:
-            return { isAuth: action.payload }
+        case IS_AUTH_USERS:
+            return { ...state, isAuth: action.payload }
 
         default:
             return state
     }
 }
 
-export const setIsAuth = payload => ({ type: ISAUTH_USERS, payload })
+export const setIsAuthPayload = payload => ({ type: IS_AUTH_USERS, payload })
 
 

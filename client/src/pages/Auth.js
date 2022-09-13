@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Container, Form } from "react-bootstrap"
 import Button from "react-bootstrap/Button"
 import Row from "react-bootstrap/Row"
@@ -6,25 +6,14 @@ import Card from "react-bootstrap/Card"
 import { NavLink, useLocation, useNavigate } from "react-router-dom"
 import { LOGIN_ROUTE, REGISTRATION_ROUTE, LEARN_WORDS } from "../utils/consts"
 import { registration, login } from '../http/userAPI'
-import { observer } from 'mobx-react-lite'
-import { Context } from '..'
+import { useDispatch } from 'react-redux'
+import { setIsAuthPayload } from '../store/userReducer'
 
-import { useDispatch, useSelector } from 'react-redux'
-// import { setIsAuth } from '../store/index'
-import { ISAUTH_USERS } from '../store/userReducer'
 
-const Auth = observer(() => {
+const Auth = () => {
     const dispatch = useDispatch()
-    const isAuth = useSelector(state => state.isAuthReducer.isAuth)
-    console.log(isAuth)
-    
-    const setAuth = (isAuth) => {
-        dispatch({type: ISAUTH_USERS, payload: isAuth})
-    }
+    const setIsAuth = (value) => {dispatch(setIsAuthPayload(value))}
 
-
-
-    const { user } = useContext(Context)
     const navigate = useNavigate()
     const location = useLocation()
     const isLogin = location.pathname === LOGIN_ROUTE
@@ -39,8 +28,7 @@ const Auth = observer(() => {
                 data = await login(email, password)
 
                 if (data) {
-                    // user.setIsAuth(true)
-                    setAuth(true)
+                    setIsAuth(true)
                     document.location.href = LEARN_WORDS
                 }
             } else {
@@ -81,28 +69,25 @@ const Auth = observer(() => {
                 </Form>
                 <Row className='d-flex justify-content-between mt-3 pl-3 pr-3'>
                     {isLogin ?
-                        <div className ='account_exists'>
+                        <div className='account_exists'>
                             Нет аккаунта? <NavLink to={REGISTRATION_ROUTE}>Зарегистрируйтесь</NavLink>
                         </div>
                         :
-                        <div className ='account_exists'>
+                        <div className='account_exists'>
                             Есть аккаунт? <NavLink to={LOGIN_ROUTE}>Войдите</NavLink>
                         </div>
                     }
                 </Row>
-
                 <Button
                     variant={"outline-success"}
                     onClick={() => click(email, password)}
                 >
                     {isLogin ? "Войти" : "Регистрация"}
                 </Button>
-
-
             </Card>
         </Container>
     )
-})
+}
 
 
 

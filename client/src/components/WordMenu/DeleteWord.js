@@ -1,19 +1,25 @@
-import React, { useContext } from "react"
-import { Context } from "../.."
-import { observer } from "mobx-react-lite"
+import React from "react"
 import { AiOutlineDelete } from 'react-icons/ai'
 import { deleteWord } from '../../http/collectionApi'
+import { useDispatch, useSelector } from 'react-redux'
+import { setMenuWordPayload, setRandomListWordsPayload } from '../../store/collectionsReducer'
 
 
-const DeleteWord = observer(({ wordId, collId }) => {
-    const { fullCollections } = useContext(Context)
-    
+const DeleteWord = ({ wordId, collId }) => {
+    const dispatch = useDispatch()
+    const menuWord = useSelector(state => state.collectionsReducer.menuWord)
+    const randomListWords = useSelector(state => state.collectionsReducer.randomListWords)
+    const activeTurnWords = useSelector(state => state.collectionsReducer.activeTurnWords)
+    const setMenuWord = (value) => { dispatch(setMenuWordPayload(value)) }
+    const setRandomListWords = (value) => { dispatch(setRandomListWordsPayload(value)) }
+
+
 
     const delWord = (wordId, collId) => {
         deleteWord(wordId, collId)
-        fullCollections.setRandomListWords(fullCollections.randomListWords.filter(i => i.wordId !== (wordId)))
-        if (fullCollections.menuWord.includes(wordId)) {
-            fullCollections.setMenuWord('')
+        setRandomListWords(randomListWords.filter(i => i.wordId !== (wordId)))
+        if (menuWord.includes(wordId)) {
+            setMenuWord('')
         }
     }
 
@@ -22,7 +28,7 @@ const DeleteWord = observer(({ wordId, collId }) => {
     return (
         <div>
             <>
-                {fullCollections.activeTurnWord.includes(wordId)
+                {activeTurnWords.includes(wordId)
                     ?
                     <AiOutlineDelete
                         className="imageMemu"
@@ -39,7 +45,7 @@ const DeleteWord = observer(({ wordId, collId }) => {
             </>
         </div>
     )
-})
+}
 
 
 

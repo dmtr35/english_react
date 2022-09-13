@@ -23,7 +23,7 @@ export const isCheckTrue = (id) => {
 }
 
 
-export const switching = () => {
+export const switchingRandom = () => {
     if (localStorage.getItem('switch') === 'true') {
         localStorage.setItem('switch', false)
         document.location.href = LEARN_WORDS

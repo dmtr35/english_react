@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react"
 import WordsList from "./WordsList"
 import { Form, FormControl } from "react-bootstrap"
-import { switching } from "../utils/dopFunction"
+import { switchingRandom } from "../utils/dopFunction"
 import { BsFileArrowUpFill } from 'react-icons/bs'
+
+
 
 
 const Words = () => {
@@ -19,6 +21,7 @@ const Words = () => {
             }
         })
     }, [])
+    
     const scrollUp = () => {
         window.scrollTo({
             top: 0,
@@ -37,13 +40,12 @@ const Words = () => {
                         aria-label="Search"
                         onChange={e => setSearch(e.target.value)}
                     />
-                    {/* <Button variant="secondary" className="m-1">Search</Button> */}
                     <div className="switch_block">
                         <div className="switch">
                             Mix
                         </div>
                         <Form.Check
-                            onChange={() => switching()}
+                            onChange={() => switchingRandom()}
                             type="switch"
                             defaultChecked={localStorage.getItem('switch') === 'true'}
                             id="disabled-custom-switch"

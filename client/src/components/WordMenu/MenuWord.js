@@ -1,17 +1,15 @@
-import React, { useState, useContext } from "react"
-import { Context } from "../.."
-import { observer } from "mobx-react-lite"
+import React, { useState } from "react"
 import EditWordModal from '../../modals/EditWordModal'
 import { AiOutlineEdit } from 'react-icons/ai'
 import { AiOutlineMenu } from 'react-icons/ai'
 import DeleteWord from './DeleteWord'
+import { useSelector } from 'react-redux'
 
 
 
 
-
-const MenuWord = observer(({ collId, wordId, eng, rus, turnMenu }) => {
-    const { fullCollections } = useContext(Context)
+const MenuWord = ({ collId, wordId, eng, rus, turnMenu }) => {
+    const activeTurnWords = useSelector(state => state.collectionsReducer.activeTurnWords)
     const [editWordVisible, setEditWordVisible] = useState(false)
 
 
@@ -19,7 +17,7 @@ const MenuWord = observer(({ collId, wordId, eng, rus, turnMenu }) => {
 
     return (
         <div>
-            {!fullCollections.activeTurnWord.includes(wordId)
+            {!activeTurnWords.includes(wordId)
                 ?
                 <div className="menu3IconParent d-flex">
                     <div
@@ -67,7 +65,7 @@ const MenuWord = observer(({ collId, wordId, eng, rus, turnMenu }) => {
             }
         </div>
     )
-})
+}
 
 
 
