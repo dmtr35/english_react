@@ -1,10 +1,8 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import Button from "react-bootstrap/Button"
 import Modal from "react-bootstrap/Modal"
 import { Form } from 'react-bootstrap'
 import { editCollection } from '../http/collectionApi'
-import { runInAction } from "mobx"
-
 import { useDispatch, useSelector } from 'react-redux'
 import { setMenuCollPayload } from '../store/collectionsReducer'
 
@@ -22,10 +20,8 @@ const EditCollectionModal = ({ collId, show, onHide, collName }) => {
         editCollection(collId, name)
         onHide()
         setMenuColl('')
-        runInAction(() => {
-            const index = collections.findIndex(el => el._id === collId)
-            collections[index].name = name
-        })
+        const index = collections.findIndex(el => el._id === collId)
+        collections[index].name = name
     }
 
 

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Button from "react-bootstrap/Button"
 import Modal from "react-bootstrap/Modal"
-import { runInAction } from "mobx"
 import { Dropdown, Form } from 'react-bootstrap'
 import { editWord, deleteAndMove } from '../http/collectionApi'
 import DropdownButton from 'react-bootstrap/DropdownButton'
@@ -34,22 +33,18 @@ const EditWordModal = ({ currentCollId, wordId, show, onHide, engW, rusW }) => {
                 .then(() => onHide())
                 .then(() => setMenuWord(''))
 
-            runInAction(() => {
-                const index = randomListWords.findIndex(el => el.wordId === wordId)
-                randomListWords[index].eng = eng
-                randomListWords[index].rus = rus
-            })
+            const index = randomListWords.findIndex(el => el.wordId === wordId)
+            randomListWords[index].eng = eng
+            randomListWords[index].rus = rus
         } else {
             deleteAndMove(transferWord, currentCollId, wordId, arrWord)
                 .then(() => onHide())
                 .then(() => setMenuWord(''))
 
-            runInAction(() => {
-                const index = randomListWords.findIndex(el => el.wordId === wordId)
-                randomListWords[index].eng = eng
-                randomListWords[index].rus = rus
-                randomListWords[index].collectionId = transferWord
-            })
+            const index = randomListWords.findIndex(el => el.wordId === wordId)
+            randomListWords[index].eng = eng
+            randomListWords[index].rus = rus
+            randomListWords[index].collectionId = transferWord
         }
     }
 

@@ -1,8 +1,6 @@
-import React, { useContext, useState } from 'react'
-import { Context } from "../index"
+import React, { useState } from 'react'
 import Button from "react-bootstrap/Button"
 import Modal from "react-bootstrap/Modal"
-import { observer } from 'mobx-react-lite'
 import { Form, Row, Col } from 'react-bootstrap'
 import { createCollection, createFromFile } from '../http/collectionApi'
 import Image from 'react-bootstrap/Image'
