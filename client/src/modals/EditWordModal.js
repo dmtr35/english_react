@@ -25,6 +25,7 @@ const EditWordModal = ({ currentCollId, wordId, show, onHide, engW, rusW }) => {
 
 
     const editWordParent = () => {
+        if (eng === engW && rus === rusW) return (onHide(), setMenuWord(''))
         if (!eng || !rus) return (onHide(), setMenuWord(''))
         const arrWord = [{ 'eng': `${eng}`, 'rus': `${rus}`, '_id': `${wordId}` }]
 

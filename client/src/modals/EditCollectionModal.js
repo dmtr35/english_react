@@ -16,6 +16,7 @@ const EditCollectionModal = ({ collId, show, onHide, collName }) => {
 
 
     const editColl = () => {
+        if (name === collName)  return (onHide(), setMenuColl(''))
         if (!name) return (onHide(), setMenuColl(''))
         editCollection(collId, name)
         onHide()
