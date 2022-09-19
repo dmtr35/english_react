@@ -13,11 +13,11 @@ const EditCollectionModal = ({ collId, show, onHide, collName }) => {
 
 
     const [name, setName] = useState(`${collName}`)
-
-
+    
+    
     const editColl = () => {
-        if (name === collName)  return (onHide(), setMenuColl(''))
-        if (!name) return (onHide(), setMenuColl(''))
+        if (name.trim() === collName.trim())  return (onHide(), setMenuColl(''))
+        if (!name.trim()) return (onHide(), setMenuColl(''))
         editCollection(collId, name)
         onHide()
         setMenuColl('')

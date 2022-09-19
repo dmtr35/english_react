@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react"
+import React, { useEffect, useState } from "react"
 import { getCollections, deleteManyCollection } from "../http/collectionApi"
 import Card from "react-bootstrap/Card"
 import Button from "react-bootstrap/Button"
@@ -7,6 +7,7 @@ import CreateCollectionModal from "../modals/CreateCollectionModal"
 import { AiOutlineMenu } from 'react-icons/ai'
 import MenuCollection from '../components/CollectionMenu/MenuCollection'
 import ModalDivDeleteColl from '../modals/ModalDivDeleteColl'
+import { ICollection } from '../model'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { setIsLoadCollectionsPayload, setCheckedPayload, setMenuCollPayload, setMenuWordPayload, setCollectionsPayload} from '../store/collectionsReducer'
@@ -14,44 +15,49 @@ import { setIsLoadCollectionsPayload, setCheckedPayload, setMenuCollPayload, set
 
 const Collections = () => {
     const dispatch = useDispatch()
-    const isLoadCollections = useSelector(state => state.collectionsReducer.isLoadCollections)
-    const checked = useSelector(state => state.collectionsReducer.checked)
-    const menuColl = useSelector(state => state.collectionsReducer.menuColl)
-    const cancelDeleteColl = useSelector(state => state.collectionsReducer.cancelDeleteColl)
-    const collections = useSelector(state => state.collectionsReducer.collections)
-    const setIsLoadColleltions = (value) => { dispatch(setIsLoadCollectionsPayload(value)) }
-    const setChecked = (value) => { dispatch(setCheckedPayload(value)) }
-    const setMenuColl = (value) => { dispatch(setMenuCollPayload(value)) }
-    const setMenuWord = (value) => { dispatch(setMenuWordPayload(value)) }
-    const setCollections = (value) => { dispatch(setCollectionsPayload(value)) }
+    const isLoadCollections = useSelector((state: any) => state.collectionsReducer.isLoadCollections)
+    const checked = useSelector((state: any) => state.collectionsReducer.checked)
+    const menuColl = useSelector((state: any) => state.collectionsReducer.menuColl)
+    const cancelDeleteColl = useSelector((state: any) => state.collectionsReducer.cancelDeleteColl)
+    const collections = useSelector((state: any) => state.collectionsReducer.collections)
+    const setIsLoadColleltions = (value: any) => { dispatch(setIsLoadCollectionsPayload(value)) }
+    const setChecked = (value: any) => { dispatch(setCheckedPayload(value)) }
+    const setMenuColl = (value: any) => { dispatch(setMenuCollPayload(value)) }
+    const setMenuWord = (value: any) => { dispatch(setMenuWordPayload(value)) }
+    const setCollections = (value: any) => { dispatch(setCollectionsPayload(value)) }
 
     const [addCollectionsVisible, setAddCollectionsVisible] = useState(false)
     const userId = localStorage.getItem('userId')
-    const arrCheck = JSON.parse(localStorage.getItem(`arrCheck-${userId}`))
+    const arrCheck = JSON.parse(localStorage.getItem(`arrCheck-${userId}`)!)
     const [show, setShow] = useState(false)
     const [disabledDeleteChecked, setDisabledDeleteChecked] = useState(false)
 
-    const hideCollections = useRef('none')
+    // const hideCollections = useRef('none')
+    const noneOrBlock = show ? 'none' : 'block'
+    const styleHide = {display: noneOrBlock}
 
+    // console.log(collections)
+    // console.log(typeof collections)
 
-    const onButtonClick = () => {
-        if (!show) {
-            hideCollections.current.style.display = "none"
-            setShow(true)
-        } else {
-            hideCollections.current.style.display = "block"
-            setShow(false)
-        }
-    }
+    // const onButtonClick = () => {
+    //     if (!show) {
+    //         hideCollections.current.style.display = "none"
+    //         setShow(true)
+    //     } else {
+    //         hideCollections.current.style.display = "block"
+    //         setShow(false)
+    //     }
+    // }
 
     useEffect(() => {
-        if (localStorage.getItem('delayWordDelete') === null) {
-            localStorage.setItem('delayWordDelete', true)
+        if (localStorage.getItem('delayCollDelete') === null) {
+            localStorage.setItem('delayCollDelete', 'true')
+            // localStorage.setItem('delayCollDelete', true)
         }
     }, [])
     useEffect(() => {
         if (!arrCheck || arrCheck.length === 0) {
-            localStorage.setItem(`arrCheck-${userId}`, JSON.stringify([]))
+            // localStorage.setItem(`arrCheck-${userId}`, JSON.stringify([]))
             setDisabledDeleteChecked(true)
         } else setDisabledDeleteChecked(false)
     }, [arrCheck])
@@ -69,7 +75,7 @@ const Collections = () => {
             .then(() => localStorage.setItem(`arrCheck-${userId}`, JSON.stringify([])))
     }
 
-    const addMenuColl = (id) => {
+    const addMenuColl = (id: string) => {
         if (menuColl.includes(id)) {
             setMenuColl('')
             setMenuWord('')
@@ -95,15 +101,16 @@ const Collections = () => {
                 <Button className="button"
                     variant="primary"
                     size="lg"
-                    onClick={onButtonClick}
+                    onClick={() => setShow(!show)}
                 >
                     {show ? 'Показать коллекции' : 'Скрыть коллекции'}
                 </Button>
             </div>
             <div
-                ref={hideCollections}
+                // ref={hideCollections}
+                style={styleHide}
             >
-                {collections.map(collection =>
+                {collections.map((collection: ICollection) =>
                     <div
                         key={collection._id}
                         className="m-1">

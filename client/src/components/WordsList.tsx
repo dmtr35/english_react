@@ -4,25 +4,26 @@ import { isCheckTrue } from "../utils/dopFunction"
 import { AiOutlineMenu } from 'react-icons/ai'
 import { getWords } from '../http/collectionApi'
 import MenuWord from './WordMenu/MenuWord'
+import { ICollectionWords, IRandom } from '../model'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { setMenuCollPayload, setMenuWordPayload, setRandomListWordsPayload, setActiveTurnWordsPayload } from '../store/collectionsReducer'
 
-const WordsList = ({ search }) => {
+const WordsList = ({ search }: { search: string }) => {
     const dispatch = useDispatch()
-    const isLoadCollections = useSelector(state => state.collectionsReducer.isLoadCollections)
-    const checked = useSelector(state => state.collectionsReducer.checked)
-    const menuWord = useSelector(state => state.collectionsReducer.menuWord)
-    const randomListWords = useSelector(state => state.collectionsReducer.randomListWords)
-    const activeTurnWords = useSelector(state => state.collectionsReducer.activeTurnWords)
-    const setMenuColl = (value) => { dispatch(setMenuCollPayload(value)) }
-    const setMenuWord = (value) => { dispatch(setMenuWordPayload(value)) }
-    const setRandomListWords = (value) => { dispatch(setRandomListWordsPayload(value)) }
-    const setActiveTurnWords = (value) => { dispatch(setActiveTurnWordsPayload(value)) }
+    const isLoadCollections = useSelector((state: any) => state.collectionsReducer.isLoadCollections)
+    const checked = useSelector((state: any) => state.collectionsReducer.checked)
+    const menuWord = useSelector((state: any) => state.collectionsReducer.menuWord)
+    const randomListWords = useSelector((state: any) => state.collectionsReducer.randomListWords)
+    const activeTurnWords = useSelector((state: any) => state.collectionsReducer.activeTurnWords)
+    const setMenuColl = (value: any) => { dispatch(setMenuCollPayload(value)) }
+    const setMenuWord = (value: any) => { dispatch(setMenuWordPayload(value)) }
+    const setRandomListWords = (value: any) => { dispatch(setRandomListWordsPayload(value)) }
+    const setActiveTurnWords = (value: any) => { dispatch(setActiveTurnWordsPayload(value)) }
 
     const userId = localStorage.getItem('userId')
-    const arrCheck = JSON.parse((localStorage.getItem(`arrCheck-${userId}`)))
-
+    const arrCheck = JSON.parse(localStorage.getItem(`arrCheck-${userId}`)!)
+    // console.log(typeof arrCheck)
 
     useEffect(() => {
         getWords(arrCheck)
@@ -30,14 +31,14 @@ const WordsList = ({ search }) => {
     }, [checked, isLoadCollections])
 
 
-    const turnWord = (id) => {
+    const turnWord = (id: string) => {
         if (activeTurnWords.includes(id)) {
             if (menuWord) {
                 setMenuWord('')
             } else {
                 setMenuWord('')
                 setMenuColl('')
-                setActiveTurnWords(activeTurnWords.filter(i => i !== id))
+                setActiveTurnWords(activeTurnWords.filter((i: any) => i !== id))
             }
         } else {
             if (menuWord) {
@@ -49,7 +50,7 @@ const WordsList = ({ search }) => {
             }
         }
     }
-    const turnMenu = (id) => {
+    const turnMenu = (id: string) => {
         if (menuWord.includes(id)) {
             setMenuWord('')
         } else {
@@ -58,9 +59,11 @@ const WordsList = ({ search }) => {
         }
     }
 
-    const wordsList = (data) => {
+    const wordsList = (data: ICollectionWords[]) => {
         // console.log('data1:', data)
-        let random = []
+        // console.log('data1:',typeof data[0]._id)
+
+        let random: IRandom[] = []
         data.filter(collection => isCheckTrue(collection.collId))
             .map((collection) =>
                 collection.words
@@ -77,9 +80,9 @@ const WordsList = ({ search }) => {
     return (
         <div>
             {randomListWords
-                .filter(word => word.eng.includes(search) || word.rus.includes(search))
-                .filter(word => arrCheck.includes(word.collectionId))
-                .map((word) =>
+                .filter((word: IRandom) => word.eng.includes(search) || word.rus.includes(search))
+                .filter((word: IRandom) => arrCheck.includes(word.collectionId))
+                .map((word: IRandom) =>
                     <div
                         key={word.wordId}
                         className=" m-2 words_list"

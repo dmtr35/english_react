@@ -24,7 +24,7 @@ const MenuCollection = ({ collId, collName, addMenuColl }) => {
 
     const [editCollectionsVisible, setEditCollectionsVisible] = useState(false)
     const [addWordsVisible, setAddWordsVisible] = useState(false)
-    const checkDelayWordDelete = JSON.parse(localStorage.getItem('delayWordDelete'))
+    const checkDelayCollDelete = JSON.parse(localStorage.getItem('delayCollDelete'))
     const userId = localStorage.getItem('userId')
     const arrCheck = JSON.parse(localStorage.getItem(`arrCheck-${userId}`))
 
@@ -53,7 +53,7 @@ const MenuCollection = ({ collId, collName, addMenuColl }) => {
                     onClick={() => setEditCollectionsVisible(true)}
                 />
 
-                {!checkDelayWordDelete ?
+                {!checkDelayCollDelete ?
                     <AiOutlineDelete
                         className="iconMenuColl"
                         onClick={() => deleteColl(collId)}

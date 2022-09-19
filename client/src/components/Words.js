@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+// import WordsList from "./WordsList.tsx"
 import WordsList from "./WordsList"
 import { Form, FormControl } from "react-bootstrap"
 import { switchingRandom } from "../utils/dopFunction"

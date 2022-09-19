@@ -1,16 +1,15 @@
-import React, { useContext } from "react"
+import React from "react"
 import TypeBar from '../components/TypeBar'
-import { Context } from ".."
 
 const Settings = () => {
-    const checkDelayWordDelete = JSON.parse(localStorage.getItem('delayWordDelete'))
+    const checkDelayCollDelete = JSON.parse(localStorage.getItem('delayCollDelete'))
 
 
     
-    const delayWordDelete = () => {
-        if (localStorage.getItem('delayWordDelete') === 'false'|| localStorage.getItem('delayWordDelete') === null) {
-            localStorage.setItem('delayWordDelete', true)
-        } else localStorage.setItem('delayWordDelete', false)
+    const delayCollDelete = () => {
+        if (localStorage.getItem('delayCollDelete') === 'false'|| localStorage.getItem('delayCollDelete') === null) {
+            localStorage.setItem('delayCollDelete', 'true')
+        } else localStorage.setItem('delayCollDelete', 'false')
     }
 
 
@@ -29,8 +28,8 @@ const Settings = () => {
                             style={{ cursor: 'pointer' }}
                             type="checkbox"
                             value="checked"
-                            onClick={() => delayWordDelete()}
-                            defaultChecked={checkDelayWordDelete}
+                            onClick={() => delayCollDelete()}
+                            defaultChecked={checkDelayCollDelete}
                         />
                         <p className="settings_text">Задержка при удалении коллекции</p>
                     </div>

@@ -29,6 +29,9 @@ export const collectionsReducer = (state = defaultState, action) => {
     switch (action.type) {
 
         case IS_LOAD_COLLECTIONS:
+            // console.log(typeof state);
+            // console.log(state);
+            
             return { ...state, isLoadCollections: action.payload }
         case CHECKED:
             return { ...state, checked: action.payload }

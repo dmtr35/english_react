@@ -12,7 +12,7 @@ import { setIsAuthPayload } from '../store/userReducer'
 
 const Auth = () => {
     const dispatch = useDispatch()
-    const setIsAuth = (value) => {dispatch(setIsAuthPayload(value))}
+    const setIsAuth = (value: any) => {dispatch(setIsAuthPayload(value))}
 
     const navigate = useNavigate()
     const location = useLocation()
@@ -20,8 +20,12 @@ const Auth = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
+    interface AuthLogPass {
+        email: string
+        password: string
+    }
 
-    const click = async () => {
+    const click = async ({email, password}: {email:string, password:string}) => {
         try {
             let data
             if (isLogin) {
@@ -37,9 +41,10 @@ const Auth = () => {
                     navigate(LOGIN_ROUTE)
                 }
             }
-        } catch (e) {
-            console.log(e)
+        } catch (e: any) {
+            // console.log(e)
             alert(e.response.data.message)
+            // alert(e)
         }
     }
 
@@ -55,7 +60,7 @@ const Auth = () => {
                         className='mt-3'
                         placeholder='Введите ваш email...'
                         value={email}
-                        onInput={e => setEmail(e.target.value)}
+                        onInput={(e: any) => setEmail(e.target.value)}
                     />
                 </Form>
                 <Form className='d-flex flex-column'>
@@ -63,7 +68,7 @@ const Auth = () => {
                         className='mt-3'
                         placeholder='Введите ваш password...'
                         value={password}
-                        onInput={e => setPassword(e.target.value)}
+                        onInput={(e: any) => setPassword(e.target.value)}
                         type="password"
                     />
                 </Form>
@@ -80,7 +85,7 @@ const Auth = () => {
                 </Row>
                 <Button
                     variant={"outline-success"}
-                    onClick={() => click(email, password)}
+                    onClick={() => click({email, password})}
                 >
                     {isLogin ? "Войти" : "Регистрация"}
                 </Button>

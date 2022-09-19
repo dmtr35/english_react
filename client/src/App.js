@@ -15,7 +15,7 @@ const App = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    check().then(data => {
+    check().then(() => {
       setIsAuth(true)
     }).finally(() => setLoading(false))
   }, [])

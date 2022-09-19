@@ -16,8 +16,8 @@ const EditWordModal = ({ currentCollId, wordId, show, onHide, engW, rusW }) => {
     const randomListWords = useSelector(state => state.collectionsReducer.randomListWords)
 
 
-    const [eng, setEng] = useState(`${engW}`)
-    const [rus, setRus] = useState(`${rusW}`)
+    const [eng, setEng] = useState(`${engW}`.trim())
+    const [rus, setRus] = useState(`${rusW}`.trim())
     const [titleDropdown, setTitleDropdown] = useState('Переместить в другую колекцию')
     const [transferWord, setTransferWord] = useState('')
 
@@ -25,11 +25,11 @@ const EditWordModal = ({ currentCollId, wordId, show, onHide, engW, rusW }) => {
 
 
     const editWordParent = () => {
-        if (eng === engW && rus === rusW) return (onHide(), setMenuWord(''))
-        if (!eng || !rus) return (onHide(), setMenuWord(''))
+        if (!eng.trim() || !rus.trim()) return (onHide(), setMenuWord(''))
         const arrWord = [{ 'eng': `${eng}`, 'rus': `${rus}`, '_id': `${wordId}` }]
 
         if (titleDropdown === 'Переместить в другую колекцию') {
+            if (eng.trim() === engW && rus.trim() === rusW) return (onHide(), setMenuWord(''))
             editWord(wordId, arrWord)
                 .then(() => onHide())
                 .then(() => setMenuWord(''))

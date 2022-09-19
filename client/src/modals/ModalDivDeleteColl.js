@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Button from "react-bootstrap/Button"
 import { useDispatch, useSelector } from 'react-redux'
 import { setModalDelTimeoutPayload } from '../store/collectionsReducer'
