@@ -1,10 +1,16 @@
-import React from 'react'
+import React, {FC} from 'react'
 import Modal from "react-bootstrap/Modal"
 import Image from 'react-bootstrap/Image'
 import info from '../assets/info.png'
 
 
-const InstructionModal = ({ show, onHide }) => {
+interface InstructionModalProps {
+    show: boolean
+    onHide: () => void
+}
+
+
+const InstructionModal: FC<InstructionModalProps> = ({ show, onHide }) => {
 
 
     return (

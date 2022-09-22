@@ -1,4 +1,4 @@
-import React from "react"
+import React, {FC} from "react"
 import { Route, Routes, Navigate } from "react-router-dom"
 import { authRouters, pablicRouters } from "../routes"
 import { LOGIN_ROUTE } from "../utils/consts"
@@ -6,8 +6,8 @@ import { useSelector } from 'react-redux'
 
 
 
-const AppRouter = () => {
-  const isAuth = useSelector(state => state.isAuthReducer.isAuth)
+const AppRouter: FC = () => {
+  const isAuth = useSelector((state: any) => state.isAuthReducer.isAuth)
 
   return (
     <Routes>

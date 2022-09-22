@@ -2,7 +2,7 @@ import React from "react"
 import TypeBar from '../components/TypeBar'
 
 const Settings = () => {
-    const checkDelayCollDelete = JSON.parse(localStorage.getItem('delayCollDelete'))
+    const checkDelayCollDelete = JSON.parse(localStorage.getItem('delayCollDelete')!)
 
 
     

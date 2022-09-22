@@ -25,13 +25,12 @@ export const RANDOM_LIST_WORDS = "RANDOM_LIST_WORDS"
 export const ACTIVE_TERN_WORDS = "ACTIVE_TERN_WORDS"
 export const MODAL_DEL_TIMEOUT = "MODAL_DEL_TIMEOUT"
 
-export const collectionsReducer = (state = defaultState, action) => {
+export const collectionsReducer = (state = defaultState, action: any) => {
     switch (action.type) {
 
         case IS_LOAD_COLLECTIONS:
             // console.log(typeof state);
-            // console.log(state);
-            
+
             return { ...state, isLoadCollections: action.payload }
         case CHECKED:
             return { ...state, checked: action.payload }
@@ -50,6 +49,7 @@ export const collectionsReducer = (state = defaultState, action) => {
         case ACTIVE_TERN_WORDS:
             return { ...state, activeTurnWords: action.payload }
         case MODAL_DEL_TIMEOUT:
+            // console.log(state);
             return { ...state, modalDelTimeout: action.payload }
 
 
@@ -58,17 +58,16 @@ export const collectionsReducer = (state = defaultState, action) => {
     }
 }
 
-export const setIsLoadCollectionsPayload = payload => ({ type: IS_LOAD_COLLECTIONS, payload })
+export const setIsLoadCollectionsPayload = (payload: boolean) => ({ type: IS_LOAD_COLLECTIONS, payload })
+export const setCheckedPayload = (payload: boolean) => ({ type: CHECKED, payload })
 
-export const setCheckedPayload = payload => ({ type: CHECKED, payload })
+export const setMenuCollPayload = (payload: any) => ({ type: MENU_COLL, payload })
+export const setMenuWordPayload = (payload: any) => ({ type: MENU_WORD, payload })
+export const setCancelDeleteCollPayload = (payload: any) => ({ type: CANCEL_DELETE_COLL, payload })
 
-export const setMenuCollPayload = payload => ({ type: MENU_COLL, payload })
-export const setMenuWordPayload = payload => ({ type: MENU_WORD, payload })
-export const setCancelDeleteCollPayload = payload => ({ type: CANCEL_DELETE_COLL, payload })
-
-export const setCollectionsPayload = payload => ({ type: COLLECTIONS, payload })
-export const setRandomListWordsPayload = payload => ({ type: RANDOM_LIST_WORDS, payload })
-export const setActiveTurnWordsPayload = payload => ({ type: ACTIVE_TERN_WORDS, payload })
-export const setModalDelTimeoutPayload = payload => ({ type: MODAL_DEL_TIMEOUT, payload })
+export const setCollectionsPayload = (payload: any) => ({ type: COLLECTIONS, payload })
+export const setRandomListWordsPayload = (payload: any) => ({ type: RANDOM_LIST_WORDS, payload })
+export const setActiveTurnWordsPayload = (payload: any) => ({ type: ACTIVE_TERN_WORDS, payload })
+export const setModalDelTimeoutPayload = (payload: any) => ({ type: MODAL_DEL_TIMEOUT, payload })
 
 
