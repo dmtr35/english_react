@@ -1,15 +1,19 @@
-import React, { useEffect } from "react"
+import React, { useEffect, FC } from "react"
 import Card from "react-bootstrap/Card"
 import { isCheckTrue } from "../utils/dopFunction"
 import { AiOutlineMenu } from 'react-icons/ai'
 import { getWords } from '../http/collectionApi'
 import MenuWord from './WordMenu/MenuWord'
 import { ICollectionWords, IRandom } from '../model'
-
 import { useDispatch, useSelector } from 'react-redux'
 import { setMenuCollPayload, setMenuWordPayload, setRandomListWordsPayload, setActiveTurnWordsPayload } from '../store/collectionsReducer'
 
-const WordsList = ({ search }: { search: string }) => {
+interface WordsListProps {
+    search: string
+}
+
+
+const WordsList: FC<WordsListProps> = ({ search }) => {
     const dispatch = useDispatch()
     const isLoadCollections = useSelector((state: any) => state.collectionsReducer.isLoadCollections)
     const checked = useSelector((state: any) => state.collectionsReducer.checked)
@@ -23,13 +27,15 @@ const WordsList = ({ search }: { search: string }) => {
 
     const userId = localStorage.getItem('userId')
     const arrCheck = JSON.parse(localStorage.getItem(`arrCheck-${userId}`)!)
-    // console.log(typeof arrCheck)
 
     useEffect(() => {
         getWords(arrCheck)
             .then(data => wordsList(data))
     }, [checked, isLoadCollections])
 
+    // interface turnWordProps {
+    //     turnMenu: () => void
+    // }
 
     const turnWord = (id: string) => {
         if (activeTurnWords.includes(id)) {
@@ -50,7 +56,7 @@ const WordsList = ({ search }: { search: string }) => {
             }
         }
     }
-    const turnMenu = (id: string) => {
+    const turnMenu: any = (id: string) => {
         if (menuWord.includes(id)) {
             setMenuWord('')
         } else {
@@ -121,7 +127,7 @@ const WordsList = ({ search }: { search: string }) => {
                                                 wordId={word.wordId}
                                                 eng={word.eng}
                                                 rus={word.rus}
-                                                turnMenu={turnMenu}
+                                                turnMenu = {turnMenu}
                                             />
                                         }
                                     </>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, FC } from 'react'
 import Button from "react-bootstrap/Button"
 import Modal from "react-bootstrap/Modal"
 import { Form, Row, Col } from 'react-bootstrap'
@@ -8,34 +8,41 @@ import info from '../assets/info.png'
 import InstructionModal from '../modals/InstructionModal'
 import { useDispatch } from 'react-redux'
 import { setIsLoadCollectionsPayload, setMenuCollPayload } from '../store/collectionsReducer'
+import { IArrWord } from '../model'
+
+interface AddWordsModalProps {
+    collId: string
+    show: boolean
+    onHide: () => void
+}
 
 
-const AddWordsModal = ({ collId, show, onHide }) => {
+const AddWordsModal: FC<AddWordsModalProps> = ({ collId, show, onHide }) => {
     const dispatch = useDispatch()
-    const setIsLoadColleltions = (value) => { dispatch(setIsLoadCollectionsPayload(value)) }
-    const setMenuColl = (value) => { dispatch(setMenuCollPayload(value)) }
+    const setIsLoadColleltions = (value: boolean) => { dispatch(setIsLoadCollectionsPayload(value)) }
+    const setMenuColl = (value: any) => { dispatch(setMenuCollPayload(value)) }
 
 
-    const [arrWord, setArrWord] = useState([])
-    const [file, setFile] = useState(null)
-    const [instructionsVisible, setInstructionsVisible] = useState(false)
+    const [arrWord, setArrWord] = useState<any>([])
+    const [file, setFile] = useState<any>(null)
+    const [instructionsVisible, setInstructionsVisible] = useState<boolean>(false)
 
 
     const addWord = () => {
         setArrWord([...arrWord, { eng: '', rus: '', number: Date.now() }])
     }
-    const removeWord = (number) => {
-        setArrWord(arrWord.filter(i => i.number !== number))
+    const removeWord = (number: number) => {
+        setArrWord(arrWord.filter((i: IArrWord) => i.number !== number))
     }
-    const changeWord = (key, value, number) => {
-        setArrWord(arrWord.map(i => i.number === number ? { ...i, [key]: value } : i))
+    const changeWord = (key: string, value: string, number: number) => {
+        setArrWord(arrWord.map((i: IArrWord) => i.number === number ? { ...i, [key]: value } : i))
     }
-    const selectFile = e => {
+    const selectFile = (e: any) => {
         setFile(e.target.files[0])
     }
 
     const addWordsParent = () => {
-        const filterArrWord = arrWord.filter((word) => word.eng && word.rus)
+        const filterArrWord = arrWord.filter((word: IArrWord) => word.eng && word.rus)
         const formData = new FormData()
         formData.append('filterArrWord', JSON.stringify(filterArrWord))
         formData.append('file', file)
@@ -96,13 +103,13 @@ const AddWordsModal = ({ collId, show, onHide }) => {
                     >
                         Добавить слово
                     </Button>
-                    {arrWord.map(i =>
+                    {arrWord.map((i: IArrWord) =>
                         <Row className='mt-2' key={i.number}>
                             <Col md={4}>
                                 <Form.Control
                                     className=' word'
                                     value={i.eng}
-                                    onChange={(e) => changeWord('eng', e.target.value, i.number)}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeWord('eng', e.target.value, i.number)}
                                     placeholder={'Введите слово'}
                                 />
                             </Col>
@@ -110,7 +117,7 @@ const AddWordsModal = ({ collId, show, onHide }) => {
                                 <Form.Control
                                     value={i.rus}
                                     className=' word'
-                                    onChange={(e) => changeWord('rus', e.target.value, i.number)}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeWord('rus', e.target.value, i.number)}
                                     placeholder={'Введите перевод'}
                                 />
                             </Col>

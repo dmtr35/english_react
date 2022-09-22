@@ -1,18 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState, FC } from 'react'
 import Button from "react-bootstrap/Button"
 import Modal from "react-bootstrap/Modal"
 import { Form } from 'react-bootstrap'
 import { editCollection } from '../http/collectionApi'
 import { useDispatch, useSelector } from 'react-redux'
 import { setMenuCollPayload } from '../store/collectionsReducer'
+import { ICollection } from '../model'
 
-const EditCollectionModal = ({ collId, show, onHide, collName }) => {
+
+
+interface EditCollectionModalProps {
+    collId: string
+    collName: string
+    show: boolean
+    onHide: () => void
+}
+
+const EditCollectionModal: FC<EditCollectionModalProps> = ({ collId, show, onHide, collName }) => {
     const dispatch = useDispatch()
-    const setMenuColl = (value) => { dispatch(setMenuCollPayload(value)) }
-    const collections = useSelector(state => state.collectionsReducer.collections)
+    const setMenuColl = (value: any) => { dispatch(setMenuCollPayload(value)) }
+    const collections = useSelector((state: any) => state.collectionsReducer.collections)
 
 
-    const [name, setName] = useState(`${collName}`)
+    const [name, setName] = useState<string>(`${collName}`)
     
     
     const editColl = () => {
@@ -21,7 +31,7 @@ const EditCollectionModal = ({ collId, show, onHide, collName }) => {
         editCollection(collId, name)
         onHide()
         setMenuColl('')
-        const index = collections.findIndex(el => el._id === collId)
+        const index = collections.findIndex((el: ICollection) => el._id === collId)
         collections[index].name = name
     }
 
@@ -42,7 +52,7 @@ const EditCollectionModal = ({ collId, show, onHide, collName }) => {
                 <Form>
                     <Form.Control
                         value={name}
-                        onChange={e => setName(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
                         className='word'
                         placeholder="Введите название колекции"
                     />

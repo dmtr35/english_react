@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, FC } from "react"
 import EditWordModal from '../../modals/EditWordModal'
 import { AiOutlineEdit } from 'react-icons/ai'
 import { AiOutlineMenu } from 'react-icons/ai'
@@ -6,11 +6,17 @@ import DeleteWord from './DeleteWord'
 import { useSelector } from 'react-redux'
 
 
+interface MenuWordProps {
+    collId: string
+    wordId: string
+    eng: string
+    rus: string
+    turnMenu: any
+}
 
-
-const MenuWord = ({ collId, wordId, eng, rus, turnMenu }) => {
-    const activeTurnWords = useSelector(state => state.collectionsReducer.activeTurnWords)
-    const [editWordVisible, setEditWordVisible] = useState(false)
+const MenuWord: FC<MenuWordProps> = ({ collId, wordId, eng, rus, turnMenu }) => {
+    const activeTurnWords = useSelector((state: any) => state.collectionsReducer.activeTurnWords)
+    const [editWordVisible, setEditWordVisible] = useState<boolean>(false)
 
 
 
@@ -35,7 +41,7 @@ const MenuWord = ({ collId, wordId, eng, rus, turnMenu }) => {
                         />
                         <AiOutlineMenu
                             className="imageMemu"
-                            onClick={() => { turnMenu(wordId) }}
+                            onClick={() => turnMenu(wordId)}
                         />
                     </div>
                 </div>
@@ -57,7 +63,7 @@ const MenuWord = ({ collId, wordId, eng, rus, turnMenu }) => {
                         />
                         <AiOutlineMenu
                             className="imageMemu"
-                            onClick={() => { turnMenu(wordId) }}
+                            onClick={() => turnMenu(wordId)}
                             style={{ color: '#fff' }}
                         />
                     </div>

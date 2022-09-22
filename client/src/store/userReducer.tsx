@@ -1,14 +1,6 @@
 
 
 
-
-
-
-
-
-
-
-
 const defaultState = {
     isAuth: false
 }
@@ -16,7 +8,7 @@ const defaultState = {
 
 export const IS_AUTH_USERS = "IS_AUTH_USERS"
 
-export const isAuthReducer = (state = defaultState, action) => {
+export const isAuthReducer = (state = defaultState, action: any) => {
     switch (action.type) {
 
         case IS_AUTH_USERS:
@@ -27,6 +19,6 @@ export const isAuthReducer = (state = defaultState, action) => {
     }
 }
 
-export const setIsAuthPayload = payload => ({ type: IS_AUTH_USERS, payload })
+export const setIsAuthPayload = (payload: any) => ({ type: IS_AUTH_USERS, payload })
 
 

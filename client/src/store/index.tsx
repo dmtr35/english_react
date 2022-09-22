@@ -1,6 +1,6 @@
 import { createStore, combineReducers } from 'redux'
-import { isAuthReducer } from '../store/userReducer'
-import { collectionsReducer } from '../store/collectionsReducer'
+import { isAuthReducer } from './userReducer'
+import { collectionsReducer } from './collectionsReducer'
 
 
 

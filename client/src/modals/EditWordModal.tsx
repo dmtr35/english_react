@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, FC } from 'react'
 import Button from "react-bootstrap/Button"
 import Modal from "react-bootstrap/Modal"
 import { Dropdown, Form } from 'react-bootstrap'
@@ -7,19 +7,29 @@ import DropdownButton from 'react-bootstrap/DropdownButton'
 import InputGroup from 'react-bootstrap/InputGroup'
 import { useDispatch, useSelector } from 'react-redux'
 import { setMenuWordPayload } from '../store/collectionsReducer'
+import { IRandom, ICollection } from '../model'
 
 
-const EditWordModal = ({ currentCollId, wordId, show, onHide, engW, rusW }) => {
+interface EditWordModalProps {
+    currentCollId: string
+    wordId: string
+    engW: string
+    rusW: string
+    show: boolean
+    onHide: () => void
+}
+
+const EditWordModal: FC<EditWordModalProps> = ({ currentCollId, wordId, show, onHide, engW, rusW }) => {
     const dispatch = useDispatch()
-    const setMenuWord = (value) => { dispatch(setMenuWordPayload(value)) }
-    const collections = useSelector(state => state.collectionsReducer.collections)
-    const randomListWords = useSelector(state => state.collectionsReducer.randomListWords)
+    const setMenuWord = (value: any) => { dispatch(setMenuWordPayload(value)) }
+    const collections = useSelector((state: any) => state.collectionsReducer.collections)
+    const randomListWords = useSelector((state: any) => state.collectionsReducer.randomListWords)
 
 
-    const [eng, setEng] = useState(`${engW}`.trim())
-    const [rus, setRus] = useState(`${rusW}`.trim())
-    const [titleDropdown, setTitleDropdown] = useState('Переместить в другую колекцию')
-    const [transferWord, setTransferWord] = useState('')
+    const [eng, setEng] = useState<string>(`${engW}`.trim())
+    const [rus, setRus] = useState<string>(`${rusW}`.trim())
+    const [titleDropdown, setTitleDropdown] = useState<string>('Переместить в другую колекцию')
+    const [transferWord, setTransferWord] = useState<string>('')
 
 
 
@@ -34,7 +44,7 @@ const EditWordModal = ({ currentCollId, wordId, show, onHide, engW, rusW }) => {
                 .then(() => onHide())
                 .then(() => setMenuWord(''))
 
-            const index = randomListWords.findIndex(el => el.wordId === wordId)
+            const index = randomListWords.findIndex((el: IRandom) => el.wordId === wordId)
             randomListWords[index].eng = eng
             randomListWords[index].rus = rus
         } else {
@@ -42,14 +52,14 @@ const EditWordModal = ({ currentCollId, wordId, show, onHide, engW, rusW }) => {
                 .then(() => onHide())
                 .then(() => setMenuWord(''))
 
-            const index = randomListWords.findIndex(el => el.wordId === wordId)
+            const index = randomListWords.findIndex((el: IRandom) => el.wordId === wordId)
             randomListWords[index].eng = eng
             randomListWords[index].rus = rus
             randomListWords[index].collectionId = transferWord
         }
     }
 
-    const titleAndWordId = (collId, collName) => {
+    const titleAndWordId = (collId: string, collName: string) => {
         setTitleDropdown(collName)
         setTransferWord(collId)
     }
@@ -70,13 +80,13 @@ const EditWordModal = ({ currentCollId, wordId, show, onHide, engW, rusW }) => {
                 <Form>
                     <Form.Control
                         value={eng}
-                        onChange={e => setEng(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEng(e.target.value)}
                         className='mt-3'
                         placeholder="Введите слово"
                     />
                     <Form.Control
                         value={rus}
-                        onChange={e => setRus(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRus(e.target.value)}
                         className='mt-3'
                         placeholder="Введите перевод"
                     />
@@ -86,8 +96,8 @@ const EditWordModal = ({ currentCollId, wordId, show, onHide, engW, rusW }) => {
                             title={titleDropdown}
                         >
                             {collections
-                                .filter((data) => data._id !== currentCollId)
-                                .map((data) =>
+                                .filter((data: ICollection) => data._id !== currentCollId)
+                                .map((data: ICollection) =>
                                     <Dropdown.Item
                                         key={data._id}
                                         className="dropdown_move"

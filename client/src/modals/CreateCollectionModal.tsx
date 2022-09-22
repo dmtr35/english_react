@@ -1,38 +1,43 @@
-import React, { useState } from 'react'
+import React, { useState, FC } from 'react'
 import Button from "react-bootstrap/Button"
 import Modal from "react-bootstrap/Modal"
 import { Form, Row, Col } from 'react-bootstrap'
 import { createCollection, createFromFile } from '../http/collectionApi'
 import Image from 'react-bootstrap/Image'
 import info from '../assets/info.png'
-import InstructionModal from '../modals/InstructionModal'
+import InstructionModal from './InstructionModal'
 import { useDispatch } from 'react-redux'
 import { setIsLoadCollectionsPayload, setMenuCollPayload, setMenuWordPayload } from '../store/collectionsReducer'
+import { IArrWord } from '../model'
 
 
-const CreateCollectionModal = ({ show, onHide }) => {
+interface CreateCollectionModalProps {
+    show: boolean
+    onHide: () => void
+}
+
+const CreateCollectionModal: FC<CreateCollectionModalProps> = ({ show, onHide }) => {
     const dispatch = useDispatch()
-    const setIsLoadColleltions = (value) => { dispatch(setIsLoadCollectionsPayload(value)) }
-    const setMenuColl = (value) => { dispatch(setMenuCollPayload(value)) }
-    const setMenuWord = (value) => { dispatch(setMenuWordPayload(value)) }
+    const setIsLoadColleltions = (value: any) => { dispatch(setIsLoadCollectionsPayload(value)) }
+    const setMenuColl = (value: any) => { dispatch(setMenuCollPayload(value)) }
+    const setMenuWord = (value: any) => { dispatch(setMenuWordPayload(value)) }
 
-    const [name, setName] = useState('')
-    const [arrWord, setArrWord] = useState([])
-    const [file, setFile] = useState(null)
-    const [instructionsVisible, setInstructionsVisible] = useState(false)
+    const [name, setName] = useState<string>('')
+    const [arrWord, setArrWord] = useState<IArrWord[]>([])
+    const [file, setFile] = useState<any>(null)
+    const [instructionsVisible, setInstructionsVisible] = useState<boolean>(false)
     const userId = localStorage.getItem('userId')
-
 
     const addWord = () => {
         setArrWord([...arrWord, { eng: '', rus: '', number: Date.now() }])
     }
-    const removeWord = (number) => {
+    const removeWord = (number: number) => {
         setArrWord(arrWord.filter(i => i.number !== number))
     }
-    const changeWord = (key, value, number) => {
-        setArrWord(arrWord.map(i => i.number === number ? { ...i, [key]: value } : i))
+    const changeWord = (key: any, value: any, number: any) => {
+        setArrWord(arrWord.map((i: IArrWord) => i.number === number ? { ...i, [key]: value } : i))
     }
-    const selectFile = e => {
+    const selectFile = (e: any) => {
         setFile(e.target.files[0])
     }
 
@@ -86,7 +91,7 @@ const CreateCollectionModal = ({ show, onHide }) => {
                 <Form>
                     <Form.Control
                         value={name}
-                        onChange={e => setName(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
                         className='mt-3'
                         placeholder="Введите название колекции"
                     />
@@ -120,7 +125,7 @@ const CreateCollectionModal = ({ show, onHide }) => {
                                 <Form.Control
                                     value={i.eng}
                                     className='word'
-                                    onChange={(e) => changeWord('eng', e.target.value, i.number)}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeWord('eng', e.target.value, i.number)}
                                     placeholder={'Введите слово'}
                                 />
                             </Col>
@@ -128,7 +133,7 @@ const CreateCollectionModal = ({ show, onHide }) => {
                                 <Form.Control
                                     value={i.rus}
                                     className='word'
-                                    onChange={(e) => changeWord('rus', e.target.value, i.number)}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeWord('rus', e.target.value, i.number)}
                                     placeholder={'Введите перевод'}
                                 />
                             </Col>

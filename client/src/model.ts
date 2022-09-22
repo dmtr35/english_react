@@ -22,3 +22,10 @@ export interface ICollection {
     name: string
     userId: string
 }
+
+
+export interface IArrWord {
+    eng: string
+    rus: string
+    number: number
+}

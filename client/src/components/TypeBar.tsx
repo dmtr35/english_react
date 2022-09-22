@@ -1,4 +1,4 @@
-import React from "react"
+import React, {FC} from "react"
 import { Navbar } from "react-bootstrap"
 import Nav from "react-bootstrap/Nav"
 import Container from "react-bootstrap/Container"
@@ -12,9 +12,9 @@ import { setIsAuthPayload } from '../store/userReducer'
 
 
 
-const TypeBar = () => {
+const TypeBar: FC = () => {
     const dispatch = useDispatch()
-    const setIsAuth = (value) => { dispatch(setIsAuthPayload(value)) }
+    const setIsAuth = (value: any) => { dispatch(setIsAuthPayload(value)) }
     const navigate = useNavigate()
 
     const logOut = () => {

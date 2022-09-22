@@ -1,19 +1,24 @@
-import React from 'react'
+import React, {FC} from 'react'
 import Button from "react-bootstrap/Button"
 import { useDispatch, useSelector } from 'react-redux'
 import { setModalDelTimeoutPayload } from '../store/collectionsReducer'
 
+interface ModalDivDeleteCollProps {
+    collId: string
+    cancelDeleteColl: number
+}
 
-const ModalDivDeleteColl = ({ collId, cancelDeleteColl }) => {
+
+const ModalDivDeleteColl: FC<ModalDivDeleteCollProps> = ({ collId, cancelDeleteColl }) => {
     const dispatch = useDispatch()
-    const modalDelTimeout = useSelector(state => state.collectionsReducer.modalDelTimeout)
-    const setModalDelTimeout = (value) => { dispatch(setModalDelTimeoutPayload(value)) }
+    const modalDelTimeout = useSelector((state: any) => state.collectionsReducer.modalDelTimeout)
+    const setModalDelTimeout = (value: any) => { dispatch(setModalDelTimeoutPayload(value)) }
 
 
 
-    const cancelDell = (collId) => {
+    const cancelDell = (collId: string) => {
         clearTimeout(cancelDeleteColl)
-        setModalDelTimeout(modalDelTimeout.filter(i => i !== collId))
+        setModalDelTimeout(modalDelTimeout.filter((i: any) => i !== collId))
     }
 
     return (

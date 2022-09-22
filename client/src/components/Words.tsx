@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react"
-// import WordsList from "./WordsList.tsx"
+import React, { useState, useEffect, FC } from "react"
 import WordsList from "./WordsList"
 import { Form, FormControl } from "react-bootstrap"
 import { switchingRandom } from "../utils/dopFunction"
@@ -8,9 +7,9 @@ import { BsFileArrowUpFill } from 'react-icons/bs'
 
 
 
-const Words = () => {
-    const [scrollToTopp, setScrollToTopp] = useState(false)
-    const [search, setSearch] = useState('')
+const Words: FC = () => {
+    const [scrollToTopp, setScrollToTopp] = useState<boolean>(false)
+    const [search, setSearch] = useState<string>('')
 
 
     useEffect(() => {
@@ -39,7 +38,7 @@ const Words = () => {
                         placeholder="Search"
                         className="Search"
                         aria-label="Search"
-                        onChange={e => setSearch(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
                     />
                     <div className="switch_block">
                         <div className="switch">

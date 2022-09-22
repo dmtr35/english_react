@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, FC } from "react"
 import { deleteCollection } from "../../http/collectionApi"
 import EditCollectionModal from "../../modals/EditCollectionModal"
 import AddWordsModal from "../../modals/AddWordsModal"
@@ -9,32 +9,38 @@ import { AiOutlineMenu } from 'react-icons/ai'
 import TimeoutCollectionDelete from './TimeoutCollectionDelete'
 import { handleChange } from "../../utils/dopFunction"
 import { useDispatch, useSelector } from 'react-redux'
-import { setCollectionsPayload, setRandomListWordsPayload} from '../../store/collectionsReducer'
+import { setCollectionsPayload, setRandomListWordsPayload } from '../../store/collectionsReducer'
+import { ICollection, IRandom } from '../../model'
+
+interface MenuCollectionProps {
+    collId: string
+    collName: string
+    addMenuColl: any
+}
 
 
-
-
-const MenuCollection = ({ collId, collName, addMenuColl }) => {
+const MenuCollection: FC<MenuCollectionProps> = ({ collId, collName, addMenuColl }) => {
     const dispatch = useDispatch()
-    const collections = useSelector(state => state.collectionsReducer.collections)
-    const randomListWords = useSelector(state => state.collectionsReducer.randomListWords)
-    const setCollections = (value) => { dispatch(setCollectionsPayload(value)) }
-    const setRandomListWords = (value) => { dispatch(setRandomListWordsPayload(value)) }
+    const collections = useSelector((state: any) => state.collectionsReducer.collections)
+    const randomListWords = useSelector((state: any) => state.collectionsReducer.randomListWords)
+    const setCollections = (value: any) => { dispatch(setCollectionsPayload(value)) }
+    const setRandomListWords = (value: any) => { dispatch(setRandomListWordsPayload(value)) }
 
 
-    const [editCollectionsVisible, setEditCollectionsVisible] = useState(false)
-    const [addWordsVisible, setAddWordsVisible] = useState(false)
-    const checkDelayCollDelete = JSON.parse(localStorage.getItem('delayCollDelete'))
+    const [editCollectionsVisible, setEditCollectionsVisible] = useState<boolean>(false)
+    const [addWordsVisible, setAddWordsVisible] = useState<boolean>(false)
+    const checkDelayCollDelete = JSON.parse(localStorage.getItem('delayCollDelete')!)
     const userId = localStorage.getItem('userId')
-    const arrCheck = JSON.parse(localStorage.getItem(`arrCheck-${userId}`))
+    const arrCheck = JSON.parse(localStorage.getItem(`arrCheck-${userId}`)!)
 
-    const deleteColl = (id) => {
+    const deleteColl: any = (id: string) => {
         deleteCollection(id)
-            .then(() => localStorage.removeItem(`arrCheck-${userId}`, collId))
+            // .then(() => localStorage.removeItem(`arrCheck-${userId}`, collId))
+            // .then(() => console.log('66'))
             .then(() => localStorage.setItem(`arrCheck-${userId}`, JSON.stringify(arrCheck)))
             .then(() => handleChange(id))
-        setCollections(collections.filter(i => i._id !== (id)))
-        setRandomListWords(randomListWords.filter(i => i.collectionId !== (id)))
+        setCollections(collections.filter((i: ICollection) => i._id !== (id)))
+        setRandomListWords(randomListWords.filter((i: IRandom) => i.collectionId !== (id)))
     }
 
 
@@ -61,7 +67,7 @@ const MenuCollection = ({ collId, collName, addMenuColl }) => {
                     :
                     <TimeoutCollectionDelete
                         collId={collId}
-                        deleteColl={deleteColl}
+                        // deleteColl={deleteColl}
                     />
                 }
 
