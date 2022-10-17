@@ -11,6 +11,7 @@ export declare class AuthService {
     register(userDto: CreateUserDto): Promise<{
         token: string;
     }>;
+    check(req: any, res: any): Promise<any>;
     private generateToken;
     private validateUser;
 }

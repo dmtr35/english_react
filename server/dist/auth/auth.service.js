@@ -21,6 +21,7 @@ let AuthService = class AuthService {
     }
     async login(userDto) {
         const user = await this.validateUser(userDto);
+        console.log(user);
         return this.generateToken(user);
     }
     async register(userDto) {
@@ -31,6 +32,10 @@ let AuthService = class AuthService {
         const hashPassword = await bcrypt.hash(userDto.password, 5);
         const user = await this.userService.createUser(Object.assign(Object.assign({}, userDto), { password: hashPassword }));
         return this.generateToken(user);
+    }
+    async check(req, res) {
+        const token = tokenService.generateAccessToken(req.user.id, req.user.email);
+        return res.json(token);
     }
     async generateToken(user) {
         const payload = {

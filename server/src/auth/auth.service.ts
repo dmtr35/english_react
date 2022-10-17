@@ -18,6 +18,7 @@ export class AuthService {
 
     async login(userDto: CreateUserDto) {
         const user = await this.validateUser(userDto)
+        console.log(user)
         return this.generateToken(user)
     }
 
@@ -31,6 +32,12 @@ export class AuthService {
         const hashPassword = await bcrypt.hash(userDto.password, 5)
         const user = await this.userService.createUser({ ...userDto, password: hashPassword })
         return this.generateToken(user)
+    }
+
+
+    async check(req, res) {
+        const token = tokenService.generateAccessToken(req.user.id, req.user.email)
+        return res.json(token)
     }
 
 

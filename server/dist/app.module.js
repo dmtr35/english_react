@@ -16,6 +16,7 @@ const users_module_1 = require("./users/users.module");
 const auth_module_1 = require("./auth/auth.module");
 const collections_module_1 = require("./collections/collections.module");
 const words_module_1 = require("./words/words.module");
+const files_module_1 = require("./files/files.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -33,7 +34,8 @@ AppModule = __decorate([
             users_module_1.UsersModule,
             auth_module_1.AuthModule,
             collections_module_1.CollectionsModule,
-            words_module_1.WordsModule
+            words_module_1.WordsModule,
+            files_module_1.FilesModule
         ],
     })
 ], AppModule);

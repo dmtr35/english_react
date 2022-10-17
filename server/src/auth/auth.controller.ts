@@ -18,5 +18,10 @@ export class AuthController {
     register(@Body() userDto: CreateUserDto) {
         return this.authService.register(userDto)
     }
+
+    @Get('/check')
+    check() {
+        return this.authService.check()
+    }
 }
 

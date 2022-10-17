@@ -6,8 +6,9 @@ import * as path from 'path'
 
 import { UsersModule } from './users/users.module'
 import { AuthModule } from './auth/auth.module'
-import { CollectionsModule } from './collections/collections.module';
-import { WordsModule } from './words/words.module';
+import { CollectionsModule } from './collections/collections.module'
+import { WordsModule } from './words/words.module'
+import { FilesModule } from './files/files.module'
 
 
 
@@ -29,7 +30,8 @@ import { WordsModule } from './words/words.module';
     UsersModule,
     AuthModule,
     CollectionsModule,
-    WordsModule
+    WordsModule,
+    FilesModule
   ],
 })
 export class AppModule { }
