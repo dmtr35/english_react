@@ -26,8 +26,8 @@ let AuthController = class AuthController {
     register(userDto) {
         return this.authService.register(userDto);
     }
-    check() {
-        return this.authService.check();
+    check(req) {
+        return this.authService.check(req);
     }
 };
 __decorate([
@@ -45,9 +45,10 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "register", null);
 __decorate([
-    Get('/check'),
+    (0, common_1.Get)('/check'),
+    __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "check", null);
 AuthController = __decorate([

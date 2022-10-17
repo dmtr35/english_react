@@ -15,9 +15,9 @@ const jwt_1 = require("@nestjs/jwt");
 const bcrypt = require("bcryptjs");
 const users_service_1 = require("../users/users.service");
 let AuthService = class AuthService {
-    constructor(userService, jwtServise) {
+    constructor(userService, jwtService) {
         this.userService = userService;
-        this.jwtServise = jwtServise;
+        this.jwtService = jwtService;
     }
     async login(userDto) {
         const user = await this.validateUser(userDto);
@@ -33,9 +33,11 @@ let AuthService = class AuthService {
         const user = await this.userService.createUser(Object.assign(Object.assign({}, userDto), { password: hashPassword }));
         return this.generateToken(user);
     }
-    async check(req, res) {
-        const token = tokenService.generateAccessToken(req.user.id, req.user.email);
-        return res.json(token);
+    async check(req) {
+        console.log('req::', req.headers.authorization);
+        const user = this.jwtService.verify(req.headers.authorization);
+        console.log('user::', user);
+        return this.generateToken(user);
     }
     async generateToken(user) {
         const payload = {
@@ -43,7 +45,7 @@ let AuthService = class AuthService {
             expiresIn: Date.now() + 86400000
         };
         return {
-            token: this.jwtServise.sign(payload)
+            token: this.jwtService.sign(payload)
         };
     }
     async validateUser(userDto) {

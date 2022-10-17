@@ -14,7 +14,7 @@ import { User } from '../users/user.schema'
 export class AuthService {
 
     constructor(private userService: UsersService,
-        private jwtServise: JwtService) { }
+        private jwtService: JwtService) { }
 
     async login(userDto: CreateUserDto) {
         const user = await this.validateUser(userDto)
@@ -24,7 +24,7 @@ export class AuthService {
 
 
     async register(userDto: CreateUserDto) {
-        
+
         const candidate = await this.userService.getUserByEmail(userDto.email)
         if (candidate) {
             throw new HttpException('Пользователь с таким email существует', HttpStatus.BAD_REQUEST)
@@ -35,9 +35,12 @@ export class AuthService {
     }
 
 
-    async check(req, res) {
-        const token = tokenService.generateAccessToken(req.user.id, req.user.email)
-        return res.json(token)
+    async check(req) {
+        console.log('req::', req.headers.authorization)
+        const user = this.jwtService.verify(req.headers.authorization)
+        console.log('user::', user)
+
+        return this.generateToken(user)
     }
 
 
@@ -47,7 +50,7 @@ export class AuthService {
             expiresIn: Date.now() + 86400000
         }
         return {
-            token: this.jwtServise.sign(payload)
+            token: this.jwtService.sign(payload)
         }
     }
 
