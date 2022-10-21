@@ -21,9 +21,9 @@ import { FilesModule } from './files/files.module'
     ConfigModule.forRoot({
       envFilePath: `.env`,
     }),
-    ServeStaticModule.forRoot({
-      rootPath: path.resolve(__dirname, 'static'),
-    }),
+    // ServeStaticModule.forRoot({
+    //   rootPath: path.resolve(__dirname, 'static'),
+    // }),
     MongooseModule.forRoot(process.env.MONGODB_HOST),
 
     

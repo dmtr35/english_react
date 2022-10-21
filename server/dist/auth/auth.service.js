@@ -13,16 +13,19 @@ exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const bcrypt = require("bcryptjs");
+const config_1 = require("@nestjs/config");
 const users_service_1 = require("../users/users.service");
 let AuthService = class AuthService {
-    constructor(userService, jwtService) {
+    constructor(userService, jwtService, configService) {
         this.userService = userService;
         this.jwtService = jwtService;
+        this.configService = configService;
     }
     async login(userDto) {
         const user = await this.validateUser(userDto);
-        console.log(user);
-        return this.generateToken(user);
+        console.log('userDto::', userDto);
+        console.log('user::', user);
+        return this.generateToken(user._id);
     }
     async register(userDto) {
         const candidate = await this.userService.getUserByEmail(userDto.email);
@@ -30,22 +33,21 @@ let AuthService = class AuthService {
             throw new common_1.HttpException('Пользователь с таким email существует', common_1.HttpStatus.BAD_REQUEST);
         }
         const hashPassword = await bcrypt.hash(userDto.password, 5);
-        const user = await this.userService.createUser(Object.assign(Object.assign({}, userDto), { password: hashPassword }));
-        return this.generateToken(user);
+        await this.userService.createUser(Object.assign(Object.assign({}, userDto), { password: hashPassword }));
+        return new common_1.UnauthorizedException({ message: 'Пользователь был успешно зарегистрирован' });
     }
     async check(req) {
-        console.log('req::', req.headers.authorization);
         const user = this.jwtService.verify(req.headers.authorization);
-        console.log('user::', user);
-        return this.generateToken(user);
+        return this.generateToken(user.id);
     }
-    async generateToken(user) {
+    async generateToken(id) {
         const payload = {
-            email: user.email,
-            expiresIn: Date.now() + 86400000
+            id
         };
+        const accessToken = this.jwtService.sign(payload);
         return {
-            token: this.jwtService.sign(payload)
+            accessToken,
+            id
         };
     }
     async validateUser(userDto) {
@@ -60,7 +62,8 @@ let AuthService = class AuthService {
 AuthService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [users_service_1.UsersService,
-        jwt_1.JwtService])
+        jwt_1.JwtService,
+        config_1.ConfigService])
 ], AuthService);
 exports.AuthService = AuthService;
 //# sourceMappingURL=auth.service.js.map

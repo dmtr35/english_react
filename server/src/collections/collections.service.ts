@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import mongoose from 'mongoose'
 import { Model } from 'mongoose'
 import { InjectModel } from '@nestjs/mongoose'
@@ -14,66 +14,37 @@ export class CollectionsService {
     constructor(@InjectModel(Collection.name) private collectionModel: Model<CollectionDocument>,
         @InjectModel(Word.name) private wordService: Model<WordDocument>,
         private fileService: FilesService
-        ) { }
-        // private jwtService: JwtService,
-        // private userService: UsersService,
-        // private mailerService: MailerService,
+    ) { }
+    // private jwtService: JwtService,
+    // private userService: UsersService,
+    // private mailerService: MailerService,
 
 
-    async createCollections(collectionDto: CreateCollectionDto, userId: string, dictionary: any) {
-        // console.log('collectionDto::' , collectionDto)
-        // console.log('userId::' , userId)
-        // console.log('dictionary::' , dictionary)
+    async createCollections(collectionDto: CreateCollectionDto, userId: string) {
         try {
-            // const { userId } = req.params
-            // const { name, filterArrWord } = req.body
-
-            // const words = JSON.parse(filterArrWord)
-            // const session = await mongoose.startSession()
-            // await session.withTransaction(async () => {
-            //     const collections = await Collections.create([{ userId, name }], { session })
-            //     await Words.create([{ collId: `${collections[0]._id}`, words }], { session })
-            //     return await res.json(collections[0])
-            // })
-            // session.endSession()
+            const collections = await this.collectionModel.create({ userId, name: collectionDto.name })
+            await this.wordService.create({ collId: `${collections._id}`, words: collectionDto.filterArrWord })
+            return collections
         } catch (e) {
-            // console.log(e)
-            // res.status(500).json({ message: 'Create(without file) error' + e })
+            throw new HttpException('произошла ошибка при записи файла' + e, HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
 
-    // async createFromFile(req, res) {
-    //     try {
-    //         const { userId } = req.params
-    //         const { name, filterArrWord } = req.body
-    //         const words = JSON.parse(filterArrWord)
-    //         const file = req.files.file
-    //         await file.mv(path.resolve(__dirname, 'static', 'dictionary.txt'))
-    //         const readFile = util.promisify(fs.readFile)
-    //         const result = await readFile(path.resolve(__dirname, './static/dictionary.txt'), 'utf-8')
-    //         result.split(/\r?\n/).forEach(line => {
-    //             if (line.length === 0) {
-    //                 return
-    //             } else {
-    //                 const word = `${line}`.split(';')
-    //                 const objWord = Object.assign({ eng: word[0], rus: word[1] })
-    //                 words.push(objWord)
-    //             }
-    //         })
-    //         const session = await mongoose.startSession()
-    //         await session.withTransaction(async () => {
-    //             const collections = await Collections.create([{ userId, name }], { session })
-    //             await Words.create([{ collId: `${collections[0]._id}`, words }], { session })
-    //             return await res.json(collections[0])
-    //         })
-    //         // session.commitTransaction()
-    //         session.endSession()
-    //     }
-    //     catch (e) {
-    //         console.log(e)
-    //         res.status(500).json({ message: 'Create error2' })
-    //     }
-    // }
+    async createFromFile(collectionDto: CreateCollectionDto, userId: string, dictionary: any) {
+        try {
+            const arrWords = JSON.parse(`${collectionDto.filterArrWord}`)
+            const fileWords = await this.fileService.createFile(dictionary)
+            if (collectionDto.filterArrWord) {
+                fileWords.push(...arrWords)
+            }
+            const collections = await this.collectionModel.create({ userId, name: collectionDto.name })
+            await this.wordService.create({ collId: `${collections._id}`, words: fileWords })
+            return collections
+        }
+        catch (e) {
+            throw new HttpException('произошла ошибка при записи файла' + e, HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+    }
 
     // async addWorlds(req, res) {
     //     try {

@@ -10,21 +10,28 @@ exports.FilesService = void 0;
 const common_1 = require("@nestjs/common");
 const path = require("path");
 const fs = require("fs");
-const uuid = require("uuid");
 let FilesService = class FilesService {
-    async createFile(files) {
+    async createFile(file) {
         try {
-            const fileNames = [];
-            files.forEach(file => {
-                const fileName = uuid.v4() + '.txt';
-                const filePath = path.resolve(__dirname, '..', 'static');
-                if (!fs.existsSync(filePath)) {
-                    fs.mkdirSync(filePath, { recursive: true });
+            const fileWords = [];
+            const fileName = 'dictionary.txt';
+            const filePath = path.resolve(__dirname, '..', 'static');
+            if (!fs.existsSync(filePath)) {
+                fs.mkdirSync(filePath, { recursive: true });
+            }
+            fs.writeFileSync(path.join(filePath, fileName), file.buffer);
+            const result = await fs.readFileSync(path.resolve(__dirname, '..', 'static', 'dictionary.txt'), 'utf-8');
+            result.split(/\r?\n/).forEach(line => {
+                if (line.length === 0) {
+                    return;
                 }
-                fs.writeFileSync(path.join(filePath, fileName), file.buffer);
-                fileNames.push(fileName);
+                else {
+                    const word = `${line}`.split(';');
+                    const objWord = Object.assign({ eng: word[0], rus: word[1] });
+                    fileWords.push(objWord);
+                }
             });
-            return fileNames;
+            return fileWords;
         }
         catch (e) {
             throw new common_1.HttpException('произошла ошибка при записи файла', common_1.HttpStatus.INTERNAL_SERVER_ERROR);

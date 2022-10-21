@@ -10,8 +10,6 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const config_1 = require("@nestjs/config");
-const serve_static_1 = require("@nestjs/serve-static");
-const path = require("path");
 const users_module_1 = require("./users/users.module");
 const auth_module_1 = require("./auth/auth.module");
 const collections_module_1 = require("./collections/collections.module");
@@ -26,9 +24,6 @@ AppModule = __decorate([
         imports: [
             config_1.ConfigModule.forRoot({
                 envFilePath: `.env`,
-            }),
-            serve_static_1.ServeStaticModule.forRoot({
-                rootPath: path.resolve(__dirname, 'static'),
             }),
             mongoose_1.MongooseModule.forRoot(process.env.MONGODB_HOST),
             users_module_1.UsersModule,

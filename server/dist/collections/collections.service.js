@@ -25,10 +25,29 @@ let CollectionsService = class CollectionsService {
         this.wordService = wordService;
         this.fileService = fileService;
     }
-    async createCollections(collectionDto, userId, dictionary) {
+    async createCollections(collectionDto, userId) {
         try {
+            const collections = await this.collectionModel.create({ userId, name: collectionDto.name });
+            await this.wordService.create({ collId: `${collections._id}`, words: collectionDto.filterArrWord });
+            return collections;
         }
         catch (e) {
+            throw new common_1.HttpException('произошла ошибка при записи файла' + e, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    async createFromFile(collectionDto, userId, dictionary) {
+        try {
+            const arrWords = JSON.parse(`${collectionDto.filterArrWord}`);
+            const fileWords = await this.fileService.createFile(dictionary);
+            if (collectionDto.filterArrWord) {
+                fileWords.push(...arrWords);
+            }
+            const collections = await this.collectionModel.create({ userId, name: collectionDto.name });
+            await this.wordService.create({ collId: `${collections._id}`, words: fileWords });
+            return collections;
+        }
+        catch (e) {
+            throw new common_1.HttpException('произошла ошибка при записи файла' + e, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 };

@@ -37,6 +37,7 @@ const Auth = () => {
                 }
             } else {
                 data = await registration(email, password)
+                console.log(data)
                 if (data === "Пользователь был успешно зарегистрирован") {
                     navigate(LOGIN_ROUTE)
                 }

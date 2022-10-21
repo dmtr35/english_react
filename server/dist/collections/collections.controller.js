@@ -21,20 +21,31 @@ let CollectionsController = class CollectionsController {
     constructor(collectionsService) {
         this.collectionsService = collectionsService;
     }
-    createCollections(collectionDto, id, dictionary) {
-        return this.collectionsService.createCollections(collectionDto, id, dictionary);
+    createCollections(collectionDto, id) {
+        return this.collectionsService.createCollections(collectionDto, id);
+    }
+    createFromFile(collectionDto, id, file) {
+        return this.collectionsService.createFromFile(collectionDto, id, file);
     }
 };
 __decorate([
     (0, common_1.Post)('/createCollection/:id'),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('dictionary')),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Param)('id')),
-    __param(2, (0, common_1.UploadedFiles)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_collection_dto_1.CreateCollectionDto, String]),
+    __metadata("design:returntype", void 0)
+], CollectionsController.prototype, "createCollections", null);
+__decorate([
+    (0, common_1.Post)('/createFromFile/:id'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Param)('id')),
+    __param(2, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_collection_dto_1.CreateCollectionDto, String, Object]),
     __metadata("design:returntype", void 0)
-], CollectionsController.prototype, "createCollections", null);
+], CollectionsController.prototype, "createFromFile", null);
 CollectionsController = __decorate([
     (0, common_1.Controller)('collections'),
     __metadata("design:paramtypes", [collections_service_1.CollectionsService])

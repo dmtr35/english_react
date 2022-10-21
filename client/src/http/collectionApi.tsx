@@ -2,8 +2,9 @@ import { $authHost, $host } from "./index"
 import { ICollectionWords, ICollection } from "../model"
 
 
-export const createCollection = async (id: any, formData: any) => {
-    const response = await $host.post<ICollection[]>(`collections/createCollections/${id}`, formData)
+export const createCollection = async (id: any, name: string, filterArrWord: any) => {
+    console.log(id)
+    const response = await $host.post<ICollection[]>(`collections/createCollection/${id}`, { name, filterArrWord })
     return response
 }
 

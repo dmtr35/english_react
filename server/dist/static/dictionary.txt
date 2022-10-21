@@ -1,0 +1,55 @@
+study;изучение
+school;школа
+college;колледж
+university;университет
+education;образование
+degree;ученая степень
+graduate;выпускник
+diploma;диплом
+textbook;учебник
+notebook;тетрадь
+notepad;блокнот
+pen;авторучка
+pencil;карандаш
+blackboard;школьная доска
+whiteboard;маркерная доска
+classroom;класс (помещение)
+class, lesson;урок
+grade;класс (этап обучения)
+mark, grade;оценка
+pupil;ученик
+student;студент, ученик
+teacher;учитель
+exam (examination);экзамен
+test;тест
+work;работа
+job;работа
+office;офис
+workplace;рабочее место
+working hours;рабочие часы
+schedule;расписание, график
+colleague;коллега
+resume;резюме
+payday;день зарплаты
+paycheck;зарплатный чек
+salary;зарплата
+duties;обязанности
+employer;работодатель
+employee;работник
+social security;социальное страхование
+job interview;собеседование на работу
+health;здоровье
+money;деньги
+cash;наличные
+bill;купюра
+coin;монета
+change;сдача, мелочь
+payment;платеж
+check (cheque);чек
+bank;банк
+bank card;банковская карта
+tips;чаевые
+receipt;чек
+money transfer;денежный перевод
+fine;штраф
+budget;бюджет

@@ -1,11 +1,9 @@
 import * as mongoose from 'mongoose';
 export declare class CreateWordDto {
-    readonly collectionId: mongoose.Schema.Types.ObjectId;
-    readonly words: WordsEngAndRus[];
-    readonly _id: mongoose.Schema.Types.ObjectId;
+    readonly collId: mongoose.Schema.Types.ObjectId;
+    readonly words: listWords[];
 }
-export declare class WordsEngAndRus {
+export declare class listWords {
     readonly eng: string;
     readonly rus: string;
-    readonly _id: mongoose.Schema.Types.ObjectId;
 }

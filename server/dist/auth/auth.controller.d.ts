@@ -4,12 +4,12 @@ export declare class AuthController {
     private authService;
     constructor(authService: AuthService);
     login(userDto: CreateUserDto): Promise<{
-        token: string;
+        accessToken: string;
+        id: import("../users/user.schema").User;
     }>;
-    register(userDto: CreateUserDto): Promise<{
-        token: string;
-    }>;
+    register(userDto: CreateUserDto): Promise<import("@nestjs/common").UnauthorizedException>;
     check(req: Request): Promise<{
-        token: string;
+        accessToken: string;
+        id: import("../users/user.schema").User;
     }>;
 }

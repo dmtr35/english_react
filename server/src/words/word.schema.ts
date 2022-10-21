@@ -6,32 +6,31 @@ import { Collection } from '../collections/collection.schema'
 
 
 export type WordDocument = Word & Document
-export type WordsEngAndRusDocument = WordsEngAndRus & Document
+export type listWordsDocument = listWords & Document
 
 @Schema()
-export class WordsEngAndRus {
-  @Prop({ type: mongoose.Schema.Types.ObjectId })
+export class listWords {
   _id: mongoose.Schema.Types.ObjectId
 
   @Prop({ type: String, required: true })
-  eng: number
+  eng: string
   
   @Prop({ type: String, required: true })
-  rus: mongoose.Schema.Types.ObjectId
+  rus: string
 }
 
 @Schema()
 export class Word {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: () => Collection })
-  collectionId: mongoose.Schema.Types.ObjectId
+  collId: mongoose.Schema.Types.ObjectId
 
-  @Prop([WordsEngAndRus])
-  words: [WordsEngAndRus]
+  @Prop([listWords])
+  words: [listWords]
 }
 
 
 
 
 export const WordSchema = SchemaFactory.createForClass(Word)
-export const WordsEngAndRusSchema = SchemaFactory.createForClass(WordsEngAndRus)
+export const listWordsSchema = SchemaFactory.createForClass(listWords)
 

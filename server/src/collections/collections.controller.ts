@@ -1,5 +1,5 @@
-import { Body, Controller, Post, Get, Delete, Param, UploadedFiles, UseInterceptors, UseGuards } from '@nestjs/common'
-import { FilesInterceptor } from '@nestjs/platform-express'
+import { Body, Controller, Post, Get, Delete, Param, UploadedFile, UploadedFiles, UseInterceptors, UseGuards } from '@nestjs/common'
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express'
 
 
 import { CreateCollectionDto } from './dto/create-collection.dto'
@@ -12,15 +12,36 @@ export class CollectionsController {
 
 
     @Post('/createCollection/:id')
-    @UseInterceptors(FilesInterceptor('dictionary'))
     createCollections(
         @Body() collectionDto: CreateCollectionDto,
+        @Param('id') id: string) {
+        return this.collectionsService.createCollections(collectionDto, id)
+    }
+
+    // @Post('/createFromFile/:id')
+    // @UseInterceptors(FileInterceptor('dictionary'))
+    // createFromFile(
+    //     @Body() collectionDto: CreateCollectionDto,
+    //     @Param('id') id: string,
+    //     @UploadedFile() dictionary: any
+    //     ) {
+    //     console.log('collectionDto:1:', collectionDto)
+    //     console.log('userId:1:', id)
+    //     console.log('dictionary:1:', dictionary)
+    //     return this.collectionsService.createFromFile(collectionDto, id)
+    // }
+
+    @Post('/createFromFile/:id')
+    @UseInterceptors(FileInterceptor('file'))
+    createFromFile(
+        @Body() collectionDto: CreateCollectionDto,
         @Param('id') id: string,
-        @UploadedFiles() dictionary) {
-        // console.log('collectionDto::', collectionDto)
-        // console.log('userId::', id)
-        // console.log('dictionary::', dictionary)
-        return this.collectionsService.createCollections(collectionDto, id, dictionary)
+        @UploadedFile() file
+    ) {
+        // console.log('collectionDto:1:', collectionDto)
+        // console.log('userId:1:', id)
+        // console.log('file:1:', file)
+        return this.collectionsService.createFromFile(collectionDto, id, file)
     }
 
 }

@@ -16,6 +16,7 @@ export class Collection {
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: () => User })
   userId: mongoose.Schema.Types.ObjectId
+
 }
 
 export const CollectionSchema = SchemaFactory.createForClass(Collection)

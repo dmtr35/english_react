@@ -1,3 +1,3 @@
 export declare class FilesService {
-    createFile(files: any): Promise<any>;
+    createFile(file: any): Promise<any>;
 }

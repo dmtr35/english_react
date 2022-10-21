@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import * as bcrypt from 'bcryptjs'
+import { ConfigService } from '@nestjs/config'
 
 import { UsersService } from '../users/users.service'
 import { CreateUserDto } from '../users/dto/create-user.dto'
@@ -14,12 +15,14 @@ import { User } from '../users/user.schema'
 export class AuthService {
 
     constructor(private userService: UsersService,
-        private jwtService: JwtService) { }
+        private jwtService: JwtService,
+        private readonly configService: ConfigService) { }
 
     async login(userDto: CreateUserDto) {
         const user = await this.validateUser(userDto)
-        console.log(user)
-        return this.generateToken(user)
+        console.log('userDto::', userDto)
+        console.log('user::', user)
+        return this.generateToken(user._id)
     }
 
 
@@ -30,27 +33,25 @@ export class AuthService {
             throw new HttpException('Пользователь с таким email существует', HttpStatus.BAD_REQUEST)
         }
         const hashPassword = await bcrypt.hash(userDto.password, 5)
-        const user = await this.userService.createUser({ ...userDto, password: hashPassword })
-        return this.generateToken(user)
+        await this.userService.createUser({ ...userDto, password: hashPassword })
+        return new UnauthorizedException({ message: 'Пользователь был успешно зарегистрирован' })
     }
-
 
     async check(req) {
-        console.log('req::', req.headers.authorization)
         const user = this.jwtService.verify(req.headers.authorization)
-        console.log('user::', user)
-
-        return this.generateToken(user)
+        // console.log('user::', user)
+        return this.generateToken(user.id)
     }
 
 
-    private async generateToken(user: User) {
+    private async generateToken(id: User) {
         const payload = {
-            email: user.email,
-            expiresIn: Date.now() + 86400000
+            id
         }
+        const accessToken = this.jwtService.sign(payload)
         return {
-            token: this.jwtService.sign(payload)
+            accessToken,
+            id
         }
     }
 

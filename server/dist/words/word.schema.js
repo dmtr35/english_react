@@ -9,36 +9,32 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.WordsEngAndRusSchema = exports.WordSchema = exports.Word = exports.WordsEngAndRus = void 0;
+exports.listWordsSchema = exports.WordSchema = exports.Word = exports.listWords = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose = require("mongoose");
 const collection_schema_1 = require("../collections/collection.schema");
-let WordsEngAndRus = class WordsEngAndRus {
+let listWords = class listWords {
 };
 __decorate([
-    (0, mongoose_1.Prop)({ type: mongoose.Schema.Types.ObjectId }),
-    __metadata("design:type", mongoose.Schema.Types.ObjectId)
-], WordsEngAndRus.prototype, "_id", void 0);
+    (0, mongoose_1.Prop)({ type: String, required: true }),
+    __metadata("design:type", String)
+], listWords.prototype, "eng", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ type: String, required: true }),
-    __metadata("design:type", Number)
-], WordsEngAndRus.prototype, "eng", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ type: String, required: true }),
-    __metadata("design:type", mongoose.Schema.Types.ObjectId)
-], WordsEngAndRus.prototype, "rus", void 0);
-WordsEngAndRus = __decorate([
+    __metadata("design:type", String)
+], listWords.prototype, "rus", void 0);
+listWords = __decorate([
     (0, mongoose_1.Schema)()
-], WordsEngAndRus);
-exports.WordsEngAndRus = WordsEngAndRus;
+], listWords);
+exports.listWords = listWords;
 let Word = class Word {
 };
 __decorate([
     (0, mongoose_1.Prop)({ type: mongoose.Schema.Types.ObjectId, ref: () => collection_schema_1.Collection }),
     __metadata("design:type", mongoose.Schema.Types.ObjectId)
-], Word.prototype, "collectionId", void 0);
+], Word.prototype, "collId", void 0);
 __decorate([
-    (0, mongoose_1.Prop)([WordsEngAndRus]),
+    (0, mongoose_1.Prop)([listWords]),
     __metadata("design:type", Array)
 ], Word.prototype, "words", void 0);
 Word = __decorate([
@@ -46,5 +42,5 @@ Word = __decorate([
 ], Word);
 exports.Word = Word;
 exports.WordSchema = mongoose_1.SchemaFactory.createForClass(Word);
-exports.WordsEngAndRusSchema = mongoose_1.SchemaFactory.createForClass(WordsEngAndRus);
+exports.listWordsSchema = mongoose_1.SchemaFactory.createForClass(listWords);
 //# sourceMappingURL=word.schema.js.map
