@@ -48,7 +48,7 @@ const AddWordsModal: FC<AddWordsModalProps> = ({ collId, show, onHide }) => {
         formData.append('file', file)
         if (!file && filterArrWord.length === 0) return (setMenuColl(''), onHide())
         if (!file) {
-            addWords(collId, formData)
+            addWords(collId, filterArrWord)
                 .then(data => setArrWord([]))
                 .then(data => setIsLoadColleltions(true))
                 .then(data => setMenuColl(''))

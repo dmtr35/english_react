@@ -27,6 +27,19 @@ let CollectionsController = class CollectionsController {
     createFromFile(collectionDto, id, file) {
         return this.collectionsService.createFromFile(collectionDto, id, file);
     }
+    getCollections(userId) {
+        return this.collectionsService.getCollections(userId);
+    }
+    updateCollection(collId, collectionDto) {
+        return this.collectionsService.updateCollection(collId, collectionDto);
+    }
+    deleteOneCollection(collId) {
+        return this.collectionsService.deleteOneCollection(collId);
+    }
+    deleteManyCollection(collectionDto) {
+        console.log(collectionDto);
+        return this.collectionsService.deleteManyCollection(collectionDto);
+    }
 };
 __decorate([
     (0, common_1.Post)('/createCollection/:id'),
@@ -46,6 +59,35 @@ __decorate([
     __metadata("design:paramtypes", [create_collection_dto_1.CreateCollectionDto, String, Object]),
     __metadata("design:returntype", void 0)
 ], CollectionsController.prototype, "createFromFile", null);
+__decorate([
+    (0, common_1.Get)('/getCollections/:userId'),
+    __param(0, (0, common_1.Param)('userId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], CollectionsController.prototype, "getCollections", null);
+__decorate([
+    (0, common_1.Post)('/updateCollection/:collId'),
+    __param(0, (0, common_1.Param)('collId')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, create_collection_dto_1.CreateCollectionDto]),
+    __metadata("design:returntype", void 0)
+], CollectionsController.prototype, "updateCollection", null);
+__decorate([
+    (0, common_1.Delete)('/deleteOneCollection/:collId'),
+    __param(0, (0, common_1.Param)('collId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], CollectionsController.prototype, "deleteOneCollection", null);
+__decorate([
+    (0, common_1.Post)('/deleteManyCollection/'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_collection_dto_1.CreateCollectionDto]),
+    __metadata("design:returntype", void 0)
+], CollectionsController.prototype, "deleteManyCollection", null);
 CollectionsController = __decorate([
     (0, common_1.Controller)('collections'),
     __metadata("design:paramtypes", [collections_service_1.CollectionsService])

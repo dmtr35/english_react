@@ -34,4 +34,10 @@ export declare class CollectionsController {
     createFromFile(collectionDto: CreateCollectionDto, id: string, file: any): Promise<import("mongoose").Document<unknown, any, import("./collection.schema").CollectionDocument> & import("./collection.schema").Collection & Document & {
         _id: import("mongoose").Types.ObjectId;
     }>;
+    getCollections(userId: string): Promise<(import("mongoose").Document<unknown, any, import("./collection.schema").CollectionDocument> & import("./collection.schema").Collection & Document & {
+        _id: import("mongoose").Types.ObjectId;
+    })[]>;
+    updateCollection(collId: string, collectionDto: CreateCollectionDto): Promise<import("@nestjs/common").UnauthorizedException>;
+    deleteOneCollection(collId: string): Promise<import("@nestjs/common").UnauthorizedException>;
+    deleteManyCollection(collectionDto: CreateCollectionDto): Promise<import("@nestjs/common").UnauthorizedException>;
 }

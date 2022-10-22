@@ -20,8 +20,6 @@ export class AuthService {
 
     async login(userDto: CreateUserDto) {
         const user = await this.validateUser(userDto)
-        console.log('userDto::', userDto)
-        console.log('user::', user)
         return this.generateToken(user._id)
     }
 
@@ -39,7 +37,6 @@ export class AuthService {
 
     async check(req) {
         const user = this.jwtService.verify(req.headers.authorization)
-        // console.log('user::', user)
         return this.generateToken(user.id)
     }
 

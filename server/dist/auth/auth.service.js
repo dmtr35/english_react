@@ -23,8 +23,6 @@ let AuthService = class AuthService {
     }
     async login(userDto) {
         const user = await this.validateUser(userDto);
-        console.log('userDto::', userDto);
-        console.log('user::', user);
         return this.generateToken(user._id);
     }
     async register(userDto) {
