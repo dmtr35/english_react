@@ -1,6 +1,6 @@
 import React, {FC} from "react"
 import { AiOutlineDelete } from 'react-icons/ai'
-import { deleteWord } from '../../http/collectionApi'
+import { deleteWord } from '../../http/wordApi'
 import { useDispatch, useSelector } from 'react-redux'
 import { setMenuWordPayload, setRandomListWordsPayload } from '../../store/collectionsReducer'
 import { IRandom } from '../../model'

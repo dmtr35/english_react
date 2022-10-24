@@ -3,9 +3,8 @@ import mongoose from 'mongoose'
 import Words from '../models/Words.js'
 import path from 'path'
 import fs from 'fs'
-import util from 'util'
+import filesService from '../service/file-service.js'
 const __dirname = path.resolve()
-
 
 
 
@@ -14,9 +13,8 @@ class WordsController {
     async addWorlds(req, res) {
         try {
             const collectionId = req.params.id
-            const { filterArrWord } = req.body
-            const arrWord = JSON.parse(filterArrWord)
-            await Words.updateOne({ "collId": collectionId }, { "$push": { "words": { "$each": arrWord } } })
+            const words = req.body
+            await Words.updateOne({ "collId": collectionId }, { "$push": { "words": { "$each": words } } })
             return res.json("excellent")
         } catch (e) {
             console.log(e)
@@ -27,26 +25,16 @@ class WordsController {
         try {
             const collectionId = req.params.id
             const { filterArrWord } = req.body
-            const arrWord = JSON.parse(filterArrWord)
-            const file = req.files.file
-            await file.mv(path.resolve(__dirname, 'static', 'dictionary.txt'))
-            const readFile = util.promisify(fs.readFile)
-            const result = await readFile(path.resolve(__dirname, './static/dictionary.txt'), 'utf-8')
-            result.split(/\r?\n/).forEach(line => {
-                if (line.length === 0) {
-                    return
-                } else {
-                    const word = `${line}`.split(';')
-                    const objWord = Object.assign({ eng: word[0], rus: word[1] })
-                    arrWord.push(objWord)
-                }
-            })
-            await Words.updateOne({ "collId": collectionId }, { "$push": { "words": { "$each": arrWord } } })
-            fs.rm(path.resolve(__dirname, './static/dictionary.txt'), (err) => {
-                if (err) {
-                    throw err
-                }
-            })
+            const words = JSON.parse(filterArrWord)
+            const file = await filesService.createFile(req.files.file)
+            words.push(...file)
+            await Words.updateOne({ "collId": collectionId }, { "$push": { "words": { "$each": words } } })
+            // удалить файл
+            // fs.rm(path.resolve(__dirname, './static/dictionary.txt'), (err) => {
+            //     if (err) {
+            //         throw err
+            //     }
+            // })
             return res.json("excellent")
         } catch (e) {
             console.log(e)

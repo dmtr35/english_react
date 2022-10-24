@@ -2,7 +2,7 @@ import React, { useEffect, FC } from "react"
 import Card from "react-bootstrap/Card"
 import { isCheckTrue } from "../utils/dopFunction"
 import { AiOutlineMenu } from 'react-icons/ai'
-import { getWords } from '../http/collectionApi'
+import { getWords } from '../http/wordApi'
 import MenuWord from './WordMenu/MenuWord'
 import { ICollectionWords, IRandom } from '../model'
 import { useDispatch, useSelector } from 'react-redux'

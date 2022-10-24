@@ -2,7 +2,7 @@ import React, { useState, FC } from 'react'
 import Button from "react-bootstrap/Button"
 import Modal from "react-bootstrap/Modal"
 import { Dropdown, Form } from 'react-bootstrap'
-import { editWord, deleteAndMove } from '../http/collectionApi'
+import { editWord, deleteAndMove } from '../http/wordApi'
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import InputGroup from 'react-bootstrap/InputGroup'
 import { useDispatch, useSelector } from 'react-redux'

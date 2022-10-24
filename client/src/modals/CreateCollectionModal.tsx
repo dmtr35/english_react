@@ -49,14 +49,14 @@ const CreateCollectionModal: FC<CreateCollectionModalProps> = ({ show, onHide })
             setArrWord([])
             return
         }
-        const filterArrWord = arrWord.filter((word) => word.eng && word.rus)
+        const filterArrWord: any = arrWord.filter((word) => word.eng && word.rus)
 
         const formData = new FormData()
         formData.append('name', name)
         formData.append('filterArrWord', JSON.stringify(filterArrWord))
         formData.append('file', file)
         if (!file) {
-            createCollection(userId, formData)
+            createCollection(userId, filterArrWord, name)
                 .then(data => onHide())
                 .then(data => setIsLoadColleltions(true))
                 .then(data => setName(''))

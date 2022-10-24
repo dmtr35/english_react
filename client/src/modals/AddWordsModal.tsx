@@ -2,7 +2,7 @@ import React, { useState, FC } from 'react'
 import Button from "react-bootstrap/Button"
 import Modal from "react-bootstrap/Modal"
 import { Form, Row, Col } from 'react-bootstrap'
-import { addWords, addWordsFromFile } from '../http/collectionApi'
+import { addWords, addWordsFromFile } from '../http/wordApi'
 import Image from 'react-bootstrap/Image'
 import info from '../assets/info.png'
 import InstructionModal from '../modals/InstructionModal'
@@ -48,7 +48,7 @@ const AddWordsModal: FC<AddWordsModalProps> = ({ collId, show, onHide }) => {
         formData.append('file', file)
         if (!file && filterArrWord.length === 0) return (setMenuColl(''), onHide())
         if (!file) {
-            addWords(collId, formData)
+            addWords(collId, filterArrWord)
                 .then(data => setArrWord([]))
                 .then(data => setIsLoadColleltions(true))
                 .then(data => setMenuColl(''))
