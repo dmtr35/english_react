@@ -1,62 +1,55 @@
-Доброе утро;Good morning.
-Добрый день;Good afternoon.
-Спокойной ночи;Good night.
-Добрый вечер;Good evening.
-До свидания;Good bye.
-Как дела?;How do you do?
-Как дела?;How are you getting along?
-Рад встрече;It's nice to meet you.
-Приятно познакомится;My pleasure to meet you..
-Все в порядке, спасибо;I'm fine, thank you.
-Все в порядке, спасибо;I'm OK, thank you.
-Превосходно;Excellent.
-Очень хорошо;Very well.
-Так себе;So-so.
-Все в порядке;Every thing is all right.
-Могло быть и хуже;Could be worse.
-Так же как и вчера;The same, as yesterday.
-Бывало и лутше;I've seen better days.
-Увидимся позже.;See you later
-Увидимся позже.;See you soon
-Увидимся в ...;See you on ...
-Береги себя.;Take care of yourself.
-До связи;Let's keep in touch.
-Я с нетерпением жду нашей встречи снова.;I'm looking forward to seeing you again.
-Позвольте отрекомендоваться;Let me introduce myself.
-Давайте познакомимся;Let us get acquainted.
-Могу я узнать ваше имя?;Can i have your name?
-А вы?;Whate about you?
-Хорошего дня.;Have a nice day.
-Приятного дня.;Have a pleasant day.
-Не могли бы вы повторить это, пожалуйста.;Could you repeat it please.
-Как дела?;How are the things?
-Как жизнь?;How is your life?
-По моему мнению..;In my opinion..
-Мне кажется, что..;It seems to me that..
-
-Большое спасибо;Thanks you very much.
-Большое спасибо;Thanks a lot.
-Все в порядке.;That's all right.
-Все нормально.;That's Ok.
-Это очень добро;That's very kind.
-Не за что;you are vellcom.
-Я не понимаю;I don't understand.
-Я не знаю;I don't know.
-Извините меня;Excuse me
-
-1.Кем вы работаете?;1.What is your Job?
-2.Ты кем работаешь?;2.What is your profession?
-3.Кем работаете?;3.What is your Occupation?
-Чем вы зарабатываете на жизнь?;What do you do for a living?
-Чем занимаешься?;What are you?
-
-
-
-
-
-
-
-
-
-
-
+study;изучение
+school;школа
+college;колледж
+university;университет
+education;образование
+degree;ученая степень
+graduate;выпускник
+diploma;диплом
+textbook;учебник
+notebook;тетрадь
+notepad;блокнот
+pen;авторучка
+pencil;карандаш
+blackboard;школьная доска
+whiteboard;маркерная доска
+classroom;класс (помещение)
+class, lesson;урок
+grade;класс (этап обучения)
+mark, grade;оценка
+pupil;ученик
+student;студент, ученик
+teacher;учитель
+exam (examination);экзамен
+test;тест
+work;работа
+job;работа
+office;офис
+workplace;рабочее место
+working hours;рабочие часы
+schedule;расписание, график
+colleague;коллега
+resume;резюме
+payday;день зарплаты
+paycheck;зарплатный чек
+salary;зарплата
+duties;обязанности
+employer;работодатель
+employee;работник
+social security;социальное страхование
+job interview;собеседование на работу
+health;здоровье
+money;деньги
+cash;наличные
+bill;купюра
+coin;монета
+change;сдача, мелочь
+payment;платеж
+check (cheque);чек
+bank;банк
+bank card;банковская карта
+tips;чаевые
+receipt;чек
+money transfer;денежный перевод
+fine;штраф
+budget;бюджет
